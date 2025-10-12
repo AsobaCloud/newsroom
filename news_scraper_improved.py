@@ -24,6 +24,7 @@ from datetime import datetime, date
 from typing import Dict, List, Optional
 from urllib.parse import urljoin, urlparse, quote
 from bs4 import BeautifulSoup
+from article_tagger import tag_article
 from concurrent.futures import ThreadPoolExecutor
 from functools import wraps
 
@@ -770,6 +771,9 @@ def process_rss_feeds():
                         continue
                     
                     # Create metadata
+                    # Tag the article with geographic and topical information
+                    article_tags = tag_article(full_content, NEWS_KEYWORDS)
+                    
                     metadata = {
                         'title': title,
                         'url': link,
@@ -778,7 +782,10 @@ def process_rss_feeds():
                         'source': 'RSS Feed',
                         'feed_url': feed_url,
                         'content_length': len(full_content),
-                        'collection_date': datetime.now().isoformat()
+                        'collection_date': datetime.now().isoformat(),
+                        'continents': article_tags['continents'],
+                        'matched_keywords': article_tags['matched_keywords'],
+                        'core_topics': article_tags['core_topics']
                     }
                     
                     # Save metadata
@@ -932,6 +939,9 @@ def scrape_website_articles(base_url: str, max_articles: int = 50):
                     continue
                 
                 # Create metadata
+                # Tag the article with geographic and topical information
+                article_tags = tag_article(full_content, NEWS_KEYWORDS)
+                
                 metadata = {
                     'title': title,
                     'url': article_url,
@@ -939,7 +949,10 @@ def scrape_website_articles(base_url: str, max_articles: int = 50):
                     'source': 'Direct Scraping',
                     'base_url': base_url,
                     'content_length': len(full_content),
-                    'collection_date': datetime.now().isoformat()
+                    'collection_date': datetime.now().isoformat(),
+                    'continents': article_tags['continents'],
+                    'matched_keywords': article_tags['matched_keywords'],
+                    'core_topics': article_tags['core_topics']
                 }
                 
                 # Save metadata
@@ -1360,6 +1373,39 @@ def generate_date_html_index():
             letter-spacing: 0.5px;
         }}
 
+        .article-continent {{
+            background: var(--success-green);
+            color: var(--white);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }}
+
+        .article-keyword {{
+            background: var(--warning-orange);
+            color: var(--white);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }}
+
+        .article-core-topic {{
+            background: var(--accent-blue);
+            color: var(--white);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }}
+
         .article-date {{
             color: var(--text-light);
             display: flex;
@@ -1572,6 +1618,9 @@ def generate_date_html_index():
                     </h3>
                     <div class="article-meta">
                         <span class="article-source">{article.get('source', 'Unknown')}</span>
+                        {''.join(f'<span class="article-continent">{continent}</span>' for continent in article.get('continents', []))}
+                        {''.join(f'<span class="article-keyword">{keyword}</span>' for keyword in article.get('matched_keywords', [])[:3])}
+                        {''.join(f'<span class="article-core-topic">{topic}</span>' for topic in article.get('core_topics', []))}
                         <span class="article-date">📅 {formatted_date}</span>
                         <span class="article-length">📄 {article.get('content_length', 0):,} chars</span>
                     </div>
