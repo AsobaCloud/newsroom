@@ -1069,220 +1069,471 @@ def generate_date_html_index():
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News Collection - {today}</title>
+    <title>News Collection - {today} | Asoba</title>
+    <link rel="icon" type="image/x-icon" href="https://docs.asoba.co/assets/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://docs.asoba.co/assets/images/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://docs.asoba.co/assets/images/logo.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap">
     <style>
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
+        /* Color theme from Asoba brand guide */
+        :root {{
+            --primary-black: #000000;
+            --primary-blue: #455BF1;
+            --accent-blue: #3748c8;
+            --text-dark: #333;
+            --text-light: #4D4D4D;
+            --background-light: #f5f5f5;
+            --white: #FFFFFF;
+            --neutral-light: #F9F9F9;
+            --neutral-grey: #F4F4F4;
+            --border-grey: #E0E0E0;
+            --success-green: #28ca42;
+            --warning-orange: #f39c12;
         }}
+
+        /* Reset and base styles */
+        * {{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }}
+
+        body {{
+            font-family: 'DM Sans', Helvetica, Arial, sans-serif;
+            color: var(--text-dark);
+            background-color: var(--white);
+            line-height: 1.6;
+        }}
+
+        /* Header/Navigation Bar */
+        .header-bar {{
+            background-color: var(--primary-black);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 90px;
+        }}
+
+        .branding {{
+            display: flex;
+            align-items: center;
+        }}
+
+        .branding img {{
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }}
+
+        .site-title {{
+            color: var(--white);
+            font-size: 20px;
+            font-weight: 700;
+            margin-left: 15px;
+            white-space: nowrap;
+        }}
+
+        .top-links {{
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }}
+
+        .top-links a {{
+            color: var(--white);
+            text-decoration: none;
+            font: normal 12px / 16px 'DM Sans', Helvetica, Arial, sans-serif;
+            padding: 5px;
+            transition: color 0.3s ease;
+        }}
+
+        .top-links a:hover {{
+            color: var(--primary-blue);
+        }}
+
+        /* Main content spacing */
+        main {{
+            margin-top: 70px;
+        }}
+
+        /* Container */
         .container {{
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 0 40px;
+        }}
+
+        /* Hero Section */
+        .hero {{
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-blue) 100%);
+            color: var(--white);
+            padding: 80px 0 100px;
+            position: relative;
             overflow: hidden;
         }}
-        .header {{
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
+
+        .hero::before {{
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iMSIgZmlsbD0id2hpdGUiIGZpbGwtb3BhY2l0eT0iMC4xIi8+Cjwvc3ZnPgo=') repeat;
+            opacity: 0.3;
+        }}
+
+        .hero-content {{
+            position: relative;
+            z-index: 2;
+            color: var(--white);
+            max-width: 700px;
             text-align: center;
+            margin: 0 auto;
         }}
-        .header h1 {{
-            margin: 0;
-            font-size: 2.5em;
-            font-weight: 300;
+
+        .hero h1 {{
+            font-size: 3.8rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: var(--white);
+            line-height: 1.1;
         }}
-        .header p {{
-            margin: 10px 0 0 0;
-            opacity: 0.9;
-            font-size: 1.1em;
+
+        .hero p {{
+            font-size: 1.25rem;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            color: var(--white);
         }}
+
         .stats {{
             display: flex;
             justify-content: center;
             gap: 30px;
-            margin-top: 20px;
+            margin-top: 40px;
         }}
+
         .stat {{
             text-align: center;
         }}
+
         .stat-number {{
-            font-size: 2em;
-            font-weight: bold;
+            font-size: 2.5em;
+            font-weight: 700;
             display: block;
+            color: var(--white);
         }}
+
         .stat-label {{
-            font-size: 0.9em;
-            opacity: 0.8;
+            font-size: 1rem;
+            opacity: 0.9;
+            color: var(--white);
         }}
+
+        /* Content Section */
+        .content-section {{
+            padding: 80px 0;
+            background: var(--white);
+        }}
+
         .content {{
-            padding: 30px;
+            padding: 0;
         }}
-        .article {{
-            border-bottom: 1px solid #eee;
-            padding: 20px 0;
-            transition: background-color 0.2s;
-        }}
-        .article:hover {{
-            background-color: #f9f9f9;
-        }}
-        .article:last-child {{
-            border-bottom: none;
-        }}
-        .article-title {{
-            margin: 0 0 10px 0;
-            font-size: 1.3em;
-            font-weight: 600;
-        }}
-        .article-title a {{
-            color: #333;
-            text-decoration: none;
-            transition: color 0.2s;
-        }}
-        .article-title a:hover {{
-            color: #667eea;
-        }}
-        .article-meta {{
-            display: flex;
-            gap: 15px;
-            margin-bottom: 10px;
-            font-size: 0.9em;
-            color: #666;
-        }}
-        .article-source {{
-            background: #e3f2fd;
-            color: #1976d2;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.8em;
-            font-weight: 500;
-        }}
-        .article-date {{
-            color: #888;
-        }}
-        .article-length {{
-            color: #888;
-        }}
-        .article-description {{
-            color: #555;
-            margin-top: 10px;
-            line-height: 1.5;
-        }}
-        .article-description p {{
-            margin: 0 0 10px 0;
-        }}
-        .article-description p:last-child {{
-            margin-bottom: 0;
-        }}
-        .view-content {{
-            margin-top: 15px;
-        }}
-        .view-content a {{
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            padding: 8px 16px;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 0.9em;
-            transition: background-color 0.2s;
-        }}
-        .view-content a:hover {{
-            background: #5a6fd8;
-        }}
-        .filters {{
+
+        .back-link {{
             margin-bottom: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 6px;
         }}
+
+        .back-link a {{
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }}
+
+        .back-link a:hover {{
+            transform: translateX(-4px);
+        }}
+
+        .filters {{
+            margin-bottom: 40px;
+            padding: 30px;
+            background: var(--neutral-light);
+            border-radius: 12px;
+            border: 1px solid var(--border-grey);
+        }}
+
         .filter-group {{
             display: flex;
-            gap: 15px;
+            gap: 20px;
             align-items: center;
             flex-wrap: wrap;
         }}
+
         .filter-group label {{
-            font-weight: 500;
-            color: #333;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 1rem;
         }}
+
         .filter-group select, .filter-group input {{
-            padding: 8px 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 0.9em;
+            padding: 12px 16px;
+            border: 1px solid var(--border-grey);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            background: var(--white);
         }}
-        .back-link {{
-            margin-bottom: 20px;
+
+        .filter-group select:focus, .filter-group input:focus {{
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(69, 91, 241, 0.1);
         }}
-        .back-link a {{
-            color: #667eea;
+
+        /* Article Cards */
+        .articles-grid {{
+            display: grid;
+            gap: 30px;
+        }}
+
+        .article {{
+            background: var(--white);
+            border: 1px solid var(--border-grey);
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }}
+
+        .article:hover {{
+            transform: translateY(-5px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }}
+
+        .article-title {{
+            margin: 0 0 15px 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.3;
+        }}
+
+        .article-title a {{
+            color: var(--text-dark);
             text-decoration: none;
-            font-weight: 500;
+            transition: color 0.3s ease;
         }}
-        .back-link a:hover {{
-            text-decoration: underline;
+
+        .article-title a:hover {{
+            color: var(--primary-blue);
         }}
+
+        .article-meta {{
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            flex-wrap: wrap;
+        }}
+
+        .article-source {{
+            background: var(--primary-blue);
+            color: var(--white);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }}
+
+        .article-date {{
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }}
+
+        .article-length {{
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }}
+
+        .article-description {{
+            color: var(--text-light);
+            margin-bottom: 25px;
+            line-height: 1.6;
+            font-size: 1rem;
+        }}
+
+        .article-description p {{
+            margin: 0 0 15px 0;
+        }}
+
+        .article-description p:last-child {{
+            margin-bottom: 0;
+        }}
+
+        .view-content {{
+            margin-top: 20px;
+        }}
+
+        .view-content a {{
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary-blue);
+            color: var(--white);
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }}
+
+        .view-content a:hover {{
+            background: var(--accent-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(69, 91, 241, 0.3);
+        }}
+
+        /* Footer */
+        .copyright-footer {{
+            background-color: var(--primary-black);
+            color: var(--white);
+            padding: 30px 0;
+            text-align: center;
+        }}
+
+        .copyright-footer p {{
+            font-size: 0.9rem;
+            margin: 0;
+            opacity: 0.8;
+        }}
+
+        /* Responsive Design */
         @media (max-width: 768px) {{
+            .header-bar {{
+                padding: 0 20px;
+            }}
+
+            .container {{
+                padding: 0 20px;
+            }}
+
+            .hero h1 {{
+                font-size: 2.8rem;
+            }}
+
             .stats {{
                 flex-direction: column;
-                gap: 15px;
+                gap: 20px;
             }}
+
             .filter-group {{
                 flex-direction: column;
                 align-items: flex-start;
+                gap: 15px;
             }}
+
             .article-meta {{
                 flex-direction: column;
-                gap: 5px;
+                gap: 10px;
+            }}
+
+            .article {{
+                padding: 20px;
+            }}
+        }}
+
+        @media (max-width: 480px) {{
+            .hero h1 {{
+                font-size: 2.2rem;
+            }}
+
+            .article-title {{
+                font-size: 1.3rem;
             }}
         }}
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📰 News Collection</h1>
-            <p>Energy, AI, and Blockchain News - {today}</p>
-            <div class="stats">
-                <div class="stat">
-                    <span class="stat-number">{len(articles)}</span>
-                    <span class="stat-label">Articles</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">{len(set(article.get('source', 'Unknown') for article in articles))}</span>
-                    <span class="stat-label">Sources</span>
-                </div>
-                <div class="stat">
-                    <span class="stat-number">{sum(article.get('content_length', 0) for article in articles) // 1000}K</span>
-                    <span class="stat-label">Words</span>
-                </div>
-            </div>
+    <header class="header-bar">
+        <div class="branding">
+            <a href="https://asoba.co">
+                <img src="https://docs.asoba.co/assets/images/logo.png" alt="Asoba">
+            </a>
+            <span class="site-title">Asoba</span>
         </div>
-        
-        <div class="content">
-            <div class="back-link">
-                <a href="http://news-collection-website.s3-website-us-east-1.amazonaws.com/">← Back to All Dates</a>
-            </div>
-            
-            <div class="filters">
-                <div class="filter-group">
-                    <label for="sourceFilter">Filter by source:</label>
-                    <select id="sourceFilter">
-                        <option value="">All sources</option>
-                        {''.join(f'<option value="{source}">{source}</option>' for source in sorted(set(article.get('source', 'Unknown') for article in articles)))}
-                    </select>
-                    <label for="searchInput">Search:</label>
-                    <input type="text" id="searchInput" placeholder="Search articles...">
+        <div class="top-links">
+            <a href="https://asoba.co">Home</a>
+            <a href="https://asoba.co/about.html">About</a>
+            <a href="https://asoba.co/products.html">Products</a>
+            <a href="https://asoba.co/blog.html">Insights</a>
+            <a href="https://docs.asoba.co">Documentation</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>📰 News Collection</h1>
+                    <p>Energy, AI, and Blockchain News - {today}</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <span class="stat-number">{len(articles)}</span>
+                            <span class="stat-label">Articles</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">{len(set(article.get('source', 'Unknown') for article in articles))}</span>
+                            <span class="stat-label">Sources</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">{sum(article.get('content_length', 0) for article in articles) // 1000}K</span>
+                            <span class="stat-label">Words</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-            <div id="articlesList">"""
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <div class="content">
+                    <div class="back-link">
+                        <a href="http://news-collection-website.s3-website-us-east-1.amazonaws.com/">← Back to All Dates</a>
+                    </div>
+                    
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label for="sourceFilter">Filter by source:</label>
+                            <select id="sourceFilter">
+                                <option value="">All sources</option>
+                                {''.join(f'<option value="{source}">{source}</option>' for source in sorted(set(article.get('source', 'Unknown') for article in articles)))}
+                            </select>
+                            <label for="searchInput">Search:</label>
+                            <input type="text" id="searchInput" placeholder="Search articles...">
+                        </div>
+                    </div>
+                    
+                    <div id="articlesList" class="articles-grid">"""
         
         # Add articles
         for i, article in enumerate(articles):
@@ -1321,8 +1572,8 @@ def generate_date_html_index():
                     </h3>
                     <div class="article-meta">
                         <span class="article-source">{article.get('source', 'Unknown')}</span>
-                        <span class="article-date">{formatted_date}</span>
-                        <span class="article-length">{article.get('content_length', 0):,} chars</span>
+                        <span class="article-date">📅 {formatted_date}</span>
+                        <span class="article-length">📄 {article.get('content_length', 0):,} chars</span>
                     </div>
                     {f'<div class="article-description">{description}</div>' if description else ''}
                     <div class="view-content">
@@ -1331,9 +1582,17 @@ def generate_date_html_index():
                 </div>"""
         
         html_content += """
+                    </div>
+                </div>
             </div>
+        </section>
+    </main>
+
+    <footer class="copyright-footer">
+        <div class="container">
+            <p>&copy; 2025 Asoba Corporation. All rights reserved.</p>
         </div>
-    </div>
+    </footer>
     
     <script>
         // Filter functionality
@@ -1506,199 +1765,428 @@ def generate_master_html_index():
                     'source_count': 0
                 })
         
-        # Generate HTML content (same as original)
+        # Generate HTML content with Asoba styling
         html_content = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News Collection Archive</title>
+    <title>News Collection Archive | Asoba</title>
+    <link rel="icon" type="image/x-icon" href="https://docs.asoba.co/assets/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://docs.asoba.co/assets/images/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://docs.asoba.co/assets/images/logo.png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap">
     <style>
-        body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
+        /* Color theme from Asoba brand guide */
+        :root {{
+            --primary-black: #000000;
+            --primary-blue: #455BF1;
+            --accent-blue: #3748c8;
+            --text-dark: #333;
+            --text-light: #4D4D4D;
+            --background-light: #f5f5f5;
+            --white: #FFFFFF;
+            --neutral-light: #F9F9F9;
+            --neutral-grey: #F4F4F4;
+            --border-grey: #E0E0E0;
+            --success-green: #28ca42;
+            --warning-orange: #f39c12;
         }}
+
+        /* Reset and base styles */
+        * {{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }}
+
+        body {{
+            font-family: 'DM Sans', Helvetica, Arial, sans-serif;
+            color: var(--text-dark);
+            background-color: var(--white);
+            line-height: 1.6;
+        }}
+
+        /* Header/Navigation Bar */
+        .header-bar {{
+            background-color: var(--primary-black);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 90px;
+        }}
+
+        .branding {{
+            display: flex;
+            align-items: center;
+        }}
+
+        .branding img {{
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }}
+
+        .site-title {{
+            color: var(--white);
+            font-size: 20px;
+            font-weight: 700;
+            margin-left: 15px;
+            white-space: nowrap;
+        }}
+
+        .top-links {{
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }}
+
+        .top-links a {{
+            color: var(--white);
+            text-decoration: none;
+            font: normal 12px / 16px 'DM Sans', Helvetica, Arial, sans-serif;
+            padding: 5px;
+            transition: color 0.3s ease;
+        }}
+
+        .top-links a:hover {{
+            color: var(--primary-blue);
+        }}
+
+        /* Main content spacing */
+        main {{
+            margin-top: 70px;
+        }}
+
+        /* Container */
         .container {{
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 0 40px;
+        }}
+
+        /* Hero Section */
+        .hero {{
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-blue) 100%);
+            color: var(--white);
+            padding: 80px 0 100px;
+            position: relative;
             overflow: hidden;
         }}
-        .header {{
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
+
+        .hero::before {{
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iMSIgZmlsbD0id2hpdGUiIGZpbGwtb3BhY2l0eT0iMC4xIi8+Cjwvc3ZnPgo=') repeat;
+            opacity: 0.3;
+        }}
+
+        .hero-content {{
+            position: relative;
+            z-index: 2;
+            color: var(--white);
+            max-width: 700px;
             text-align: center;
+            margin: 0 auto;
         }}
-        .header h1 {{
-            margin: 0;
-            font-size: 3em;
-            font-weight: 300;
+
+        .hero h1 {{
+            font-size: 3.8rem;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: var(--white);
+            line-height: 1.1;
         }}
-        .header p {{
-            margin: 15px 0 0 0;
-            opacity: 0.9;
-            font-size: 1.2em;
+
+        .hero p {{
+            font-size: 1.25rem;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            color: var(--white);
         }}
+
         .overview {{
             display: flex;
             justify-content: center;
             gap: 40px;
-            margin-top: 30px;
+            margin-top: 40px;
         }}
+
         .overview-stat {{
             text-align: center;
         }}
+
         .overview-number {{
             font-size: 2.5em;
-            font-weight: bold;
+            font-weight: 700;
             display: block;
+            color: var(--white);
         }}
+
         .overview-label {{
-            font-size: 1em;
-            opacity: 0.8;
+            font-size: 1rem;
+            opacity: 0.9;
+            color: var(--white);
         }}
+
+        /* Content Section */
+        .content-section {{
+            padding: 80px 0;
+            background: var(--white);
+        }}
+
         .content {{
-            padding: 40px;
+            padding: 0;
         }}
+
         .date-grid {{
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
         }}
+
         .date-card {{
-            border: 1px solid #eee;
-            border-radius: 8px;
-            padding: 20px;
-            transition: all 0.2s;
-            background: white;
+            background: var(--white);
+            border: 1px solid var(--border-grey);
+            border-radius: 12px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }}
+
         .date-card:hover {{
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transform: translateY(-2px);
+            transform: translateY(-5px);
+            border-color: var(--primary-blue);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }}
+
         .date-card h3 {{
-            margin: 0 0 15px 0;
-            color: #333;
-            font-size: 1.3em;
+            margin: 0 0 20px 0;
+            color: var(--text-dark);
+            font-size: 1.5rem;
+            font-weight: 700;
         }}
+
         .date-card a {{
-            color: #667eea;
+            color: var(--primary-blue);
             text-decoration: none;
             font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
         }}
+
         .date-card a:hover {{
-            text-decoration: underline;
+            transform: translateX(4px);
         }}
+
         .date-stats {{
             display: flex;
             gap: 15px;
-            margin-bottom: 15px;
-            font-size: 0.9em;
-            color: #666;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            flex-wrap: wrap;
         }}
+
         .date-stat {{
-            background: #f8f9fa;
-            padding: 4px 8px;
-            border-radius: 4px;
+            background: var(--neutral-light);
+            color: var(--text-light);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }}
+
         .date-description {{
-            color: #555;
-            font-size: 0.9em;
-            margin-bottom: 15px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
         }}
+
         .view-button {{
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            padding: 10px 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary-blue);
+            color: var(--white);
+            padding: 12px 24px;
             text-decoration: none;
-            border-radius: 4px;
-            font-size: 0.9em;
-            transition: background-color 0.2s;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }}
+
         .view-button:hover {{
-            background: #5a6fd8;
+            background: var(--accent-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(69, 91, 241, 0.3);
         }}
+
         .search-section {{
-            margin-bottom: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 6px;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: var(--neutral-light);
+            border-radius: 12px;
+            border: 1px solid var(--border-grey);
         }}
+
         .search-group {{
             display: flex;
-            gap: 15px;
+            gap: 20px;
             align-items: center;
             flex-wrap: wrap;
         }}
+
         .search-group input {{
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1em;
+            padding: 12px 16px;
+            border: 1px solid var(--border-grey);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
             flex: 1;
             min-width: 200px;
+            transition: border-color 0.3s ease;
         }}
+
+        .search-group input:focus {{
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(69, 91, 241, 0.1);
+        }}
+
         .no-dates {{
             text-align: center;
-            padding: 60px 20px;
-            color: #666;
+            padding: 80px 20px;
+            color: var(--text-light);
         }}
+
         .no-dates h3 {{
-            margin: 0 0 10px 0;
-            font-size: 1.5em;
+            margin: 0 0 15px 0;
+            font-size: 1.5rem;
+            color: var(--text-dark);
         }}
+
+        /* Footer */
+        .copyright-footer {{
+            background-color: var(--primary-black);
+            color: var(--white);
+            padding: 30px 0;
+            text-align: center;
+        }}
+
+        .copyright-footer p {{
+            font-size: 0.9rem;
+            margin: 0;
+            opacity: 0.8;
+        }}
+
+        /* Responsive Design */
         @media (max-width: 768px) {{
+            .header-bar {{
+                padding: 0 20px;
+            }}
+
+            .container {{
+                padding: 0 20px;
+            }}
+
+            .hero h1 {{
+                font-size: 2.8rem;
+            }}
+
             .overview {{
                 flex-direction: column;
                 gap: 20px;
             }}
+
             .date-grid {{
                 grid-template-columns: 1fr;
             }}
+
             .search-group {{
                 flex-direction: column;
                 align-items: stretch;
+            }}
+
+            .date-stats {{
+                flex-direction: column;
+                gap: 10px;
+            }}
+        }}
+
+        @media (max-width: 480px) {{
+            .hero h1 {{
+                font-size: 2.2rem;
             }}
         }}
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📰 News Collection Archive</h1>
-            <p>Energy, AI, and Blockchain News Collection</p>
-            <div class="overview">
-                <div class="overview-stat">
-                    <span class="overview-number">{len(date_folders)}</span>
-                    <span class="overview-label">Collection Dates</span>
-                </div>
-                <div class="overview-stat">
-                    <span class="overview-number">{sum(stat['article_count'] for stat in date_stats)}</span>
-                    <span class="overview-label">Total Articles</span>
-                </div>
-                <div class="overview-stat">
-                    <span class="overview-number">{sum(stat['total_length'] for stat in date_stats) // 1000}K</span>
-                    <span class="overview-label">Total Words</span>
-                </div>
-            </div>
+    <header class="header-bar">
+        <div class="branding">
+            <a href="https://asoba.co">
+                <img src="https://docs.asoba.co/assets/images/logo.png" alt="Asoba">
+            </a>
+            <span class="site-title">Asoba</span>
         </div>
-        
-        <div class="content">
-            <div class="search-section">
-                <div class="search-group">
-                    <input type="text" id="searchInput" placeholder="Search collection dates...">
+        <div class="top-links">
+            <a href="https://asoba.co">Home</a>
+            <a href="https://asoba.co/about.html">About</a>
+            <a href="https://asoba.co/products.html">Products</a>
+            <a href="https://asoba.co/blog.html">Insights</a>
+            <a href="https://docs.asoba.co">Documentation</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>📰 News Collection Archive</h1>
+                    <p>Energy, AI, and Blockchain News Collection</p>
+                    <div class="overview">
+                        <div class="overview-stat">
+                            <span class="overview-number">{len(date_folders)}</span>
+                            <span class="overview-label">Collection Dates</span>
+                        </div>
+                        <div class="overview-stat">
+                            <span class="overview-number">{sum(stat['article_count'] for stat in date_stats)}</span>
+                            <span class="overview-label">Total Articles</span>
+                        </div>
+                        <div class="overview-stat">
+                            <span class="overview-number">{sum(stat['total_length'] for stat in date_stats) // 1000}K</span>
+                            <span class="overview-label">Total Words</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-            <div id="datesList" class="date-grid">"""
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <div class="content">
+                    <div class="search-section">
+                        <div class="search-group">
+                            <input type="text" id="searchInput" placeholder="Search collection dates...">
+                        </div>
+                    </div>
+                    
+                    <div id="datesList" class="date-grid">"""
         
         # Add date cards
         for stat in date_stats:
@@ -1730,9 +2218,17 @@ def generate_master_html_index():
                 </div>"""
         
         html_content += """
+                    </div>
+                </div>
             </div>
+        </section>
+    </main>
+
+    <footer class="copyright-footer">
+        <div class="container">
+            <p>&copy; 2025 Asoba Corporation. All rights reserved.</p>
         </div>
-    </div>
+    </footer>
     
     <script>
         // Search functionality
