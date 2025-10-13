@@ -1,0 +1,36 @@
+{
+  "rss_feeds": {
+    "feeds_completed": [
+      "https://feeds.bbci.co.uk/news/rss.xml",
+      "https://feeds.bbci.co.uk/news/world/rss.xml",
+      "https://feeds.bbci.co.uk/news/business/rss.xml",
+      "https://feeds.bbci.co.uk/news/technology/rss.xml",
+      "https://feeds.bbci.co.uk/news/science_and_environment/rss.xml",
+      "http://rss.cnn.com/rss/cnn_topstories.rss",
+      "http://rss.cnn.com/rss/cnn_world.rss",
+      "http://rss.cnn.com/rss/edition_technology.rss",
+      "https://www.theguardian.com/world/rss",
+      "https://www.aljazeera.com/xml/rss/all.xml",
+      "https://feeds.arstechnica.com/arstechnica/index",
+      "https://techcrunch.com/feed/",
+      "https://www.wired.com/feed/rss"
+    ]
+  },
+  "direct_scraping": {
+    "sources_completed": [
+      "https://techcrunch.com/",
+      "https://www.theverge.com/",
+      "https://arstechnica.com/",
+      "https://www.wired.com/",
+      "https://www.coindesk.com/",
+      "https://cointelegraph.com/"
+    ]
+  },
+  "total_articles": 94,
+  "last_updated": "2025-10-12T21:29:29.920389",
+  "extraction_stats": {
+    "successful_extractions": 94,
+    "failed_extractions": 1,
+    "site_specific_success": 11
+  }
+}
