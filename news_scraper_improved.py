@@ -501,24 +501,30 @@ def try_archive_fallback(url: str) -> Optional[str]:
         logger.debug(f"Archive.is fallback failed for {url}: {str(e)}")
         return None
 
-def is_2025_article(article_date_str: str) -> bool:
-    """Check if article is from 2025 or recent (since we might not have exact dates)"""
+def is_recent_article(article_date_str: str) -> bool:
+    """Check if article is from the last 24 hours for fresh news"""
     if not article_date_str:
         # If no date, assume it's recent and include it
         return True
     
-    # Try to extract year from date string
-    year_match = re.search(r'202[5-9]', article_date_str)
-    if year_match:
-        year = int(year_match.group())
-        return year >= 2025
-    
-    # Look for 2025 indicators in various formats
-    if '2025' in article_date_str:
+    try:
+        from dateutil import parser
+        from datetime import datetime, timedelta
+        
+        # Parse the article date
+        article_date = parser.parse(article_date_str)
+        
+        # Get current time and 24 hours ago
+        now = datetime.now(article_date.tzinfo) if article_date.tzinfo else datetime.now()
+        twenty_four_hours_ago = now - timedelta(hours=24)
+        
+        # Check if article is within last 24 hours
+        return article_date >= twenty_four_hours_ago
+        
+    except Exception as e:
+        # If we can't parse the date, assume it's recent and include it
+        logger.debug(f"Could not parse date '{article_date_str}': {e}")
         return True
-    
-    # If we can't determine the year, assume it's recent and include it
-    return True
 
 def extract_full_article_content(url: str) -> Optional[str]:
     """Extract full article content from URL with enhanced site-specific handling"""
@@ -742,7 +748,7 @@ def process_rss_feeds():
                         continue
                     
                     # Check if 2025 article - for debugging let's see what we're filtering
-                    if not is_2025_article(pub_date):
+                    if not is_recent_article(pub_date):
                         logger.debug(f"Filtering out non-2025 article: {title[:50]}... (date: {pub_date})")
                         continue
                     
@@ -771,8 +777,9 @@ def process_rss_feeds():
                         continue
                     
                     # Create metadata
-                    # Tag the article with geographic and topical information
-                    article_tags = tag_article(full_content, NEWS_KEYWORDS)
+                    # Tag the article with geographic and topical information using comprehensive content
+                    comprehensive_content = f"{title} {description} {full_content}"
+                    article_tags = tag_article(comprehensive_content, NEWS_KEYWORDS)
                     
                     metadata = {
                         'title': title,
@@ -926,7 +933,7 @@ def scrape_website_articles(base_url: str, max_articles: int = 50):
                         break
                 
                 # Check if 2025 article
-                if article_date and not is_2025_article(article_date):
+                if article_date and not is_recent_article(article_date):
                     continue
                 
                 # Extract full content
@@ -939,8 +946,9 @@ def scrape_website_articles(base_url: str, max_articles: int = 50):
                     continue
                 
                 # Create metadata
-                # Tag the article with geographic and topical information
-                article_tags = tag_article(full_content, NEWS_KEYWORDS)
+                # Tag the article with geographic and topical information using comprehensive content
+                comprehensive_content = f"{title} {full_content}"
+                article_tags = tag_article(comprehensive_content, NEWS_KEYWORDS)
                 
                 metadata = {
                     'title': title,
@@ -1574,6 +1582,18 @@ def generate_date_html_index():
                                 <option value="">All sources</option>
                                 {''.join(f'<option value="{source}">{source}</option>' for source in sorted(set(article.get('source', 'Unknown') for article in articles)))}
                             </select>
+                            <label for="continentFilter">Filter by continent:</label>
+                            <select id="continentFilter" multiple>
+                                {''.join(f'<option value="{continent}">{continent}</option>' for continent in sorted(set(continent for article in articles for continent in article.get('continents', []))))}
+                            </select>
+                            <label for="keywordFilter">Filter by keyword:</label>
+                            <select id="keywordFilter" multiple>
+                                {''.join(f'<option value="{keyword}">{keyword}</option>' for keyword in sorted(set(keyword for article in articles for keyword in article.get('matched_keywords', []))))}
+                            </select>
+                            <label for="topicFilter">Filter by topic:</label>
+                            <select id="topicFilter" multiple>
+                                {''.join(f'<option value="{topic}">{topic}</option>' for topic in sorted(set(topic for article in articles for topic in article.get('core_topics', []))))}
+                            </select>
                             <label for="searchInput">Search:</label>
                             <input type="text" id="searchInput" placeholder="Search articles...">
                         </div>
@@ -1646,12 +1666,18 @@ def generate_date_html_index():
     <script>
         // Filter functionality
         const sourceFilter = document.getElementById('sourceFilter');
+        const continentFilter = document.getElementById('continentFilter');
+        const keywordFilter = document.getElementById('keywordFilter');
+        const topicFilter = document.getElementById('topicFilter');
         const searchInput = document.getElementById('searchInput');
         const articlesList = document.getElementById('articlesList');
         const articles = document.querySelectorAll('.article');
         
         function filterArticles() {
             const selectedSource = sourceFilter.value.toLowerCase();
+            const selectedContinents = Array.from(continentFilter.selectedOptions).map(option => option.value);
+            const selectedKeywords = Array.from(keywordFilter.selectedOptions).map(option => option.value);
+            const selectedTopics = Array.from(topicFilter.selectedOptions).map(option => option.value);
             const searchTerm = searchInput.value.toLowerCase();
             
             articles.forEach(article => {
@@ -1659,10 +1685,18 @@ def generate_date_html_index():
                 const title = article.dataset.title;
                 const description = article.dataset.description;
                 
+                // Get article tags from the DOM
+                const continentTags = Array.from(article.querySelectorAll('.article-continent')).map(span => span.textContent.trim());
+                const keywordTags = Array.from(article.querySelectorAll('.article-keyword')).map(span => span.textContent.trim());
+                const topicTags = Array.from(article.querySelectorAll('.article-core-topic')).map(span => span.textContent.trim());
+                
                 const sourceMatch = !selectedSource || source.includes(selectedSource);
                 const searchMatch = !searchTerm || title.includes(searchTerm) || description.includes(searchTerm);
+                const continentMatch = selectedContinents.length === 0 || selectedContinents.some(continent => continentTags.includes(continent));
+                const keywordMatch = selectedKeywords.length === 0 || selectedKeywords.some(keyword => keywordTags.includes(keyword));
+                const topicMatch = selectedTopics.length === 0 || selectedTopics.some(topic => topicTags.includes(topic));
                 
-                if (sourceMatch && searchMatch) {
+                if (sourceMatch && searchMatch && continentMatch && keywordMatch && topicMatch) {
                     article.style.display = 'block';
                 } else {
                     article.style.display = 'none';
@@ -1671,6 +1705,9 @@ def generate_date_html_index():
         }
         
         sourceFilter.addEventListener('change', filterArticles);
+        continentFilter.addEventListener('change', filterArticles);
+        keywordFilter.addEventListener('change', filterArticles);
+        topicFilter.addEventListener('change', filterArticles);
         searchInput.addEventListener('input', filterArticles);
         
         // Initialize
@@ -2116,6 +2153,39 @@ def generate_master_html_index():
             outline: none;
             border-color: var(--primary-blue);
             box-shadow: 0 0 0 3px rgba(69, 91, 241, 0.1);
+        }}
+
+        .search-group select {{
+            padding: 12px 16px;
+            border: 1px solid var(--border-grey);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            background: var(--white);
+            transition: border-color 0.3s ease;
+            min-width: 150px;
+        }}
+
+        .search-group select:focus {{
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(69, 91, 241, 0.1);
+        }}
+
+        .search-group select[multiple] {{
+            min-height: 100px;
+            min-width: 200px;
+        }}
+
+        .search-group select[multiple] option {{
+            padding: 8px 12px;
+            margin: 2px 0;
+            border-radius: 4px;
+        }}
+
+        .search-group select[multiple] option:checked {{
+            background: var(--primary-blue);
+            color: var(--white);
         }}
 
         .no-dates {{

@@ -13,7 +13,8 @@
       "https://www.aljazeera.com/xml/rss/all.xml",
       "https://feeds.arstechnica.com/arstechnica/index",
       "https://techcrunch.com/feed/",
-      "https://www.wired.com/feed/rss"
+      "https://www.wired.com/feed/rss",
+      "http://rss.cnn.com/rss/edition.rss"
     ]
   },
   "direct_scraping": {
@@ -26,11 +27,11 @@
       "https://cointelegraph.com/"
     ]
   },
-  "total_articles": 94,
-  "last_updated": "2025-10-12T21:29:29.920389",
+  "total_articles": 99,
+  "last_updated": "2025-10-13T02:29:26.945788",
   "extraction_stats": {
-    "successful_extractions": 94,
-    "failed_extractions": 1,
-    "site_specific_success": 11
+    "successful_extractions": 102,
+    "failed_extractions": 2,
+    "site_specific_success": 19
   }
 }

@@ -125,20 +125,29 @@ def detect_continents(article_content: str) -> List[str]:
     content_lower = article_content.lower()
     continents = set()
     
-    # Check for geographic mentions
+    # Check for geographic mentions using flexible matching
+    import re
     for location, continent in GEOGRAPHIC_MAPPING.items():
-        if location in content_lower:
+        # Use word boundary matching for short terms, flexible for longer terms
+        if len(location) <= 3:
+            # Short terms like "us" need word boundaries to avoid false positives
+            pattern = r'\b' + re.escape(location) + r'\b'
+        else:
+            # Longer terms can use flexible matching
+            pattern = re.escape(location)
+        
+        if re.search(pattern, content_lower):
             continents.add(continent)
     
     # Handle special cases
     if len(continents) > 1:
-        # Multiple continents mentioned - mark as Global
-        return ["Global"]
+        # Multiple continents mentioned - return all continents
+        return list(continents)
     elif len(continents) == 1:
         return list(continents)
     else:
-        # No clear geographic focus
-        return ["Unclear"]
+        # No clear geographic focus - return Global
+        return ["Global"]
 
 def get_matched_keywords(article_content: str, keywords_list: List[str]) -> List[str]:
     """
