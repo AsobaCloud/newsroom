@@ -27,10 +27,10 @@
       "https://cointelegraph.com/"
     ]
   },
-  "total_articles": 99,
-  "last_updated": "2025-10-13T02:29:26.945788",
+  "total_articles": 114,
+  "last_updated": "2025-10-13T08:23:25.086138",
   "extraction_stats": {
-    "successful_extractions": 102,
+    "successful_extractions": 117,
     "failed_extractions": 2,
     "site_specific_success": 19
   }

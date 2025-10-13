@@ -20,6 +20,8 @@ import boto3
 import logging
 import requests
 import hashlib
+import argparse
+import sys
 from datetime import datetime, date
 from typing import Dict, List, Optional
 from urllib.parse import urljoin, urlparse, quote
@@ -44,6 +46,9 @@ S3_BUCKET_NAME = "news-collection-website"
 # Generate datestamped folder name
 today = datetime.now().strftime("%Y-%m-%d")
 S3_FOLDER_NEWS = f"news/{today}"
+
+# Fresh mode flag (set by command line argument)
+FRESH_MODE = False
 
 # Track progress
 PROGRESS_FILE = "news_scraper_progress.json"
@@ -642,9 +647,11 @@ def process_rss_feeds():
     # PHASE 1 FIX: Validate feeds before processing
     valid_feeds = []
     for feed_url in NEWS_SOURCES['rss_feeds']:
-        if progress_tracker.is_feed_complete(feed_url):
+        if not FRESH_MODE and progress_tracker.is_feed_complete(feed_url):
             logger.info(f"Skipping completed feed: {feed_url}")
             continue
+        elif FRESH_MODE and progress_tracker.is_feed_complete(feed_url):
+            logger.info(f"Fresh mode: Reprocessing completed feed: {feed_url}")
         
         if validate_feed(feed_url):
             valid_feeds.append(feed_url)
@@ -830,9 +837,11 @@ def process_rss_feeds():
 # -------------------------------------------------------------------------
 def scrape_website_articles(base_url: str, max_articles: int = 50):
     """Scrape articles directly from news websites with enhanced error handling"""
-    if progress_tracker.is_source_complete(base_url):
+    if not FRESH_MODE and progress_tracker.is_source_complete(base_url):
         logger.info(f"Skipping completed source: {base_url}")
         return 0
+    elif FRESH_MODE and progress_tracker.is_source_complete(base_url):
+        logger.info(f"Fresh mode: Reprocessing completed source: {base_url}")
         
     logger.info(f"Scraping website: {base_url}")
     articles_found = 0
@@ -2412,7 +2421,41 @@ def generate_master_html_index():
 # -------------------------------------------------------------------------
 # PHASE 1 FIX: Enhanced Main Execution with Statistics
 # -------------------------------------------------------------------------
+def parse_arguments():
+    """Parse command line arguments"""
+    parser = argparse.ArgumentParser(
+        description='News scraper with optional fresh collection mode',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python3 news_scraper_improved.py          # Normal idempotent mode
+  python3 news_scraper_improved.py -fresh   # Fresh collection mode
+        """
+    )
+    
+    parser.add_argument(
+        '-fresh', '--fresh',
+        action='store_true',
+        help='Force fresh collection, bypassing idempotency (default: False)'
+    )
+    
+    return parser.parse_args()
+
 def main():
+    # Parse command line arguments
+    args = parse_arguments()
+    global FRESH_MODE
+    FRESH_MODE = args.fresh
+    
+    if FRESH_MODE:
+        logger.info("🔄 FRESH MODE: Bypassing idempotency - will collect all articles")
+        # Clear progress file in fresh mode
+        if os.path.exists(PROGRESS_FILE):
+            os.remove(PROGRESS_FILE)
+            logger.info("🗑️ Cleared progress file for fresh collection")
+    else:
+        logger.info("♻️ IDEMPOTENT MODE: Skipping completed feeds/sources")
+    
     logger.info("🚀 Starting 2025 News Collection with Static Website - IMPROVED VERSION")
     logger.info(f"Target S3 location: s3://{S3_BUCKET_NAME}/{S3_FOLDER_NEWS}/")
     logger.info(f"Website URL: http://{S3_BUCKET_NAME}.s3-website-us-east-1.amazonaws.com")
