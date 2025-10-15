@@ -20,6 +20,9 @@ from urllib.parse import urljoin, urlparse, quote
 from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor
 
+# Import the article tagging module
+from article_tagger import tag_article
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("news_scraper_final")
 
@@ -525,7 +528,11 @@ def process_rss_feeds():
                         logger.warning(f"Could not extract content from: {link}")
                         continue
                     
-                    # Create metadata
+                    # Tag the article with geographic and topical information
+                    combined_text = title + ' ' + description + ' ' + full_content
+                    tags = tag_article(combined_text, NEWS_KEYWORDS)
+                    
+                    # Create metadata with tagging information
                     metadata = {
                         'title': title,
                         'url': link,
@@ -534,7 +541,8 @@ def process_rss_feeds():
                         'source': 'RSS Feed',
                         'feed_url': feed_url,
                         'content_length': len(full_content),
-                        'collection_date': datetime.now().isoformat()
+                        'collection_date': datetime.now().isoformat(),
+                        'tags': tags
                     }
                     
                     # Save metadata
@@ -677,7 +685,11 @@ def scrape_website_articles(base_url: str, max_articles: int = 50):
                 if not matches_keywords(full_content):
                     continue
                 
-                # Create metadata
+                # Tag the article with geographic and topical information
+                combined_text = title + ' ' + full_content
+                tags = tag_article(combined_text, NEWS_KEYWORDS)
+                
+                # Create metadata with tagging information
                 metadata = {
                     'title': title,
                     'url': article_url,
@@ -685,7 +697,8 @@ def scrape_website_articles(base_url: str, max_articles: int = 50):
                     'source': 'Direct Scraping',
                     'base_url': base_url,
                     'content_length': len(full_content),
-                    'collection_date': datetime.now().isoformat()
+                    'collection_date': datetime.now().isoformat(),
+                    'tags': tags
                 }
                 
                 # Save metadata
@@ -948,20 +961,27 @@ def generate_date_html_index():
             border-radius: 6px;
         }}
         .filter-group {{
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
             align-items: center;
-            flex-wrap: wrap;
         }}
         .filter-group label {{
             font-weight: 500;
             color: #333;
+            margin-bottom: 5px;
+            display: block;
         }}
         .filter-group select, .filter-group input {{
             padding: 8px 12px;
             border: 1px solid #ddd;
             border-radius: 4px;
             font-size: 0.9em;
+            width: 100%;
+        }}
+        .filter-row {{
+            display: flex;
+            flex-direction: column;
         }}
         .back-link {{
             margin-bottom: 20px;
@@ -973,6 +993,31 @@ def generate_date_html_index():
         }}
         .back-link a:hover {{
             text-decoration: underline;
+        }}
+        .article-tags {{
+            margin: 10px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }}
+        .tag {{
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }}
+        .tag-continent {{
+            background: #e3f2fd;
+            color: #1976d2;
+        }}
+        .tag-topic {{
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }}
+        .tag-keywords {{
+            background: #e8f5e8;
+            color: #2e7d32;
         }}
         @media (max-width: 768px) {{
             .stats {{
@@ -1018,13 +1063,47 @@ def generate_date_html_index():
             
             <div class="filters">
                 <div class="filter-group">
-                    <label for="sourceFilter">Filter by source:</label>
-                    <select id="sourceFilter">
-                        <option value="">All sources</option>
-                        {''.join(f'<option value="{source}">{source}</option>' for source in sorted(set(article.get('source', 'Unknown') for article in articles)))}
-                    </select>
-                    <label for="searchInput">Search:</label>
-                    <input type="text" id="searchInput" placeholder="Search articles...">
+                    <div class="filter-row">
+                        <label for="sourceFilter">Filter by source:</label>
+                        <select id="sourceFilter">
+                            <option value="">All sources</option>
+                            {''.join(f'<option value="{source}">{source}</option>' for source in sorted(set(article.get('source', 'Unknown') for article in articles)))}
+                        </select>
+                    </div>
+                    <div class="filter-row">
+                        <label for="continentFilter">Filter by continent:</label>
+                        <select id="continentFilter">
+                            <option value="">All continents</option>
+                            <option value="Africa">Africa</option>
+                            <option value="Americas">Americas</option>
+                            <option value="Asia">Asia</option>
+                            <option value="Europe">Europe</option>
+                            <option value="Global">Global</option>
+                            <option value="Oceania">Oceania</option>
+                        </select>
+                    </div>
+                    <div class="filter-row">
+                        <label for="topicFilter">Filter by topic:</label>
+                        <select id="topicFilter">
+                            <option value="">All topics</option>
+                            <option value="ai">AI</option>
+                            <option value="energy">Energy</option>
+                            <option value="blockchain">Blockchain</option>
+                            <option value="insurance">Insurance</option>
+                            <option value="geopolitics">Geopolitics</option>
+                        </select>
+                    </div>
+                    <div class="filter-row">
+                        <label for="keywordFilter">Filter by keyword:</label>
+                        <select id="keywordFilter">
+                            <option value="">All keywords</option>
+                            {''.join(f'<option value="{keyword}">{keyword.title()}</option>' for keyword in sorted(set([kw for article in articles for kw in article.get('tags', {}).get('matched_keywords', [])])))}
+                        </select>
+                    </div>
+                    <div class="filter-row">
+                        <label for="searchInput">Search:</label>
+                        <input type="text" id="searchInput" placeholder="Search articles...">
+                    </div>
                 </div>
             </div>
             
@@ -1060,8 +1139,30 @@ def generate_date_html_index():
                 soup = BeautifulSoup(description, 'html.parser')
                 description = soup.get_text()[:300] + ('...' if len(soup.get_text()) > 300 else '')
             
+            # Extract tag information
+            tags = article.get('tags', {})
+            continents = tags.get('continents', [])
+            core_topics = tags.get('core_topics', [])
+            matched_keywords = tags.get('matched_keywords', [])
+            
+            # Create tag display
+            tag_elements = []
+            if continents:
+                tag_elements.append(f'<span class="tag tag-continent">{" ".join(continents)}</span>')
+            if core_topics:
+                tag_elements.append(f'<span class="tag tag-topic">{" ".join(core_topics)}</span>')
+            if matched_keywords:
+                tag_elements.append(f'<span class="tag tag-keywords">{" ".join(matched_keywords[:3])}</span>')
+            
+            tags_html = ''.join(tag_elements)
+            
+            # Create data attributes for filtering
+            continents_str = ' '.join(continents) if continents else ''
+            topics_str = ' '.join(core_topics) if core_topics else ''
+            keywords_str = ' '.join(matched_keywords) if matched_keywords else ''
+            
             html_content += f"""
-                <div class="article" data-source="{article.get('source', 'Unknown')}" data-title="{article.get('title', '').lower()}" data-description="{description.lower()}">
+                <div class="article" data-source="{article.get('source', 'Unknown')}" data-title="{article.get('title', '').lower()}" data-description="{description.lower()}" data-continents="{continents_str}" data-topics="{topics_str}" data-keywords="{keywords_str}">
                     <h3 class="article-title">
                         <a href="{article['url']}" target="_blank">{article.get('title', 'No Title')}</a>
                     </h3>
@@ -1070,6 +1171,7 @@ def generate_date_html_index():
                         <span class="article-date">{formatted_date}</span>
                         <span class="article-length">{article.get('content_length', 0):,} chars</span>
                     </div>
+                    {f'<div class="article-tags">{tags_html}</div>' if tags_html else ''}
                     {f'<div class="article-description">{description}</div>' if description else ''}
                     <div class="view-content">
                         <a href="{content_path}" target="_blank">📖 View Full Content</a>
@@ -1084,23 +1186,35 @@ def generate_date_html_index():
     <script>
         // Filter functionality
         const sourceFilter = document.getElementById('sourceFilter');
+        const continentFilter = document.getElementById('continentFilter');
+        const topicFilter = document.getElementById('topicFilter');
+        const keywordFilter = document.getElementById('keywordFilter');
         const searchInput = document.getElementById('searchInput');
         const articlesList = document.getElementById('articlesList');
         const articles = document.querySelectorAll('.article');
         
         function filterArticles() {
             const selectedSource = sourceFilter.value.toLowerCase();
+            const selectedContinent = continentFilter.value;
+            const selectedTopic = topicFilter.value;
+            const selectedKeyword = keywordFilter.value.toLowerCase();
             const searchTerm = searchInput.value.toLowerCase();
             
             articles.forEach(article => {
                 const source = article.dataset.source.toLowerCase();
                 const title = article.dataset.title;
                 const description = article.dataset.description;
+                const continents = article.dataset.continents || '';
+                const topics = article.dataset.topics || '';
+                const keywords = article.dataset.keywords || '';
                 
                 const sourceMatch = !selectedSource || source.includes(selectedSource);
+                const continentMatch = !selectedContinent || continents.includes(selectedContinent);
+                const topicMatch = !selectedTopic || topics.includes(selectedTopic);
+                const keywordMatch = !selectedKeyword || keywords.toLowerCase().includes(selectedKeyword);
                 const searchMatch = !searchTerm || title.includes(searchTerm) || description.includes(searchTerm);
                 
-                if (sourceMatch && searchMatch) {
+                if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch) {
                     article.style.display = 'block';
                 } else {
                     article.style.display = 'none';
@@ -1109,6 +1223,9 @@ def generate_date_html_index():
         }
         
         sourceFilter.addEventListener('change', filterArticles);
+        continentFilter.addEventListener('change', filterArticles);
+        topicFilter.addEventListener('change', filterArticles);
+        keywordFilter.addEventListener('change', filterArticles);
         searchInput.addEventListener('input', filterArticles);
         
         // Initialize
