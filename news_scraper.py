@@ -14,6 +14,8 @@ import boto3
 import logging
 import requests
 import hashlib
+import sys
+import argparse
 from datetime import datetime, date
 from typing import Dict, List, Optional
 from urllib.parse import urljoin, urlparse, quote
@@ -24,7 +26,25 @@ from concurrent.futures import ThreadPoolExecutor
 from article_tagger import tag_article
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger("news_scraper_final")
+logger = logging.getLogger("news_scraper")
+
+# Parse command line arguments
+parser = argparse.ArgumentParser(description='News Collection Script with Static Website Hosting')
+parser.add_argument('-fresh', '--fresh', action='store_true', 
+                   help='Run in fresh mode - bypass idempotency and reprocess all articles')
+args = parser.parse_args()
+
+# Set fresh mode flag
+FRESH_MODE = args.fresh
+
+# Parse command line arguments
+parser = argparse.ArgumentParser(description='News Collection Script with Static Website Hosting')
+parser.add_argument('-fresh', '--fresh', action='store_true', 
+                   help='Run in fresh mode - bypass idempotency and reprocess all articles')
+args = parser.parse_args()
+
+# Set fresh mode flag
+FRESH_MODE = args.fresh
 
 # -------------------------------------------------------------------------
 # CONFIGURATION
@@ -171,6 +191,8 @@ class ProgressTracker:
     
     def is_feed_complete(self, feed_url):
         """Check if feed was already processed"""
+        if FRESH_MODE:
+            return False
         return feed_url in self.progress["rss_feeds"].get("feeds_completed", [])
     
     def mark_source_complete(self, source_url):
@@ -181,6 +203,8 @@ class ProgressTracker:
     
     def is_source_complete(self, source_url):
         """Check if source was already processed"""
+        if FRESH_MODE:
+            return False
         return source_url in self.progress["direct_scraping"].get("sources_completed", [])
     
     def increment_articles(self, count=1):
@@ -231,10 +255,14 @@ S3_MANIFEST, S3_PROCESSED_URLS = get_s3_manifest()
 
 def exists_in_s3(key: str) -> bool:
     """Check if file exists in S3 using manifest"""
+    if FRESH_MODE:
+        return False
     return key in S3_MANIFEST
 
 def url_already_processed(url: str) -> bool:
     """Check if URL was already processed (idempotency across runs)"""
+    if FRESH_MODE:
+        return False
     return url in S3_PROCESSED_URLS
 
 def add_processed_url(url: str):
@@ -1171,8 +1199,8 @@ def generate_date_html_index():
                         <span class="article-date">{formatted_date}</span>
                         <span class="article-length">{article.get('content_length', 0):,} chars</span>
                     </div>
-                    {f'<div class="article-tags">{tags_html}</div>' if tags_html else ''}
-                    {f'<div class="article-description">{description}</div>' if description else ''}
+                    {'<div class="article-tags">' + tags_html + '</div>' if tags_html else ''}
+                    {'<div class="article-description">' + description + '</div>' if description else ''}
                     <div class="view-content">
                         <a href="{content_path}" target="_blank">📖 View Full Content</a>
                     </div>
@@ -1661,6 +1689,22 @@ def generate_master_html_index():
 # MAIN EXECUTION
 # -------------------------------------------------------------------------
 def main():
+    if FRESH_MODE:
+        logger.info("🔄 FRESH MODE: Bypassing idempotency - reprocessing all articles")
+        # Clear progress file in fresh mode
+        if os.path.exists(PROGRESS_FILE):
+            os.remove(PROGRESS_FILE)
+            logger.info("🗑️ Cleared progress file for fresh collection")
+        # Reset progress tracker
+        progress_tracker.progress = {
+            "rss_feeds": {"feeds_completed": []},
+            "direct_scraping": {"sources_completed": []},
+            "total_articles": 0,
+            "last_updated": None
+        }
+    else:
+        logger.info("💾 IDEMPOTENT MODE: Skipping already processed articles")
+    
     logger.info("🚀 Starting 2025 News Collection with Static Website")
     logger.info(f"Target S3 location: s3://{S3_BUCKET_NAME}/{S3_FOLDER_NEWS}/")
     logger.info(f"Website URL: http://{S3_BUCKET_NAME}.s3-website-us-east-1.amazonaws.com")
