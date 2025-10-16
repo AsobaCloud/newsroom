@@ -857,6 +857,7 @@ def generate_date_html_index():
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Collection - {today}</title>
+    <link rel="stylesheet" href="https://asoba.co/includes/common.css">
     <style>
         body {{
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -1064,9 +1065,26 @@ def generate_date_html_index():
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📰 News Collection</h1>
+    <header class="header-bar">
+        <div class="branding">
+            <a href="https://asoba.co">
+                <img src="https://docs.asoba.co/assets/images/logo.png" alt="Asoba">
+            </a>
+            <span class="site-title">Asoba</span>
+        </div>
+        <div class="top-links">
+            <a href="https://asoba.co">Home</a>
+            <a href="https://asoba.co/about.html">About</a>
+            <a href="https://asoba.co/products.html">Products</a>
+            <a href="https://asoba.co/blog.html">Insights</a>
+            <a href="https://docs.asoba.co">Documentation</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="header">
+                <h1>📰 News Collection</h1>
             <p>Energy, AI, and Blockchain News - {today}</p>
             <div class="stats">
                 <div class="stat">
@@ -1259,6 +1277,7 @@ def generate_date_html_index():
         // Initialize
         filterArticles();
     </script>
+    </main>
 </body>
 </html>"""
         
@@ -1292,12 +1311,112 @@ def generate_date_html_index():
         return False
 
 def generate_master_html_index():
-    """Generate master HTML index file for browsing all collected dates"""
-    logger.info("📄 Generating master HTML index...")
+    """Add today's card to the master HTML index file"""
+    logger.info("📄 Adding today's card to master HTML index...")
     
     try:
-        # Get all date folders
-        date_folders = []
+        # Load the existing archive index page
+        try:
+            response = s3_client.get_object(Bucket=S3_BUCKET_NAME, Key="index.html")
+            html_content = response['Body'].read().decode('utf-8')
+        except:
+            # If no existing file, load from local template
+            with open('index.html', 'r') as f:
+                html_content = f.read()
+        
+        # Get today's stats
+        article_count = 0
+        sources = set()
+        
+        # Count articles from today's folder
+        try:
+            paginator = s3_client.get_paginator('list_objects_v2')
+            
+            # Count RSS articles
+            page_iterator = paginator.paginate(
+                Bucket=S3_BUCKET_NAME,
+                Prefix=f"news/{today}/rss/metadata/"
+            )
+            for page in page_iterator:
+                if 'Contents' in page:
+                    for obj in page['Contents']:
+                        if obj['Key'].endswith('.json'):
+                            try:
+                                response = s3_client.get_object(Bucket=S3_BUCKET_NAME, Key=obj['Key'])
+                                metadata = json.loads(response['Body'].read().decode('utf-8'))
+                                article_count += 1
+                                if 'source' in metadata:
+                                    sources.add(metadata['source'])
+                            except Exception as e:
+                                logger.debug(f"Error loading metadata: {e}")
+            
+            # Count direct scraping articles
+            page_iterator = paginator.paginate(
+                Bucket=S3_BUCKET_NAME,
+                Prefix=f"news/{today}/direct/metadata/"
+            )
+            for page in page_iterator:
+                if 'Contents' in page:
+                    for obj in page['Contents']:
+                        if obj['Key'].endswith('.json'):
+                            try:
+                                response = s3_client.get_object(Bucket=S3_BUCKET_NAME, Key=obj['Key'])
+                                metadata = json.loads(response['Body'].read().decode('utf-8'))
+                                article_count += 1
+                                if 'source' in metadata:
+                                    sources.add(metadata['source'])
+                            except Exception as e:
+                                logger.debug(f"Error loading metadata: {e}")
+        except Exception as e:
+            logger.debug(f"Error counting articles for {today}: {e}")
+        
+        # Create today's card HTML using the same structure as blog.html content cards
+        today_card = f"""
+            <article class="content-card" data-type="news" onclick="window.location.href='news/{today}/index.html'">
+                <div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+                    <span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Daily News Collection - {today}</h3>
+                    <p class="card-excerpt">Complete collection of {article_count} articles from {len(sources)} sources covering energy, AI, and blockchain topics.</p>
+                    <div class="card-meta">
+                        <span class="card-date">{today}</span>
+                        <span class="card-read-time">{article_count} articles</span>
+                    </div>
+                </div>
+            </article>
+        """
+        
+        # Insert the card at the beginning of the content-grid
+        html_content = html_content.replace('<main class="content-grid">', f'<main class="content-grid">\n{today_card}')
+        
+        # Upload the updated HTML file to S3
+        try:
+            logger.info(f"Uploading to S3: index.html")
+            s3_client.put_object(
+                Bucket=S3_BUCKET_NAME,
+                Key="index.html",
+                Body=html_content.encode('utf-8'),
+                ContentType="text/html"
+            )
+            # Add to manifest
+            S3_MANIFEST.add("index.html")
+            logger.info(f"✓ Uploaded: index.html")
+            success = True
+        except Exception as e:
+            logger.error(f"Failed to upload index.html: {e}")
+            success = False
+        
+        if success:
+            logger.info(f"✓ Updated master HTML index: s3://{S3_BUCKET_NAME}/index.html")
+            return True
+        else:
+            logger.error("Failed to upload master HTML index to S3")
+            return False
+            
+    except Exception as e:
+        logger.error(f"Error updating master HTML index: {str(e)}")
+        return False
         
         try:
             paginator = s3_client.get_paginator('list_objects_v2')
