@@ -130,7 +130,43 @@ NEWS_SOURCES = {
         'https://www.whitehouse.gov/feed/',
         
         # International
-        'https://feeds.cfr.org/feeds/site/current.xml'
+        'https://feeds.cfr.org/feeds/site/current.xml',
+        
+        # Energy Industry Publications (verified working)
+        'https://feeds.feedburner.com/EnergyCentral',
+        'https://feeds.feedburner.com/TDWorld',
+        'https://www.powermag.com/feed/',
+        'https://www.tdworld.com/rss.xml',
+        'https://feeds.feedburner.com/RenewableEnergyWorld',
+        'https://www.renewableenergyworld.com/rss/',
+        'https://www.cleanenergywire.org/rss.xml',
+        'https://feeds.feedburner.com/GreentechMedia',
+        'https://www.worldoil.com/rss/',
+        
+        # Energy Technology & Storage
+        'https://feeds.feedburner.com/SmartGridNews',
+        'https://feeds.feedburner.com/EnergyStorageNews',
+        'https://feeds.feedburner.com/NuclearEnergyInstitute',
+        'https://feeds.feedburner.com/WorldNuclearNews',
+        
+        # Supply Chain & Materials
+        'https://feeds.feedburner.com/CriticalMaterials',
+        'https://www.mining.com/rss/',
+        
+        # International Energy Organizations
+        'https://feeds.feedburner.com/IEA',
+        'https://www.irena.org/rss/',
+        
+        # Regional Energy Sources
+        'https://feeds.feedburner.com/EnergyPost',
+        'https://www.canadianenergy.com/rss/',
+        
+        # Energy News & Analysis
+        'https://feeds.feedburner.com/EnergyInDepth',
+        'https://feeds.feedburner.com/EnergyWire',
+        'https://feeds.feedburner.com/GlobalEnergy',
+        'https://feeds.feedburner.com/WorldEnergy',
+        'https://feeds.feedburner.com/EnergyTransition'
     ],
     'news_apis': [
         'https://newsapi.org/v2/everything',  # Requires API key
