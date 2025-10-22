@@ -28,23 +28,16 @@ from article_tagger import tag_article
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("news_scraper")
 
-# Parse command line arguments
-parser = argparse.ArgumentParser(description='News Collection Script with Static Website Hosting')
-parser.add_argument('-fresh', '--fresh', action='store_true', 
-                   help='Run in fresh mode - bypass idempotency and reprocess all articles')
-args = parser.parse_args()
+# Set fresh mode flag - check environment variable first, then command line args
+FRESH_MODE = os.environ.get('FRESH_MODE', 'false').lower() == 'true'
 
-# Set fresh mode flag
-FRESH_MODE = args.fresh
-
-# Parse command line arguments
-parser = argparse.ArgumentParser(description='News Collection Script with Static Website Hosting')
-parser.add_argument('-fresh', '--fresh', action='store_true', 
-                   help='Run in fresh mode - bypass idempotency and reprocess all articles')
-args = parser.parse_args()
-
-# Set fresh mode flag
-FRESH_MODE = args.fresh
+# Only parse command line arguments if not in Lambda environment
+if not os.environ.get('AWS_LAMBDA_FUNCTION_NAME'):
+    parser = argparse.ArgumentParser(description='News Collection Script with Static Website Hosting')
+    parser.add_argument('-fresh', '--fresh', action='store_true', 
+                       help='Run in fresh mode - bypass idempotency and reprocess all articles')
+    args = parser.parse_args()
+    FRESH_MODE = args.fresh
 
 # -------------------------------------------------------------------------
 # CONFIGURATION
@@ -56,8 +49,8 @@ S3_BUCKET_NAME = "news-collection-website"
 today = datetime.now().strftime("%Y-%m-%d")
 S3_FOLDER_NEWS = f"news/{today}"
 
-# Track progress
-PROGRESS_FILE = "news_scraper_progress.json"
+# Track progress - use /tmp in Lambda environment
+PROGRESS_FILE = "/tmp/news_scraper_progress.json" if os.environ.get('AWS_LAMBDA_FUNCTION_NAME') else "news_scraper_progress.json"
 
 # Search keywords - comprehensive energy, AI, blockchain, and finance terms
 NEWS_KEYWORDS = [
@@ -459,7 +452,7 @@ def process_rss_feeds():
             soup = None
             items = []
             
-            # Method 1: XML parser
+            # Method 1: XML parser (preferred for RSS/Atom)
             try:
                 soup = BeautifulSoup(response.content, 'xml')
                 items = soup.find_all('item')
@@ -468,20 +461,20 @@ def process_rss_feeds():
             except:
                 pass
             
-            # Method 2: HTML parser fallback
+            # Method 2: lxml parser fallback
             if not items:
                 try:
-                    soup = BeautifulSoup(response.content, 'html.parser')
+                    soup = BeautifulSoup(response.content, 'lxml')
                     items = soup.find_all('item')
                     if not items:
                         items = soup.find_all('entry')  # Atom feeds
                 except:
                     pass
             
-            # Method 3: lxml parser fallback
+            # Method 3: HTML parser fallback
             if not items:
                 try:
-                    soup = BeautifulSoup(response.content, 'lxml-xml')
+                    soup = BeautifulSoup(response.content, 'html.parser')
                     items = soup.find_all('item')
                     if not items:
                         items = soup.find_all('entry')  # Atom feeds
@@ -1387,8 +1380,31 @@ def generate_master_html_index():
             </article>
         """
         
-        # Insert the card at the beginning of the content-grid
-        html_content = html_content.replace('<main class="content-grid">', f'<main class="content-grid">\n{today_card}')
+        # Use BeautifulSoup to properly handle HTML manipulation
+        from bs4 import BeautifulSoup
+        soup = BeautifulSoup(html_content, 'html.parser')
+        
+        # Find the content grid
+        content_grid = soup.find('main', class_='content-grid')
+        if content_grid:
+            # Find and remove any existing cards for today
+            existing_cards = content_grid.find_all('article', {'data-type': 'news'})
+            for card in existing_cards:
+                title = card.find('h3', class_='card-title')
+                if title and f'Daily News Collection - {today}' in title.get_text():
+                    logger.info(f"Removing existing card for {today}")
+                    card.decompose()
+            
+            # Parse the new card and add it
+            new_card_soup = BeautifulSoup(today_card, 'html.parser')
+            new_card = new_card_soup.find('article')
+            if new_card:
+                # Insert at the beginning of content-grid
+                content_grid.insert(0, new_card)
+                logger.info(f"Added new card for {today}")
+        
+        # Convert back to HTML string
+        html_content = str(soup)
         
         # Upload the updated HTML file to S3
         try:
