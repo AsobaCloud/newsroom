@@ -167,6 +167,8 @@ NEWS_SOURCES = {
         'https://feeds.feedburner.com/GlobalEnergy',
         'https://feeds.feedburner.com/WorldEnergy',
         'https://feeds.feedburner.com/EnergyTransition',
+        'https://feeds.feedburner.com/AfricaIntelligence',
+        'https://feeds.feedburner.com/IntelligenceOnline',
 
         # ===== TESTED & WORKING SOURCES (42 additional) =====
         # AFRICA (15 sources)
