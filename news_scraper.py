@@ -170,6 +170,19 @@ NEWS_SOURCES = {
         'https://feeds.feedburner.com/AfricaIntelligence',
         'https://feeds.feedburner.com/IntelligenceOnline',
 
+        # Intelligence & Security Analysis
+        'https://feeds.feedburner.com/Stratfor',
+        'https://feeds.feedburner.com/CSIS',
+        'https://feeds.feedburner.com/CFR',
+        'https://feeds.feedburner.com/AtlanticCouncil',
+        'https://feeds.feedburner.com/DefenseNews',
+        'https://feeds.feedburner.com/DefenseOne',
+        'https://feeds.feedburner.com/WarOnTheRocks',
+        'https://feeds.feedburner.com/JustSecurity',
+        'https://feeds.feedburner.com/Lawfare',
+        'https://feeds.feedburner.com/ForeignAffairs',
+        'https://feeds.feedburner.com/ForeignPolicy',
+
         # ===== TESTED & WORKING SOURCES (42 additional) =====
         # AFRICA (15 sources)
         'https://www.premiumtimesng.com/rss',
