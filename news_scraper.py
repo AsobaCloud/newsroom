@@ -183,6 +183,37 @@ NEWS_SOURCES = {
         'https://feeds.feedburner.com/ForeignAffairs',
         'https://feeds.feedburner.com/ForeignPolicy',
 
+        # US Legislation - Congress.gov (official RSS)
+        'https://www.congress.gov/rss/introduced-in-house.xml',
+        'https://www.congress.gov/rss/introduced-in-senate.xml',
+        'https://www.congress.gov/rss/passed-house.xml',
+        'https://www.congress.gov/rss/passed-senate.xml',
+        'https://www.congress.gov/rss/became-law.xml',
+        'https://www.congress.gov/rss/todays-house-floor.xml',
+        'https://www.congress.gov/rss/todays-senate-floor.xml',
+        'https://www.congress.gov/rss/committee-schedule.xml',
+        'https://www.congress.gov/rss/house-committee-meetings.xml',
+        'https://www.congress.gov/rss/senate-committee-meetings.xml',
+        'https://www.congress.gov/rss/most-viewed-bills.xml',
+
+        # Legislation - International
+        # United Kingdom (Parliament Bills)
+        'https://bills.parliament.uk/RSS/AllBills.rss',
+
+        # European Union (EUR-Lex latest acts)
+        'https://eur-lex.europa.eu/rss/en/oj_latest.xml',
+
+        # Australia (Parliament of Australia bills)
+        'https://www.aph.gov.au/rss/housebills',
+        'https://www.aph.gov.au/rss/senatebills',
+
+        # Brazil (Chamber and Senate news on legislation)
+        'https://www.camara.leg.br/noticias/rss/todas-as-noticias.xml',
+        'https://www12.senado.leg.br/noticias/rss',
+
+        # South Africa (Parliamentary Monitoring Group)
+        'https://pmg.org.za/rss/',
+
         # ===== TESTED & WORKING SOURCES (42 additional) =====
         # AFRICA (15 sources)
         'https://www.premiumtimesng.com/rss',
@@ -576,111 +607,123 @@ def process_single_rss_feed(feed_url):
                     items = soup.find_all('entry')  # Atom feeds
             except:
                 pass
-            
-            for item in items:
-                try:
-                    title = item.find('title').get_text() if item.find('title') else 'No Title'
-                    
-                    # Handle different link formats (RSS vs Atom)
-                    link = None
-                    if item.find('link'):
-                        link_elem = item.find('link')
-                        if link_elem.get('href'):  # Atom format
-                            link = link_elem.get('href')
-                        else:  # RSS format
-                            link = link_elem.get_text()
-                    
-                    # Handle different date formats
-                    pub_date = ''
-                    if item.find('pubDate'):
-                        pub_date = item.find('pubDate').get_text()
-                    elif item.find('published'):  # Atom format
-                        pub_date = item.find('published').get_text()
-                    elif item.find('updated'):  # Atom format
-                        pub_date = item.find('updated').get_text()
-                    
-                    # Handle different description formats
-                    description = ''
-                    if item.find('description'):
-                        description = item.find('description').get_text()
-                    elif item.find('summary'):  # Atom format
-                        description = item.find('summary').get_text()
-                    elif item.find('content'):  # Atom format
-                        description = item.find('content').get_text()
-                    
-                    if not link:
-                        continue
-                    
-                    # Check for URL-based deduplication first (fastest check)
-                    if url_already_processed(link):
-                        logger.debug(f"URL already processed: {link}")
-                        continue
-                    
-                    # Check if 2025 article - for debugging let's see what we're filtering
-                    if not is_2025_article(pub_date):
-                        logger.debug(f"Filtering out non-2025 article: {title[:50]}... (date: {pub_date})")
-                        continue
-                    
-                    # Check if matches keywords
-                    combined_text = title + ' ' + description
-                    if not matches_keywords(combined_text):
-                        logger.debug(f"Filtering out article (no keywords): {title[:50]}... (text: {combined_text[:100]}...)")
-                        continue
-                    
-                    # Generate unique ID
-                    article_id = hashlib.md5(link.encode()).hexdigest()
-                    
-                    # Check if already processed by file existence (backup check)
-                    metadata_key = f"{S3_FOLDER_NEWS}/rss/metadata/{article_id}.json"
-                    content_key = f"{S3_FOLDER_NEWS}/rss/content/{article_id}.html"
-                    
-                    if exists_in_s3(metadata_key) and exists_in_s3(content_key):
-                        logger.debug(f"Already processed by file check: {article_id}")
-                        add_processed_url(link)  # Update our URL cache
-                        continue
-                    
-                    # Extract full article content
-                    full_content = extract_full_article_content(link)
-                    if not full_content:
-                        logger.warning(f"Could not extract content from: {link}")
-                        continue
-                    
-                    # Tag the article with geographic and topical information
-                    combined_text = title + ' ' + description + ' ' + full_content
-                    tags = tag_article(combined_text, NEWS_KEYWORDS)
-                    
-                    # Create metadata with tagging information
-                    metadata = {
-                        'title': title,
-                        'url': link,
-                        'pub_date': pub_date,
-                        'description': description,
-                        'source': 'RSS Feed',
-                        'feed_url': feed_url,
-                        'content_length': len(full_content),
-                        'collection_date': datetime.now().isoformat(),
-                        'tags': tags
-                    }
-                    
-                    # Save metadata
-                    if upload_to_s3_if_not_exists(
-                        json.dumps(metadata, indent=2).encode("utf-8"),
-                        metadata_key,
-                        "application/json"
-                    ):
-                        # Save full content
-                        if upload_to_s3_if_not_exists(full_content.encode('utf-8'), content_key):
-                            feed_count += 1
-                            progress_tracker.increment_articles()
-                            add_processed_url(link)  # Track URL for future idempotency
-                            logger.info(f"✓ Saved article: {title[:50]}...")
-                    
-                    time.sleep(0.5)  # Rate limiting
-                    
-                except Exception as e:
-                    logger.debug(f"Error processing RSS item: {str(e)}")
+        
+        # Process items from whichever parser succeeded
+        for item in items:
+            try:
+                title = item.find('title').get_text() if item.find('title') else 'No Title'
+                
+                # Handle different link formats (RSS vs Atom)
+                link = None
+                if item.find('link'):
+                    link_elem = item.find('link')
+                    if link_elem.get('href'):  # Atom format
+                        link = link_elem.get('href')
+                    else:  # RSS format
+                        link = link_elem.get_text()
+                
+                # Handle different date formats
+                pub_date = ''
+                if item.find('pubDate'):
+                    pub_date = item.find('pubDate').get_text()
+                elif item.find('published'):  # Atom format
+                    pub_date = item.find('published').get_text()
+                elif item.find('updated'):  # Atom format
+                    pub_date = item.find('updated').get_text()
+                
+                # Handle different description formats
+                description = ''
+                if item.find('description'):
+                    description = item.find('description').get_text()
+                elif item.find('summary'):  # Atom format
+                    description = item.find('summary').get_text()
+                elif item.find('content'):  # Atom format
+                    description = item.find('content').get_text()
+                
+                if not link:
                     continue
-            
+                
+                # Check for URL-based deduplication first (fastest check)
+                if url_already_processed(link):
+                    logger.debug(f"URL already processed: {link}")
+                    continue
+                
+                # Check if 2025 article - for debugging let's see what we're filtering
+                if not is_2025_article(pub_date):
+                    logger.debug(f"Filtering out non-2025 article: {title[:50]}... (date: {pub_date})")
+                    continue
+                
+                # Check if matches keywords
+                combined_text = title + ' ' + description
+                if not matches_keywords(combined_text):
+                    logger.debug(f"Filtering out article (no keywords): {title[:50]}... (text: {combined_text[:100]}...)")
+                    continue
+                
+                # Generate unique ID
+                article_id = hashlib.md5(link.encode()).hexdigest()
+                
+                # Check if already processed by file existence (backup check)
+                metadata_key = f"{S3_FOLDER_NEWS}/rss/metadata/{article_id}.json"
+                content_key = f"{S3_FOLDER_NEWS}/rss/content/{article_id}.html"
+                
+                if exists_in_s3(metadata_key) and exists_in_s3(content_key):
+                    logger.debug(f"Already processed by file check: {article_id}")
+                    add_processed_url(link)  # Update our URL cache
+                    continue
+                
+                # Extract full article content
+                full_content = extract_full_article_content(link)
+                if not full_content:
+                    logger.warning(f"Could not extract content from: {link}")
+                    continue
+                
+                # Tag the article with geographic and topical information
+                combined_text = title + ' ' + description + ' ' + full_content
+                tags = tag_article(combined_text, NEWS_KEYWORDS)
+
+                # Add special tag for legislation when applicable
+                special_tags = []
+                try:
+                    if 'congress.gov' in feed_url:
+                        special_tags.append('legislation')
+                    else:
+                        # Heuristic: bills/resolutions markers or congressional terms
+                        if re.search(r'\b(H\.R\.|S\.|H\.Res\.|S\.Res\.|bill|resolution|congress|committee)\b', combined_text, flags=re.IGNORECASE):
+                            special_tags.append('legislation')
+                except Exception:
+                    pass
+                
+                # Create metadata with tagging information
+                metadata = {
+                    'title': title,
+                    'url': link,
+                    'pub_date': pub_date,
+                    'description': description,
+                    'source': 'RSS Feed',
+                    'feed_url': feed_url,
+                    'content_length': len(full_content),
+                    'collection_date': datetime.now().isoformat(),
+                    'tags': {**tags, 'special_tags': special_tags}
+                }
+                
+                # Save metadata
+                if upload_to_s3_if_not_exists(
+                    json.dumps(metadata, indent=2).encode("utf-8"),
+                    metadata_key,
+                    "application/json"
+                ):
+                    # Save full content
+                    if upload_to_s3_if_not_exists(full_content.encode('utf-8'), content_key):
+                        feed_count += 1
+                        progress_tracker.increment_articles()
+                        add_processed_url(link)  # Track URL for future idempotency
+                        logger.info(f"✓ Saved article: {title[:50]}...")
+                
+                time.sleep(0.5)  # Rate limiting
+                
+            except Exception as e:
+                logger.debug(f"Error processing RSS item: {str(e)}")
+                continue
         progress_tracker.mark_feed_complete(feed_url)
         logger.info(f"Completed feed: {feed_url} ({feed_count} articles)")
         return feed_count
