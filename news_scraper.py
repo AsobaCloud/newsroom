@@ -681,15 +681,21 @@ def process_single_rss_feed(feed_url):
                 combined_text = title + ' ' + description + ' ' + full_content
                 tags = tag_article(combined_text, NEWS_KEYWORDS)
 
-                # Add special tag for legislation when applicable
+                # Add special tag for legislation when applicable (only from legislation feeds)
                 special_tags = []
                 try:
-                    if 'congress.gov' in feed_url:
+                    # Only tag from specific legislation feeds, not content-based heuristics
+                    legislation_feeds = [
+                        'congress.gov',
+                        'bills.parliament.uk',
+                        'eur-lex.europa.eu',
+                        'aph.gov.au',  # Australian Parliament bills
+                        'camara.leg.br',  # Brazilian Chamber
+                        'senado.leg.br',  # Brazilian Senate
+                        'pmg.org.za'  # South African Parliamentary Monitoring Group
+                    ]
+                    if any(legislative_domain in feed_url for legislative_domain in legislation_feeds):
                         special_tags.append('legislation')
-                    else:
-                        # Heuristic: bills/resolutions markers or congressional terms
-                        if re.search(r'\b(H\.R\.|S\.|H\.Res\.|S\.Res\.|bill|resolution|congress|committee)\b', combined_text, flags=re.IGNORECASE):
-                            special_tags.append('legislation')
                 except Exception:
                     pass
                 
