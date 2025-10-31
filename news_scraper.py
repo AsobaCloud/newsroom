@@ -1403,9 +1403,12 @@ def generate_date_html_index():
         const specialFilter = document.getElementById('specialFilter');
         const searchInput = document.getElementById('searchInput');
         const articlesList = document.getElementById('articlesList');
-        const articles = document.querySelectorAll('.article');
         
         function filterArticles() {
+            if (!sourceFilter || !continentFilter || !topicFilter || !keywordFilter || !specialFilter || !searchInput) {
+                return;
+            }
+            const articles = document.querySelectorAll('.article');
             const selectedSource = sourceFilter.value.toLowerCase();
             const selectedContinent = continentFilter.value;
             const selectedTopic = topicFilter.value;
@@ -1417,19 +1420,19 @@ def generate_date_html_index():
                 const source = article.dataset.source.toLowerCase();
                 const title = article.dataset.title;
                 const description = article.dataset.description;
-                const continents = article.dataset.continents || '';
-                const topics = article.dataset.topics || '';
-                const keywords = article.dataset.keywords || '';
-                const special = article.dataset.special || '';
+                const continents = (article.dataset.continents || '').split(' ').filter(c => c);
+                const topics = (article.dataset.topics || '').split(' ').filter(t => t);
+                const keywords = (article.dataset.keywords || '').split(' ').filter(k => k);
+                const special = (article.dataset.special || '').split(' ').filter(s => s);
                 
                 const sourceMatch = !selectedSource || source.includes(selectedSource);
                 const continentMatch = !selectedContinent || continents.includes(selectedContinent);
                 const topicMatch = !selectedTopic || topics.includes(selectedTopic);
-                const keywordMatch = !selectedKeyword || keywords.toLowerCase().includes(selectedKeyword);
+                const keywordMatch = !selectedKeyword || keywords.some(k => k.toLowerCase().includes(selectedKeyword));
                 const specialMatch = !selectedSpecial || special.includes(selectedSpecial);
                 const searchMatch = !searchTerm || title.includes(searchTerm) || description.includes(searchTerm);
                 
-                if (sourceMatch if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch)if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch) continentMatch if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch)if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch) topicMatch if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch)if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch) specialMatch if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch)if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch) keywordMatch if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch)if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch) searchMatch) {
+                if (sourceMatch && continentMatch && topicMatch && specialMatch && keywordMatch && searchMatch) {
                     article.style.display = 'block';
                 } else {
                     article.style.display = 'none';
