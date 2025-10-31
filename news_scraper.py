@@ -1198,6 +1198,10 @@ def generate_date_html_index():
             background: #e8f5e8;
             color: #2e7d32;
         }}
+        .tag-special {{
+            background: #fff3e0;
+            color: #e65100;
+        }}
         @media (max-width: 768px) {{
             .stats {{
                 flex-direction: column;
@@ -1290,6 +1294,13 @@ def generate_date_html_index():
                         </select>
                     </div>
                     <div class="filter-row">
+                        <label for="specialFilter">Filter by type:</label>
+                        <select id="specialFilter">
+                            <option value="">All types</option>
+                            <option value="legislation">Legislation</option>
+                        </select>
+                    </div>
+                    <div class="filter-row">
                         <label for="keywordFilter">Filter by keyword:</label>
                         <select id="keywordFilter">
                             <option value="">All keywords</option>
@@ -1340,6 +1351,7 @@ def generate_date_html_index():
             continents = tags.get('continents', [])
             core_topics = tags.get('core_topics', [])
             matched_keywords = tags.get('matched_keywords', [])
+            special_tags = tags.get('special_tags', [])
             
             # Create tag display
             tag_elements = []
@@ -1347,6 +1359,8 @@ def generate_date_html_index():
                 tag_elements.append(f'<span class="tag tag-continent">{" ".join(continents)}</span>')
             if core_topics:
                 tag_elements.append(f'<span class="tag tag-topic">{" ".join(core_topics)}</span>')
+            if special_tags:
+                tag_elements.append(f'<span class="tag tag-special">{" ".join(special_tags)}</span>')
             if matched_keywords:
                 tag_elements.append(f'<span class="tag tag-keywords">{" ".join(matched_keywords[:3])}</span>')
             
@@ -1355,10 +1369,11 @@ def generate_date_html_index():
             # Create data attributes for filtering
             continents_str = ' '.join(continents) if continents else ''
             topics_str = ' '.join(core_topics) if core_topics else ''
+            special_str = ' '.join(special_tags) if special_tags else ''
             keywords_str = ' '.join(matched_keywords) if matched_keywords else ''
             
             html_content += f"""
-                <div class="article" data-source="{article.get('source', 'Unknown')}" data-title="{article.get('title', '').lower()}" data-description="{description.lower()}" data-continents="{continents_str}" data-topics="{topics_str}" data-keywords="{keywords_str}">
+                <div class="article" data-source="{article.get('source', 'Unknown')}" data-title="{article.get('title', '').lower()}" data-description="{description.lower()}" data-continents="{continents_str}" data-topics="{topics_str}" data-special="{special_str}" data-keywords="{keywords_str}">
                     <h3 class="article-title">
                         <a href="{article['url']}" target="_blank">{article.get('title', 'No Title')}</a>
                     </h3>
@@ -1385,6 +1400,7 @@ def generate_date_html_index():
         const continentFilter = document.getElementById('continentFilter');
         const topicFilter = document.getElementById('topicFilter');
         const keywordFilter = document.getElementById('keywordFilter');
+        const specialFilter = document.getElementById('specialFilter');
         const searchInput = document.getElementById('searchInput');
         const articlesList = document.getElementById('articlesList');
         const articles = document.querySelectorAll('.article');
@@ -1394,6 +1410,7 @@ def generate_date_html_index():
             const selectedContinent = continentFilter.value;
             const selectedTopic = topicFilter.value;
             const selectedKeyword = keywordFilter.value.toLowerCase();
+            const selectedSpecial = specialFilter.value;
             const searchTerm = searchInput.value.toLowerCase();
             
             articles.forEach(article => {
@@ -1403,14 +1420,16 @@ def generate_date_html_index():
                 const continents = article.dataset.continents || '';
                 const topics = article.dataset.topics || '';
                 const keywords = article.dataset.keywords || '';
+                const special = article.dataset.special || '';
                 
                 const sourceMatch = !selectedSource || source.includes(selectedSource);
                 const continentMatch = !selectedContinent || continents.includes(selectedContinent);
                 const topicMatch = !selectedTopic || topics.includes(selectedTopic);
                 const keywordMatch = !selectedKeyword || keywords.toLowerCase().includes(selectedKeyword);
+                const specialMatch = !selectedSpecial || special.includes(selectedSpecial);
                 const searchMatch = !searchTerm || title.includes(searchTerm) || description.includes(searchTerm);
                 
-                if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch) {
+                if (sourceMatch if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch)if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch) continentMatch if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch)if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch) topicMatch if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch)if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch) specialMatch if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch)if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch) keywordMatch if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch)if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch) searchMatch) {
                     article.style.display = 'block';
                 } else {
                     article.style.display = 'none';
@@ -1422,6 +1441,7 @@ def generate_date_html_index():
         continentFilter.addEventListener('change', filterArticles);
         topicFilter.addEventListener('change', filterArticles);
         keywordFilter.addEventListener('change', filterArticles);
+        specialFilter.addEventListener('change', filterArticles);
         searchInput.addEventListener('input', filterArticles);
         
         // Initialize
