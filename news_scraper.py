@@ -420,7 +420,7 @@ def upload_to_s3_if_not_exists(file_content: bytes, s3_key: str, content_type: s
         )
         # Add to manifest
         S3_MANIFEST.add(s3_key)
-        logger.info(f"✓ Uploaded: {s3_key}")
+        logger.info(f"? Uploaded: {s3_key}")
         return True
     except Exception as e:
         logger.error(f"Failed to upload {s3_key}: {e}")
@@ -723,7 +723,7 @@ def process_single_rss_feed(feed_url):
                         feed_count += 1
                         progress_tracker.increment_articles()
                         add_processed_url(link)  # Track URL for future idempotency
-                        logger.info(f"✓ Saved article: {title[:50]}...")
+                        logger.info(f"? Saved article: {title[:50]}...")
                 
                 time.sleep(0.5)  # Rate limiting
                 
@@ -896,7 +896,7 @@ def scrape_website_articles(base_url: str, max_articles: int = 50):
                         articles_found += 1
                         progress_tracker.increment_articles()
                         add_processed_url(article_url)  # Track URL for future idempotency
-                        logger.info(f"✓ Scraped article: {title[:50]}...")
+                        logger.info(f"? Scraped article: {title[:50]}...")
                 
                 time.sleep(1)  # Rate limiting
                 
@@ -929,42 +929,29 @@ def process_direct_scraping():
 # -------------------------------------------------------------------------
 def generate_date_html_index():
     """Generate HTML index file for the current date's collected articles"""
-    logger.info("📄 Generating date HTML index...")
+    logger.info("?? Generating date HTML index...")
     
     try:
         # Get all metadata files from today's folder
         metadata_files = []
         
-        # Get RSS metadata files
+        # Get all metadata files from today's folder (including RSS, direct, and legislation)
         try:
             paginator = s3_client.get_paginator('list_objects_v2')
+            # Scan all subfolders under today's folder for metadata files
             page_iterator = paginator.paginate(
                 Bucket=S3_BUCKET_NAME,
-                Prefix=f"{S3_FOLDER_NEWS}/rss/metadata/"
+                Prefix=f"{S3_FOLDER_NEWS}/"
             )
             
             for page in page_iterator:
                 if 'Contents' in page:
                     for obj in page['Contents']:
-                        if obj['Key'].endswith('.json'):
+                        # Match any metadata file in any subfolder (rss/metadata/, direct/metadata/, metadata/, etc.)
+                        if obj['Key'].endswith('.json') and '/metadata/' in obj['Key']:
                             metadata_files.append(obj['Key'])
         except Exception as e:
-            logger.debug(f"Error listing RSS metadata files: {e}")
-        
-        # Get direct scraping metadata files
-        try:
-            page_iterator = paginator.paginate(
-                Bucket=S3_BUCKET_NAME,
-                Prefix=f"{S3_FOLDER_NEWS}/direct/metadata/"
-            )
-            
-            for page in page_iterator:
-                if 'Contents' in page:
-                    for obj in page['Contents']:
-                        if obj['Key'].endswith('.json'):
-                            metadata_files.append(obj['Key'])
-        except Exception as e:
-            logger.debug(f"Error listing direct metadata files: {e}")
+            logger.debug(f"Error listing metadata files: {e}")
         
         if not metadata_files:
             logger.warning("No metadata files found to generate HTML index")
@@ -1244,7 +1231,7 @@ def generate_date_html_index():
     <main>
         <div class="container">
             <div class="header">
-                <h1>📰 News Collection</h1>
+                <h1>?? News Collection</h1>
             <p>Energy, AI, and Blockchain News - {today}</p>
             <div class="stats">
                 <div class="stat">
@@ -1264,7 +1251,7 @@ def generate_date_html_index():
         
         <div class="content">
             <div class="back-link">
-                <a href="http://news-collection-website.s3-website-us-east-1.amazonaws.com/">← Back to All Dates</a>
+                <a href="http://news-collection-website.s3-website-us-east-1.amazonaws.com/">? Back to All Dates</a>
             </div>
             
             <div class="filters">
@@ -1391,7 +1378,7 @@ def generate_date_html_index():
                     {'<div class="article-tags">' + tags_html + '</div>' if tags_html else ''}
                     {'<div class="article-description">' + description + '</div>' if description else ''}
                     <div class="view-content">
-                        <a href="{content_path}" target="_blank">📖 View Full Content</a>
+                        <a href="{content_path}" target="_blank">?? View Full Content</a>
                     </div>
                 </div>"""
         
@@ -1472,14 +1459,14 @@ def generate_date_html_index():
             )
             # Add to manifest
             S3_MANIFEST.add(html_key)
-            logger.info(f"✓ Uploaded: {html_key}")
+            logger.info(f"? Uploaded: {html_key}")
             success = True
         except Exception as e:
             logger.error(f"Failed to upload {html_key}: {e}")
             success = False
         
         if success:
-            logger.info(f"✓ Generated date HTML index: s3://{S3_BUCKET_NAME}/{html_key}")
+            logger.info(f"? Generated date HTML index: s3://{S3_BUCKET_NAME}/{html_key}")
             return True
         else:
             logger.error("Failed to upload date HTML index to S3")
@@ -1491,7 +1478,7 @@ def generate_date_html_index():
 
 def generate_master_html_index():
     """Add today's card to the master HTML index file"""
-    logger.info("📄 Adding today's card to master HTML index...")
+    logger.info("?? Adding today's card to master HTML index...")
     
     try:
         # Load the existing archive index page
@@ -1507,37 +1494,19 @@ def generate_master_html_index():
         article_count = 0
         sources = set()
         
-        # Count articles from today's folder
+        # Count articles from today's folder (including RSS, direct, and legislation)
         try:
             paginator = s3_client.get_paginator('list_objects_v2')
-            
-            # Count RSS articles
+            # Count all metadata files from today's folder
             page_iterator = paginator.paginate(
                 Bucket=S3_BUCKET_NAME,
-                Prefix=f"news/{today}/rss/metadata/"
+                Prefix=f"news/{today}/"
             )
             for page in page_iterator:
                 if 'Contents' in page:
                     for obj in page['Contents']:
-                        if obj['Key'].endswith('.json'):
-                            try:
-                                response = s3_client.get_object(Bucket=S3_BUCKET_NAME, Key=obj['Key'])
-                                metadata = json.loads(response['Body'].read().decode('utf-8'))
-                                article_count += 1
-                                if 'source' in metadata:
-                                    sources.add(metadata['source'])
-                            except Exception as e:
-                                logger.debug(f"Error loading metadata: {e}")
-            
-            # Count direct scraping articles
-            page_iterator = paginator.paginate(
-                Bucket=S3_BUCKET_NAME,
-                Prefix=f"news/{today}/direct/metadata/"
-            )
-            for page in page_iterator:
-                if 'Contents' in page:
-                    for obj in page['Contents']:
-                        if obj['Key'].endswith('.json'):
+                        # Match any metadata file in any subfolder
+                        if obj['Key'].endswith('.json') and '/metadata/' in obj['Key']:
                             try:
                                 response = s3_client.get_object(Bucket=S3_BUCKET_NAME, Key=obj['Key'])
                                 metadata = json.loads(response['Body'].read().decode('utf-8'))
@@ -1603,14 +1572,14 @@ def generate_master_html_index():
             )
             # Add to manifest
             S3_MANIFEST.add("index.html")
-            logger.info(f"✓ Uploaded: index.html")
+            logger.info(f"? Uploaded: index.html")
             success = True
         except Exception as e:
             logger.error(f"Failed to upload index.html: {e}")
             success = False
         
         if success:
-            logger.info(f"✓ Updated master HTML index: s3://{S3_BUCKET_NAME}/index.html")
+            logger.info(f"? Updated master HTML index: s3://{S3_BUCKET_NAME}/index.html")
             return True
         else:
             logger.error("Failed to upload master HTML index to S3")
@@ -1885,7 +1854,7 @@ def generate_master_html_index():
 <body>
     <div class="container">
         <div class="header">
-            <h1>📰 News Collection Archive</h1>
+            <h1>?? News Collection Archive</h1>
             <p>Energy, AI, and Blockchain News Collection</p>
             <div class="overview">
                 <div class="overview-stat">
@@ -1938,7 +1907,7 @@ def generate_master_html_index():
                     <div class="date-description">
                         Collection of energy, AI, and blockchain news from {formatted_date}
                     </div>
-                    <a href="news/{date_str}/index.html" class="view-button">View Collection →</a>
+                    <a href="news/{date_str}/index.html" class="view-button">View Collection ?</a>
                 </div>"""
         
         html_content += """
@@ -1989,14 +1958,14 @@ def generate_master_html_index():
             )
             # Add to manifest
             S3_MANIFEST.add("index.html")
-            logger.info(f"✓ Uploaded: index.html")
+            logger.info(f"? Uploaded: index.html")
             success = True
         except Exception as e:
             logger.error(f"Failed to upload index.html: {e}")
             success = False
         
         if success:
-            logger.info(f"✓ Generated master HTML index: s3://{S3_BUCKET_NAME}/index.html")
+            logger.info(f"? Generated master HTML index: s3://{S3_BUCKET_NAME}/index.html")
             return True
         else:
             logger.error("Failed to upload master HTML index to S3")
@@ -2011,11 +1980,11 @@ def generate_master_html_index():
 # -------------------------------------------------------------------------
 def main():
     if FRESH_MODE:
-        logger.info("🔄 FRESH MODE: Bypassing idempotency - reprocessing all articles")
+        logger.info("?? FRESH MODE: Bypassing idempotency - reprocessing all articles")
         # Clear progress file in fresh mode
         if os.path.exists(PROGRESS_FILE):
             os.remove(PROGRESS_FILE)
-            logger.info("🗑️ Cleared progress file for fresh collection")
+            logger.info("??? Cleared progress file for fresh collection")
         # Reset progress tracker
         progress_tracker.progress = {
             "rss_feeds": {"feeds_completed": []},
@@ -2024,9 +1993,9 @@ def main():
             "last_updated": None
         }
     else:
-        logger.info("💾 IDEMPOTENT MODE: Skipping already processed articles")
+        logger.info("?? IDEMPOTENT MODE: Skipping already processed articles")
     
-    logger.info("🚀 Starting 2025 News Collection with Static Website")
+    logger.info("?? Starting 2025 News Collection with Static Website")
     logger.info(f"Target S3 location: s3://{S3_BUCKET_NAME}/{S3_FOLDER_NEWS}/")
     logger.info(f"Website URL: http://{S3_BUCKET_NAME}.s3-website-us-east-1.amazonaws.com")
     logger.info(f"Current progress: {progress_tracker.progress['total_articles']} articles")
@@ -2035,38 +2004,38 @@ def main():
     
     try:
         # Phase 1: RSS Feeds
-        logger.info("\n📰 Phase 1: RSS feeds...")
+        logger.info("\n?? Phase 1: RSS feeds...")
         process_rss_feeds()
         
         # Phase 2: Direct scraping
-        logger.info("\n🌐 Phase 2: Direct website scraping...")
+        logger.info("\n?? Phase 2: Direct website scraping...")
         process_direct_scraping()
         
         # Phase 3: Generate date HTML index
-        logger.info("\n📄 Phase 3: Generating date HTML index...")
+        logger.info("\n?? Phase 3: Generating date HTML index...")
         generate_date_html_index()
         
         # Phase 4: Generate master HTML index
-        logger.info("\n📄 Phase 4: Generating master HTML index...")
+        logger.info("\n?? Phase 4: Generating master HTML index...")
         generate_master_html_index()
         
     except KeyboardInterrupt:
-        logger.info("\n⚠️ Collection interrupted by user")
+        logger.info("\n?? Collection interrupted by user")
         logger.info(f"Progress saved. Resume by running the script again.")
     except Exception as e:
-        logger.error(f"\n❌ Fatal error: {str(e)}")
+        logger.error(f"\n? Fatal error: {str(e)}")
         raise
     finally:
         elapsed = time.time() - start_time
-        logger.info(f"\n🎉 News collection session complete!")
-        logger.info(f"⏱️ Total time: {elapsed/60:.1f} minutes")
-        logger.info(f"📊 Total articles collected: {progress_tracker.progress['total_articles']}")
-        logger.info(f"📁 Location: s3://{S3_BUCKET_NAME}/{S3_FOLDER_NEWS}/")
-        logger.info(f"🌐 Website: http://{S3_BUCKET_NAME}.s3-website-us-east-1.amazonaws.com")
-        logger.info(f"📄 Master Index: http://{S3_BUCKET_NAME}.s3-website-us-east-1.amazonaws.com/index.html")
+        logger.info(f"\n?? News collection session complete!")
+        logger.info(f"?? Total time: {elapsed/60:.1f} minutes")
+        logger.info(f"?? Total articles collected: {progress_tracker.progress['total_articles']}")
+        logger.info(f"?? Location: s3://{S3_BUCKET_NAME}/{S3_FOLDER_NEWS}/")
+        logger.info(f"?? Website: http://{S3_BUCKET_NAME}.s3-website-us-east-1.amazonaws.com")
+        logger.info(f"?? Master Index: http://{S3_BUCKET_NAME}.s3-website-us-east-1.amazonaws.com/index.html")
         
         if os.path.exists(PROGRESS_FILE):
-            logger.info(f"💾 Progress saved to: {PROGRESS_FILE}")
+            logger.info(f"?? Progress saved to: {PROGRESS_FILE}")
 
 if __name__ == "__main__":
     main()

@@ -72,6 +72,8 @@ mkdir -p lambda_package
 cp lambda_news_scraper.py lambda_package/
 cp lambda_wrapper.py lambda_package/
 cp news_scraper.py lambda_package/
+cp news_storage.py lambda_package/
+cp legislation_scraper.py lambda_package/
 cp article_tagger.py lambda_package/
 
 # Install dependencies
