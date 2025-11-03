@@ -23,11 +23,15 @@ class MockArgparse:
 # Replace argparse with our mock
 sys.modules['argparse'] = MockArgparse()
 
-# Now import and run the actual scraper
+# Now import and run the actual scrapers
 if __name__ == "__main__":
     # Set fresh mode environment variable
     os.environ['FRESH_MODE'] = 'true'
     
-    # Import and run the main scraper
-    from news_scraper import main
-    main()
+    # Import and run the main news scraper
+    from news_scraper import main as news_main
+    news_main()
+    
+    # Import and run the legislation scraper
+    from legislation_scraper import process_legislation_feeds
+    process_legislation_feeds()
