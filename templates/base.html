@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }}</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="Artboard-7.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="Artboard-7.png">
+    <link rel="stylesheet" href="includes/common.css">
+    <style>
+        /* Color theme from brand guide */
+        :root {
+            --primary-black: #000000;
+            --primary-blue: #455BF1;
+            --accent-blue: #3748c8;
+            --text-dark: #333;
+            --text-light: #4D4D4D;
+            --background-light: #f5f5f5;
+            --white: #FFFFFF;
+            --neutral-light: #F9F9F9;
+            --neutral-grey: #F4F4F4;
+            --border-grey: #E0E0E0;
+            --success-green: #28ca42;
+            --warning-orange: #f39c12;
+            --danger-red: #e74c3c;
+        }
+
+        body {
+            font-family: 'DM Sans', Helvetica, Arial, sans-serif;
+            color: var(--text-dark);
+            background-color: var(--white);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        
+        /* Main content spacing */
+        main {
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+        }
+        
+        /* News-specific styles */
+        .news-header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);
+            color: var(--white);
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .news-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .news-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 20px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .filters {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--neutral-light);
+            border-radius: 6px;
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group select, .filter-group input {
+            padding: 8px 12px;
+            border: 1px solid var(--border-grey);
+            border-radius: 4px;
+            font-family: 'DM Sans', sans-serif;
+        }
+        
+        .articles-list {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .article {
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+            transition: background-color 0.2s;
+        }
+        
+        .article:hover {
+            background-color: var(--neutral-light);
+            border-radius: 6px;
+            padding: 20px;
+            margin: 0 -20px;
+        }
+        
+        .article-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-blue);
+        }
+        
+        .article-title a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .article-title a:hover {
+            text-decoration: underline;
+        }
+        
+        .article-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            flex-wrap: wrap;
+        }
+        
+        .article-source {
+            font-weight: 500;
+            color: var(--primary-blue);
+        }
+        
+        .article-date {
+            color: var(--text-light);
+        }
+        
+        .article-length {
+            color: var(--text-light);
+        }
+        
+        .article-description {
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        .view-content {
+            margin-top: 15px;
+        }
+        
+        .view-content a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .view-content a:hover {
+            text-decoration: underline;
+        }
+        
+        .back-link {
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .back-link a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .tag-continent {
+            background: var(--primary-blue);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .tag-keywords {
+            background: var(--neutral-grey);
+            color: var(--text-dark);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 20px;
+            }
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .filter-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .article-meta {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header-bar">
+        <div class="branding">
+            <a href="http://asoba.co/">
+                <img src="https://docs.asoba.co/assets/images/logo.png" alt="Asoba">
+            </a>
+            <span class="site-title">Asoba</span>
+        </div>
+        <div class="top-links">
+            <a href="http://asoba.co/">Home</a>
+            <a href="http://asoba.co/about.html">About</a>
+            <a href="http://asoba.co/products.html">Products</a>
+            <a href="http://asoba.co/blog.html">Blog</a>
+        </div>
+    </header>
+    
+    <main>
+        <div class="container">
+            {{ content }}
+        </div>
+    </main>
+</body>
+</html>

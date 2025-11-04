@@ -1,0 +1,178 @@
+{
+  "summary": {
+    "total_tested": 9,
+    "passed": 0,
+    "failed": 9,
+    "success_rate": 0.0
+  },
+  "passed_sources": [],
+  "failed_sources": [
+    {
+      "name": "AllAfrica Energy",
+      "url": "https://allafrica.com/energy/",
+      "region": "Africa",
+      "language": "English",
+      "status": "FAILED",
+      "tests_passed": 0,
+      "total_tests": 7,
+      "errors": [
+        "Anti-bot measures detected"
+      ],
+      "article_links_found": 0,
+      "content_extraction_success": 0,
+      "relevant_articles": 0,
+      "geographic_articles": 0,
+      "response_time": 0.3042142391204834,
+      "anti_bot_detected": true
+    },
+    {
+      "name": "African Business Central",
+      "url": "https://africanbusinesscentral.com/",
+      "region": "Africa",
+      "language": "English",
+      "status": "FAILED",
+      "tests_passed": 0,
+      "total_tests": 7,
+      "errors": [
+        "Request failed: HTTPSConnectionPool(host='africanbusinesscentral.com', port=443): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7ce7e1a90d90>: Failed to establish a new connection: [Errno -5] No address associated with hostname'))"
+      ],
+      "article_links_found": 0,
+      "content_extraction_success": 0,
+      "relevant_articles": 0,
+      "geographic_articles": 0,
+      "response_time": 0,
+      "anti_bot_detected": false
+    },
+    {
+      "name": "Energy Central Africa",
+      "url": "https://www.energycentral.com/africa/",
+      "region": "Africa",
+      "language": "English",
+      "status": "FAILED",
+      "tests_passed": 0,
+      "total_tests": 7,
+      "errors": [
+        "HTTP 404"
+      ],
+      "article_links_found": 0,
+      "content_extraction_success": 0,
+      "relevant_articles": 0,
+      "geographic_articles": 0,
+      "response_time": 0.784428596496582,
+      "anti_bot_detected": false
+    },
+    {
+      "name": "Valor Econ\u00f4mico Energia",
+      "url": "https://www.valor.com.br/energia",
+      "region": "Latin America",
+      "language": "English",
+      "status": "FAILED",
+      "tests_passed": 0,
+      "total_tests": 7,
+      "errors": [
+        "HTTP 502"
+      ],
+      "article_links_found": 0,
+      "content_extraction_success": 0,
+      "relevant_articles": 0,
+      "geographic_articles": 0,
+      "response_time": 0.7528460025787354,
+      "anti_bot_detected": false
+    },
+    {
+      "name": "La Naci\u00f3n Energ\u00eda",
+      "url": "https://www.lanacion.com.ar/energia",
+      "region": "Latin America",
+      "language": "English",
+      "status": "FAILED",
+      "tests_passed": 0,
+      "total_tests": 7,
+      "errors": [
+        "HTTP 404"
+      ],
+      "article_links_found": 0,
+      "content_extraction_success": 0,
+      "relevant_articles": 0,
+      "geographic_articles": 0,
+      "response_time": 1.1735737323760986,
+      "anti_bot_detected": false
+    },
+    {
+      "name": "El Pa\u00eds Econom\u00eda",
+      "url": "https://brasil.elpais.com/economia/",
+      "region": "Latin America",
+      "language": "English",
+      "status": "FAILED",
+      "tests_passed": 0,
+      "total_tests": 7,
+      "errors": [
+        "Anti-bot measures detected"
+      ],
+      "article_links_found": 0,
+      "content_extraction_success": 0,
+      "relevant_articles": 0,
+      "geographic_articles": 0,
+      "response_time": 0.7643206119537354,
+      "anti_bot_detected": true
+    },
+    {
+      "name": "Al Arabiya Business",
+      "url": "https://english.alarabiya.net/business",
+      "region": "MENA",
+      "language": "English",
+      "status": "FAILED",
+      "tests_passed": 0,
+      "total_tests": 7,
+      "errors": [
+        "HTTP 403"
+      ],
+      "article_links_found": 0,
+      "content_extraction_success": 0,
+      "relevant_articles": 0,
+      "geographic_articles": 0,
+      "response_time": 0.20463037490844727,
+      "anti_bot_detected": false
+    },
+    {
+      "name": "Gulf News Business",
+      "url": "https://gulfnews.com/business",
+      "region": "MENA",
+      "language": "English",
+      "status": "FAILED",
+      "tests_passed": 0,
+      "total_tests": 7,
+      "errors": [
+        "Anti-bot measures detected"
+      ],
+      "article_links_found": 0,
+      "content_extraction_success": 0,
+      "relevant_articles": 0,
+      "geographic_articles": 0,
+      "response_time": 0.26267027854919434,
+      "anti_bot_detected": true
+    },
+    {
+      "name": "Arab News Business",
+      "url": "https://www.arabnews.com/business",
+      "region": "MENA",
+      "language": "English",
+      "status": "FAILED",
+      "tests_passed": 0,
+      "total_tests": 7,
+      "errors": [
+        "HTTP 404"
+      ],
+      "article_links_found": 0,
+      "content_extraction_success": 0,
+      "relevant_articles": 0,
+      "geographic_articles": 0,
+      "response_time": 0.31134843826293945,
+      "anti_bot_detected": false
+    }
+  ],
+  "recommendations": {
+    "deploy_immediately": [],
+    "deploy_with_monitoring": [],
+    "do_not_deploy": []
+  }
+}

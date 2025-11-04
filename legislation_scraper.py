@@ -16,7 +16,7 @@ import requests
 import hashlib
 import sys
 import argparse
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from typing import Dict, List, Optional
 from urllib.parse import urljoin, urlparse, quote
 from bs4 import BeautifulSoup
@@ -172,29 +172,50 @@ LEGISLATION_RSS_FEEDS = [
 # DATE FILTERING
 # -------------------------------------------------------------------------
 
-def is_2025_article(pub_date: str) -> bool:
-    """Check if article is from 2025 (or later)"""
+def is_recent_article(pub_date: str, days: int = 1) -> bool:
+    """Check if article is from the past N days (default: 1 day = 24 hours)"""
     if not pub_date:
-        return True  # If no date, include it
+        return True  # If no date, include it (assume recent)
     
-    # Try to extract year from various date formats
-    year_patterns = [
-        r'(\d{4})',  # Any 4-digit year
-        r'(\d{4}-\d{2}-\d{2})',  # ISO format
-    ]
-    
-    for pattern in year_patterns:
-        match = re.search(pattern, pub_date)
-        if match:
-            year_str = match.group(1)[:4]
-            try:
-                year = int(year_str)
-                return year >= 2025
-            except ValueError:
-                continue
-    
-    # If we can't parse the date, include it
-    return True
+    try:
+        from dateutil import parser
+        from dateutil.tz import tzutc
+        
+        # Parse the publication date
+        parsed_date = parser.parse(pub_date)
+        
+        # Make timezone-aware if not already
+        if parsed_date.tzinfo is None:
+            parsed_date = parsed_date.replace(tzinfo=tzutc())
+        
+        # Calculate the cutoff date (N days ago)
+        cutoff_date = datetime.now(tzutc()) - timedelta(days=days)
+        
+        # Check if article is newer than cutoff
+        return parsed_date >= cutoff_date
+        
+    except Exception as e:
+        # If we can't parse the date, check if it's from 2025 or later
+        # (fallback to same logic as news_scraper)
+        year_patterns = [
+            r'(\d{4})',  # Any 4-digit year
+            r'(\d{4}-\d{2}-\d{2})',  # ISO format
+        ]
+        
+        for pattern in year_patterns:
+            match = re.search(pattern, pub_date)
+            if match:
+                year_str = match.group(1)[:4]
+                try:
+                    year = int(year_str)
+                    # Only include if 2025 or later (current year)
+                    return year >= 2025
+                except ValueError:
+                    continue
+        
+        # If we can't parse, assume it's recent and include it
+        logger.debug(f"Could not parse date '{pub_date}', including article")
+        return True
 
 # -------------------------------------------------------------------------
 # CONTENT EXTRACTION
@@ -206,6 +227,72 @@ def extract_full_article_content(url: str) -> Optional[str]:
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
         }
+        
+        # Special handling for govinfo.gov - extract bill ID and get XML/HTML content
+        if 'govinfo.gov/app/details/' in url:
+            # Extract bill ID from URL (e.g., BILLS-119hr5853ih from /app/details/BILLS-119hr5853ih)
+            bill_id = url.split('/app/details/')[-1].split('/')[0]
+            if bill_id:
+                # Try XML first (cleanest format)
+                xml_url = f"https://www.govinfo.gov/content/pkg/{bill_id}/xml/{bill_id}.xml"
+                try:
+                    xml_response = requests.get(xml_url, headers=headers, timeout=30)
+                    if xml_response.status_code == 200 and len(xml_response.content) > 1000:
+                        # Parse XML and convert to HTML-like structure
+                        soup = BeautifulSoup(xml_response.content, 'xml')
+                        # Wrap in a body tag for consistent structure
+                        body_content = f"<body><div class='govinfo-content'>{str(soup)}</div></body>"
+                        logger.info(f"? Extracted govinfo.gov XML content from {bill_id}")
+                        return body_content
+                except Exception as e:
+                    logger.debug(f"Could not get XML for {bill_id}: {e}")
+                
+                # Fallback to HTML version
+                html_url = f"https://www.govinfo.gov/content/pkg/{bill_id}/html/{bill_id}.htm"
+                try:
+                    html_response = requests.get(html_url, headers=headers, timeout=30)
+                    if html_response.status_code == 200 and len(html_response.content) > 1000:
+                        soup = BeautifulSoup(html_response.content, 'html.parser')
+                        # Get the body content
+                        body = soup.find('body')
+                        if body:
+                            return str(body)
+                except Exception as e:
+                    logger.debug(f"Could not get HTML for {bill_id}: {e}")
+        
+        # Special handling for Brazilian Senate (senado.leg.br) - extract from #textoMateria
+        if 'senado.leg.br' in url:
+            try:
+                response = requests.get(url, headers=headers, timeout=30)
+                response.raise_for_status()
+                soup = BeautifulSoup(response.content, 'html.parser')
+                
+                # Remove scripts and styles
+                for script in soup(["script", "style"]):
+                    script.decompose()
+                
+                # Get article content from #textoMateria
+                texto_materia = soup.select_one('#textoMateria')
+                if texto_materia:
+                    # Get title from #materia > h1 if available
+                    materia = soup.select_one('#materia')
+                    title = ''
+                    if materia:
+                        title_elem = materia.find('h1')
+                        if title_elem:
+                            title = title_elem.get_text(strip=True)
+                    
+                    # Get content text
+                    content_text = texto_materia.get_text(separator='\n', strip=True)
+                    
+                    # Build HTML structure
+                    body_content = f"<body><div class='senado-content'><h1>{title}</h1><div id='textoMateria'>{content_text}</div></div></body>"
+                    logger.info(f"? Extracted senado.leg.br content from {url}")
+                    return body_content
+            except Exception as e:
+                logger.debug(f"Could not extract senado.leg.br content: {e}")
+        
+        # Standard extraction for other URLs
         response = requests.get(url, headers=headers, timeout=30)
         response.raise_for_status()
         
@@ -317,9 +404,9 @@ def process_single_legislation_feed(feed_url: str):
                     logger.debug(f"URL already processed: {link}")
                     continue
                 
-                # Check if 2025 article (or later)
-                if not is_2025_article(pub_date):
-                    logger.debug(f"Filtering out non-2025 article: {title[:50]}... (date: {pub_date})")
+                # Check if article is from the past 24 hours (recent)
+                if not is_recent_article(pub_date, days=1):
+                    logger.debug(f"Filtering out old article: {title[:50]}... (date: {pub_date})")
                     continue
                 
                 # Extract full article content

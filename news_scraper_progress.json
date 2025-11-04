@@ -7,14 +7,22 @@
       "https://feeds.bbci.co.uk/news/technology/rss.xml",
       "https://feeds.bbci.co.uk/news/science_and_environment/rss.xml",
       "http://rss.cnn.com/rss/cnn_topstories.rss",
+      "http://rss.cnn.com/rss/edition.rss",
       "http://rss.cnn.com/rss/cnn_world.rss",
-      "http://rss.cnn.com/rss/edition_technology.rss",
       "https://www.theguardian.com/world/rss",
+      "https://www.theguardian.com/business/rss",
+      "https://www.theguardian.com/technology/rss",
+      "https://www.theguardian.com/environment/rss",
       "https://www.aljazeera.com/xml/rss/all.xml",
+      "https://www.marketwatch.com/rss/topstories",
       "https://feeds.arstechnica.com/arstechnica/index",
       "https://techcrunch.com/feed/",
       "https://www.wired.com/feed/rss",
-      "http://rss.cnn.com/rss/edition.rss"
+      "https://feeds.feedburner.com/venturebeat/SZYF",
+      "https://rss.arxiv.org/rss/econ",
+      "https://rss.arxiv.org/rss/cs.AI",
+      "https://rss.arxiv.org/rss/cs.CL",
+      "https://feeds.cfr.org/feeds/site/current.xml"
     ]
   },
   "direct_scraping": {
@@ -27,11 +35,6 @@
       "https://cointelegraph.com/"
     ]
   },
-  "total_articles": 114,
-  "last_updated": "2025-10-13T08:23:25.086138",
-  "extraction_stats": {
-    "successful_extractions": 117,
-    "failed_extractions": 2,
-    "site_specific_success": 19
-  }
+  "total_articles": 227,
+  "last_updated": "2025-10-15T16:06:38.602400"
 }

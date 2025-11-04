@@ -1,15 +1,17 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog & Resources - Asoba</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="Artboard-7.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="Artboard-7.png">
-    <link rel="stylesheet" href="includes/common.css">
-    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1490.0.min.js"></script>
-        <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Blog &amp; Resources - Asoba</title>
+<link href="favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="Artboard-7.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="Artboard-7.png" rel="apple-touch-icon" sizes="180x180"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="includes/common.css" rel="stylesheet"/>
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.1490.0.min.js"></script>
+<style>
 
         /* Color theme from brand guide */
         :root {
@@ -286,6 +288,11 @@
 
         .update-spinner {
             margin-left: 8px;
+            display: inline-block;
+        }
+        .update-spinner i {
+            display: inline-block;
+            margin-right: 5px;
         }
 
         /* Masonry Content Grid */
@@ -470,181 +477,330 @@
     </style>
 </head>
 <body>
-    <header class="header-bar">
-    <div class="branding">
-        <a href="/">
-            <img src="https://docs.asoba.co/assets/images/logo.png" alt="Asoba">
-        </a>
-        <span class="site-title">Asoba</span>
-    </div>
-    <div class="top-links">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="products.html">Products</a>
-        <a href="blog.html">Insights</a>
-        <a href="https://docs.asoba.co">Documentation</a>
-        <a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3-n_SUGacXWO0GDVkR9J1LCNwoUEUPH_kTw-_yeDaVuFaMysg0rIiZLUy9cKeZlcziEYgFG8Kx?gv=true">Contact Us</a>
-    </div>
+<header class="header-bar">
+<div class="branding">
+<a href="/">
+<img alt="Asoba" src="https://docs.asoba.co/assets/images/logo.png"/>
+</a>
+<span class="site-title">Asoba</span>
+</div>
+<div class="top-links">
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="products.html">Products</a>
+<a href="blog.html">Insights</a>
+<a href="https://docs.asoba.co">Documentation</a>
+<a href="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3-n_SUGacXWO0GDVkR9J1LCNwoUEUPH_kTw-_yeDaVuFaMysg0rIiZLUy9cKeZlcziEYgFG8Kx?gv=true">Contact Us</a>
+</div>
 </header>
-
-    <div class="main-container">
-        <aside class="blog-sidebar">
-            <div class="sidebar-header">
-                <h1>Newsroom</h1>
-                <p>Market intel in AI, Energy, Blockchain and Geopolitics.</p>
-            </div>
-            
-            <div class="update-section">
-                <button id="update-btn" class="update-button">
-                    <span class="update-text">Update</span>
-                    <span class="update-spinner" style="display: none;">⏳</span>
-                </button>
-            </div>
-            
-            <nav class="filter-nav">
-                <h3>Filter by type</h3>
-                <button class="filter-button active" data-filter="all">
+<div class="main-container">
+<aside class="blog-sidebar">
+<div class="sidebar-header">
+<h1>Newsroom</h1>
+<p>Market intel in AI, Energy, Blockchain and Geopolitics.</p>
+</div>
+<div class="update-section">
+<button class="update-button" id="update-btn">
+<span class="update-text">Update</span>
+<span class="update-spinner" style="display: none;"><i class="fas fa-spinner fa-spin"></i></span>
+</button>
+</div>
+<nav class="filter-nav">
+<h3>Filter by type</h3>
+<button class="filter-button active" data-filter="all">
                     All Content <span class="count">5</span>
-                </button>
-                <button class="filter-button" data-filter="news">
+</button>
+<button class="filter-button" data-filter="news">
                     News <span class="count">5</span>
-                </button>
-                <button class="filter-button" data-filter="research">
+</button>
+<button class="filter-button" data-filter="research">
                     Research <span class="count">0</span>
-                </button>
-                <button class="filter-button" data-filter="video">
+</button>
+<button class="filter-button" data-filter="video">
                     Videos <span class="count">0</span>
-                </button>
-            </nav>
-        </aside>
-
-        <main class="content-grid">
-
-            
-
-            <article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-19/index.html'">
-                <div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
-                    <span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">Daily News Collection - 2025-10-19</h3>
-                    <p class="card-excerpt">Complete collection of articles covering energy, AI, blockchain, and finance topics.</p>
-                    <div class="card-meta">
-                        <span class="card-date">2025-10-19</span>
-                        <span class="card-tags">News</span>
-                    </div>
-                </div>
-            </article>
-
-            <article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-18/index.html'">
-                <div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
-                    <span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">Daily News Collection - 2025-10-18</h3>
-                    <p class="card-excerpt">Complete collection of articles covering energy, AI, blockchain, and finance topics.</p>
-                    <div class="card-meta">
-                        <span class="card-date">2025-10-18</span>
-                        <span class="card-tags">News</span>
-                    </div>
-                </div>
-            </article>
-
-            <article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-17/index.html'">
-                <div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
-                    <span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">Daily News Collection - 2025-10-17</h3>
-                    <p class="card-excerpt">Complete collection of articles covering energy, AI, blockchain, and finance topics.</p>
-                    <div class="card-meta">
-                        <span class="card-date">2025-10-17</span>
-                        <span class="card-tags">News</span>
-                    </div>
-                </div>
-            </article>
-
-            <article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-16/index.html'">
-                <div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
-                    <span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">Daily News Collection - 2025-10-16</h3>
-                    <p class="card-excerpt">Complete collection of articles covering energy, AI, blockchain, and finance topics.</p>
-                    <div class="card-meta">
-                        <span class="card-date">2025-10-16</span>
-                        <span class="card-tags">News</span>
-                    </div>
-                </div>
-            </article>
-
-            <article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-15/index.html'">
-                <div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
-                    <span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">Daily News Collection - 2025-10-15</h3>
-                    <p class="card-excerpt">Complete collection of articles covering energy, AI, blockchain, and finance topics.</p>
-                    <div class="card-meta">
-                        <span class="card-date">2025-10-15</span>
-                        <span class="card-tags">News</span>
-                    </div>
-                </div>
-            </article>
-
-            <article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-13/index.html'">
-                <div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
-                    <span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">Daily News Collection - 2025-10-13</h3>
-                    <p class="card-excerpt">Complete collection of articles covering energy, AI, blockchain, and finance topics.</p>
-                    <div class="card-meta">
-                        <span class="card-date">2025-10-13</span>
-                        <span class="card-tags">News</span>
-                    </div>
-                </div>
-            </article>
-
-            <article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-12/index.html'">
-                <div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
-                    <span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">Daily News Collection - 2025-10-12</h3>
-                    <p class="card-excerpt">Complete collection of articles covering energy, AI, blockchain, and finance topics.</p>
-                    <div class="card-meta">
-                        <span class="card-date">2025-10-12</span>
-                        <span class="card-tags">News</span>
-                    </div>
-                </div>
-            </article>
-
-            <article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-09/index.html'">
-                <div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
-                    <span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">Daily News Collection - 2025-10-09</h3>
-                    <p class="card-excerpt">Complete collection of articles covering energy, AI, blockchain, and finance topics.</p>
-                    <div class="card-meta">
-                        <span class="card-date">2025-10-09</span>
-                        <span class="card-tags">News</span>
-                    </div>
-                </div>
-            </article>
-
-
-        </main>
-    </div>
-
-    <footer class="copyright-footer">
-    <div class="container">
-        <p>&copy; 2025 Asoba Corporation. All rights reserved.</p>
-    </div>
+</button>
+</nav>
+</aside>
+<main class="content-grid"><article class="content-card" data-type="news" onclick="window.location.href='news/historical/legislation/index.html'"><div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);"><span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">Legislation</span></div><div class="card-content"><h3 class="card-title">Historical Legislation Collection</h3><p class="card-excerpt">Complete historical collection of legislative articles from US, South Africa, and international sources.</p><div class="card-meta"><span class="card-date">Historical</span><span class="card-tags">Legislation</span></div></div></article><article class="content-card" data-type="news" onclick="window.location.href='news/2025-11-03/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-11-03</h3>
+<p class="card-excerpt">Complete collection of 584 articles from 3 sources covering energy, AI, and blockchain topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-11-03</span>
+<span class="card-read-time">584 articles</span>
+</div>
+</div>
+</article><article class="content-card" data-type="news" onclick="window.location.href='news/2025-11-01/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-11-01</h3>
+<p class="card-excerpt">Complete collection of 464 articles from 2 sources covering energy, AI, and blockchain topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-11-01</span>
+<span class="card-read-time">464 articles</span>
+</div>
+</div>
+</article><article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-31/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-31</h3>
+<p class="card-excerpt">Complete collection of 593 articles from 2 sources covering energy, AI, and blockchain topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-31</span>
+<span class="card-read-time">593 articles</span>
+</div>
+</div>
+</article><article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-30/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-30</h3>
+<p class="card-excerpt">Complete collection of 579 articles from 2 sources covering energy, AI, and blockchain topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-30</span>
+<span class="card-read-time">579 articles</span>
+</div>
+</div>
+</article><article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-29/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-29</h3>
+<p class="card-excerpt">Complete collection of 466 articles from 2 sources covering energy, AI, and blockchain topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-29</span>
+<span class="card-read-time">466 articles</span>
+</div>
+</div>
+</article><article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-28/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-28</h3>
+<p class="card-excerpt">Complete collection of 70 articles from 1 sources covering energy, AI, and blockchain topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-28</span>
+<span class="card-read-time">70 articles</span>
+</div>
+</div>
+</article><article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-27/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-27</h3>
+<p class="card-excerpt">Complete collection of 54 articles from 1 sources covering energy, AI, and blockchain topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-27</span>
+<span class="card-read-time">54 articles</span>
+</div>
+</div>
+</article><article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-26/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-26</h3>
+<p class="card-excerpt">Complete collection of 47 articles from 1 sources covering energy, AI, and blockchain topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-26</span>
+<span class="card-read-time">47 articles</span>
+</div>
+</div>
+</article><article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-25/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-25</h3>
+<p class="card-excerpt">Complete collection of 36 articles from 1 sources covering energy, AI, and blockchain topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-25</span>
+<span class="card-read-time">36 articles</span>
+</div>
+</div>
+</article><article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-24/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-24</h3>
+<p class="card-excerpt">Complete collection of 450 articles from 2 sources covering energy, AI, and blockchain topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-24</span>
+<span class="card-read-time">450 articles</span>
+</div>
+</div>
+</article><article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-23/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-23</h3>
+<p class="card-excerpt">Complete collection of 450 articles from 2 sources covering energy, AI, and blockchain topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-23</span>
+<span class="card-read-time">450 articles</span>
+</div>
+</div>
+</article><article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-22/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-22</h3>
+<p class="card-excerpt">Complete collection of 236 articles from 2 sources covering energy, AI, and blockchain topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-22</span>
+<span class="card-read-time">236 articles</span>
+</div>
+</div>
+</article><article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-21/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-21</h3>
+<p class="card-excerpt">Complete collection of 44 articles from 1 sources covering energy, AI, and blockchain topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-21</span>
+<span class="card-read-time">44 articles</span>
+</div>
+</div>
+</article><article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-20/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-20</h3>
+<p class="card-excerpt">Complete collection of 32 articles from 1 sources covering energy, AI, and blockchain topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-20</span>
+<span class="card-read-time">32 articles</span>
+</div>
+</div>
+</article><article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-19/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-19</h3>
+<p class="card-excerpt">Complete collection of 45 articles from 1 sources covering energy, AI, and blockchain topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-19</span>
+<span class="card-read-time">45 articles</span>
+</div>
+</div>
+</article>
+<article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-18/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-18</h3>
+<p class="card-excerpt">Complete collection of articles covering energy, AI, blockchain, and finance topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-18</span>
+<span class="card-tags">News</span>
+</div>
+</div>
+</article>
+<article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-17/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-17</h3>
+<p class="card-excerpt">Complete collection of articles covering energy, AI, blockchain, and finance topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-17</span>
+<span class="card-tags">News</span>
+</div>
+</div>
+</article>
+<article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-16/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-16</h3>
+<p class="card-excerpt">Complete collection of articles covering energy, AI, blockchain, and finance topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-16</span>
+<span class="card-tags">News</span>
+</div>
+</div>
+</article>
+<article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-15/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-15</h3>
+<p class="card-excerpt">Complete collection of articles covering energy, AI, blockchain, and finance topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-15</span>
+<span class="card-tags">News</span>
+</div>
+</div>
+</article>
+<article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-13/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-13</h3>
+<p class="card-excerpt">Complete collection of articles covering energy, AI, blockchain, and finance topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-13</span>
+<span class="card-tags">News</span>
+</div>
+</div>
+</article>
+<article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-12/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-12</h3>
+<p class="card-excerpt">Complete collection of articles covering energy, AI, blockchain, and finance topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-12</span>
+<span class="card-tags">News</span>
+</div>
+</div>
+</article>
+<article class="content-card" data-type="news" onclick="window.location.href='news/2025-10-09/index.html'">
+<div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
+<span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
+</div>
+<div class="card-content">
+<h3 class="card-title">Daily News Collection - 2025-10-09</h3>
+<p class="card-excerpt">Complete collection of articles covering energy, AI, blockchain, and finance topics.</p>
+<div class="card-meta">
+<span class="card-date">2025-10-09</span>
+<span class="card-tags">News</span>
+</div>
+</div>
+</article>
+</main>
+</div>
+<footer class="copyright-footer">
+<div class="container">
+<p>&copy; 2025 Asoba Corporation. All rights reserved.</p>
+</div>
 </footer>
-
-    <script>
+<script>
         // Dynamic count functionality
         function updateFilterCounts() {
             const contentCards = document.querySelectorAll('.content-card');
@@ -652,7 +808,8 @@
                 'all': contentCards.length,
                 'news': 0,
                 'research': 0,
-                'videos': 0
+                'video': 0,
+                'legislation': 0
             };
 
             // Count cards by type

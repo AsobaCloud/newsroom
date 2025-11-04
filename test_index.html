@@ -1,0 +1,2082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Collection - 2025-10-15</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+        .content {
+            padding: 30px;
+        }
+        .article {
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+            transition: background-color 0.2s;
+        }
+        .article:hover {
+            background-color: #f9f9f9;
+        }
+        .article:last-child {
+            border-bottom: none;
+        }
+        .article-title {
+            margin: 0 0 10px 0;
+            font-size: 1.3em;
+            font-weight: 600;
+        }
+        .article-title a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .article-title a:hover {
+            color: #667eea;
+        }
+        .article-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .article-source {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        .article-date {
+            color: #888;
+        }
+        .article-length {
+            color: #888;
+        }
+        .article-description {
+            color: #555;
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+        .article-description p {
+            margin: 0 0 10px 0;
+        }
+        .article-description p:last-child {
+            margin-bottom: 0;
+        }
+        .view-content {
+            margin-top: 15px;
+        }
+        .view-content a {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.9em;
+            transition: background-color 0.2s;
+        }
+        .view-content a:hover {
+            background: #5a6fd8;
+        }
+        .filters {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        .filter-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            align-items: center;
+        }
+        .filter-group label {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .filter-group select, .filter-group input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9em;
+            width: 100%;
+        }
+        .filter-row {
+            display: flex;
+            flex-direction: column;
+        }
+        .back-link {
+            margin-bottom: 20px;
+        }
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        .article-tags {
+            margin: 10px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+        .tag-continent {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        .tag-topic {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+        .tag-keywords {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        @media (max-width: 768px) {
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .filter-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .article-meta {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📰 News Collection</h1>
+            <p>Energy, AI, and Blockchain News - 2025-10-15</p>
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-number">105</span>
+                    <span class="stat-label">Articles</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">1</span>
+                    <span class="stat-label">Sources</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">528K</span>
+                    <span class="stat-label">Words</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="back-link">
+                <a href="http://news-collection-website.s3-website-us-east-1.amazonaws.com/">← Back to All Dates</a>
+            </div>
+            
+            <div class="filters">
+                <div class="filter-group">
+                    <div class="filter-row">
+                        <label for="sourceFilter">Filter by source:</label>
+                        <select id="sourceFilter">
+                            <option value="">All sources</option>
+                            <option value="RSS Feed">RSS Feed</option>
+                        </select>
+                    </div>
+                    <div class="filter-row">
+                        <label for="continentFilter">Filter by continent:</label>
+                        <select id="continentFilter">
+                            <option value="">All continents</option>
+                            <option value="Africa">Africa</option>
+                            <option value="Americas">Americas</option>
+                            <option value="Asia">Asia</option>
+                            <option value="Europe">Europe</option>
+                            <option value="Global">Global</option>
+                            <option value="Oceania">Oceania</option>
+                        </select>
+                    </div>
+                    <div class="filter-row">
+                        <label for="topicFilter">Filter by topic:</label>
+                        <select id="topicFilter">
+                            <option value="">All topics</option>
+                            <option value="ai">AI</option>
+                            <option value="energy">Energy</option>
+                            <option value="blockchain">Blockchain</option>
+                            <option value="insurance">Insurance</option>
+                            <option value="geopolitics">Geopolitics</option>
+                        </select>
+                    </div>
+                    <div class="filter-row">
+                        <label for="keywordFilter">Filter by keyword:</label>
+                        <select id="keywordFilter">
+                            <option value="">All keywords</option>
+                            <option value="AI">Ai</option><option value="Bloomberg">Bloomberg</option><option value="supply chain">Supply Chain</option><option value="underwriting">Underwriting</option><option value="war">War</option>
+                        </select>
+                    </div>
+                    <div class="filter-row">
+                        <label for="searchInput">Search:</label>
+                        <input type="text" id="searchInput" placeholder="Search articles...">
+                    </div>
+                </div>
+            </div>
+            
+            <div id="articlesList">
+                <div class="article" data-source="RSS Feed" data-title="battlefield 6 is yet another cliche-ridden war game. we deserve better" data-description="in this week’s newsletter: the series is known for its massive multiplayer shootouts, but there’s a missed opportunity to tell a meaningful story about warand so battlefield is back. the long-running military shooter series, which specialises in gigantic online multiplayer conflicts involving dozens..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/games/2025/oct/14/pushing-buttons-battlefield-6-single-player-campaign" target="_blank">Battlefield 6 is yet another cliche-ridden war game. We deserve better</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 02:00 PM</span>
+                        <span class="article-length">8,336 chars</span>
+                    </div>
+                    
+                    <div class="article-description">In this week’s newsletter: The series is known for its massive multiplayer shootouts, but there’s a missed opportunity to tell a meaningful story about warAnd so Battlefield is back. The long-running military shooter series, which specialises in gigantic online multiplayer conflicts involving dozens...</div>
+                    <div class="view-content">
+                        <a href="rss/content/64cefe0a205a561ea6ebd71a58f58490.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="hackworld: evaluating computer-use agents on exploiting web application vulnerabilities" data-description="arxiv:2510.12200v1 announce type: cross 
+abstract: web applications are prime targets for cyberattacks as gateways to critical services and sensitive data. traditional penetration testing is costly and expertise-intensive, making it difficult to scale with the growing web ecosystem. while language m..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12200" target="_blank">HackWorld: Evaluating Computer-Use Agents on Exploiting Web Application Vulnerabilities</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,489 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12200v1 Announce Type: cross 
+Abstract: Web applications are prime targets for cyberattacks as gateways to critical services and sensitive data. Traditional penetration testing is costly and expertise-intensive, making it difficult to scale with the growing web ecosystem. While language m...</div>
+                    <div class="view-content">
+                        <a href="rss/content/0144384bacf2108e93b37fc60313657c.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="evolution of wartime discourse on telegram: a comparative study of ukrainian and russian policymakers' communication before and after russia's full-scale invasion of ukraine" data-description="arxiv:2510.11746v1 announce type: cross 
+abstract: this study examines elite-driven political communication on telegram during the ongoing russo-ukrainian war, the first large-scale european war in the social media era. using a unique dataset of telegram public posts from ukrainian and russian polic..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.11746" target="_blank">Evolution of wartime discourse on Telegram: A comparative study of Ukrainian and Russian policymakers' communication before and after Russia's full-scale invasion of Ukraine</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,313 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.11746v1 Announce Type: cross 
+Abstract: This study examines elite-driven political communication on Telegram during the ongoing Russo-Ukrainian war, the first large-scale European war in the social media era. Using a unique dataset of Telegram public posts from Ukrainian and Russian polic...</div>
+                    <div class="view-content">
+                        <a href="rss/content/071005756ea07d0d7b92645077a7bbff.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="integrating sequential and relational modeling for user events: datasets and prediction tasks" data-description="arxiv:2510.11903v1 announce type: cross 
+abstract: user event modeling plays a central role in many machine learning applications, with use cases spanning e-commerce, social media, finance, cybersecurity, and other domains. user events can be broadly categorized into personal events, which involve i..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.11903" target="_blank">Integrating Sequential and Relational Modeling for User Events: Datasets and Prediction Tasks</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,282 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.11903v1 Announce Type: cross 
+Abstract: User event modeling plays a central role in many machine learning applications, with use cases spanning e-commerce, social media, finance, cybersecurity, and other domains. User events can be broadly categorized into personal events, which involve i...</div>
+                    <div class="view-content">
+                        <a href="rss/content/098021632b49d29a3b74cb215c04a056.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="blackice: a containerized red teaming toolkit for ai security testing" data-description="arxiv:2510.11823v1 announce type: cross 
+abstract: ai models are being increasingly integrated into real-world systems, raising significant concerns about their safety and security. consequently, ai red teaming has become essential for organizations to proactively identify and address vulnerabilitie..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.11823" target="_blank">BlackIce: A Containerized Red Teaming Toolkit for AI Security Testing</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,552 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.11823v1 Announce Type: cross 
+Abstract: AI models are being increasingly integrated into real-world systems, raising significant concerns about their safety and security. Consequently, AI red teaming has become essential for organizations to proactively identify and address vulnerabilitie...</div>
+                    <div class="view-content">
+                        <a href="rss/content/0bd1cdaf7264b9f05b36df7388b4f782.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="clean first, align later: benchmarking preference data cleaning for reliable llm alignment" data-description="arxiv:2509.23564v2 announce type: replace 
+abstract: human feedback plays a pivotal role in aligning large language models (llms) with human preferences. however, such feedback is often noisy or inconsistent, which can degrade the quality of reward models and hinder alignment. while various automate..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2509.23564" target="_blank">Clean First, Align Later: Benchmarking Preference Data Cleaning for Reliable LLM Alignment</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,175 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2509.23564v2 Announce Type: replace 
+Abstract: Human feedback plays a pivotal role in aligning large language models (LLMs) with human preferences. However, such feedback is often noisy or inconsistent, which can degrade the quality of reward models and hinder alignment. While various automate...</div>
+                    <div class="view-content">
+                        <a href="rss/content/0f5ba358b55a47ac5f8f2d3e33b1c5b1.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="malice in agentland: down the rabbit hole of backdoors in the ai supply chain" data-description="arxiv:2510.05159v2 announce type: replace-cross 
+abstract: the practice of fine-tuning ai agents on data from their own interactions--such as web browsing or tool use--, while being a strong general recipe for improving agentic capabilities, also introduces a critical security vulnerability within t..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.05159" target="_blank">Malice in Agentland: Down the Rabbit Hole of Backdoors in the AI Supply Chain</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,752 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.05159v2 Announce Type: replace-cross 
+Abstract: The practice of fine-tuning AI agents on data from their own interactions--such as web browsing or tool use--, while being a strong general recipe for improving agentic capabilities, also introduces a critical security vulnerability within t...</div>
+                    <div class="view-content">
+                        <a href="rss/content/0fb8fdbc04d783428939cca55f2135c1.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="securing the supply of graphite for batteries" data-description="arxiv:2503.21521v4 announce type: replace 
+abstract: surging demand for graphite in energy storage applications has led to concerns about supply chai security for manufacturers and nations globally. currently, china produces over 92% of graphite for anodes, posing a risk for industries reliant on gr..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2503.21521" target="_blank">Securing the supply of graphite for batteries</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,068 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2503.21521v4 Announce Type: replace 
+Abstract: Surging demand for graphite in energy storage applications has led to concerns about supply chai security for manufacturers and nations globally. Currently, China produces over 92% of graphite for anodes, posing a risk for industries reliant on gr...</div>
+                    <div class="view-content">
+                        <a href="rss/content/11e3f4ab995e612c2077a38dcfba4037.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="humanoid artificial consciousness designed with large language model based on psychoanalysis and personality theory" data-description="arxiv:2510.09043v2 announce type: replace 
+abstract: human consciousness is still a concept hard to define with current scientific understanding. although large language models (llms) have recently demonstrated significant advancements across various domains including translation and summarization, ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.09043" target="_blank">Humanoid Artificial Consciousness Designed with Large Language Model Based on Psychoanalysis and Personality Theory</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">5,082 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.09043v2 Announce Type: replace 
+Abstract: Human consciousness is still a concept hard to define with current scientific understanding. Although Large Language Models (LLMs) have recently demonstrated significant advancements across various domains including translation and summarization, ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/1bd167bf81b295c55827fb88ee6340df.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="era: transforming vlms into embodied agents via embodied prior learning and online reinforcement learning" data-description="arxiv:2510.12693v1 announce type: new 
+abstract: recent advances in embodied ai highlight the potential of vision language models (vlms) as agents capable of perception, reasoning, and interaction in complex environments. however, top-performing systems rely on large-scale models that are costly to ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12693" target="_blank">ERA: Transforming VLMs into Embodied Agents via Embodied Prior Learning and Online Reinforcement Learning</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,920 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12693v1 Announce Type: new 
+Abstract: Recent advances in embodied AI highlight the potential of vision language models (VLMs) as agents capable of perception, reasoning, and interaction in complex environments. However, top-performing systems rely on large-scale models that are costly to ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/1f75c423b483ef9d8ce5812b3a64391d.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="precise attribute intensity control in large language models via targeted representation editing" data-description="arxiv:2510.12121v1 announce type: new 
+abstract: precise attribute intensity control--generating large language model (llm) outputs with specific, user-defined attribute intensities--is crucial for ai systems adaptable to diverse user expectations. current llm alignment methods, however, typically p..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12121" target="_blank">Precise Attribute Intensity Control in Large Language Models via Targeted Representation Editing</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,408 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12121v1 Announce Type: new 
+Abstract: Precise attribute intensity control--generating Large Language Model (LLM) outputs with specific, user-defined attribute intensities--is crucial for AI systems adaptable to diverse user expectations. Current LLM alignment methods, however, typically p...</div>
+                    <div class="view-content">
+                        <a href="rss/content/270f3f4f94c49bb69e1c7feb626d765c.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="from delegates to trustees: how optimizing for long-term interests shapes bias and alignment in llm" data-description="arxiv:2510.12689v1 announce type: cross 
+abstract: large language models (llms) have shown promising accuracy in predicting survey responses and policy preferences, which has increased interest in their potential to represent human interests in various domains. most existing research has focused on ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12689" target="_blank">From Delegates to Trustees: How Optimizing for Long-Term Interests Shapes Bias and Alignment in LLM</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,644 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12689v1 Announce Type: cross 
+Abstract: Large language models (LLMs) have shown promising accuracy in predicting survey responses and policy preferences, which has increased interest in their potential to represent human interests in various domains. Most existing research has focused on ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/282f08f3e564d6608ac5a579f4188dee.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="on the design and evaluation of human-centered explainable ai systems: a systematic review and taxonomy" data-description="arxiv:2510.12201v1 announce type: new 
+abstract: as ai becomes more common in everyday living, there is an increasing demand for intelligent systems that are both performant and understandable. explainable ai (xai) systems aim to provide comprehensible explanations of decisions and predictions. at p..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12201" target="_blank">On the Design and Evaluation of Human-centered Explainable AI Systems: A Systematic Review and Taxonomy</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,744 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12201v1 Announce Type: new 
+Abstract: As AI becomes more common in everyday living, there is an increasing demand for intelligent systems that are both performant and understandable. Explainable AI (XAI) systems aim to provide comprehensible explanations of decisions and predictions. At p...</div>
+                    <div class="view-content">
+                        <a href="rss/content/29917f964148e43ff08fc460f41f13cb.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="neon: negative extrapolation from self-training improves image generation" data-description="arxiv:2510.03597v3 announce type: replace-cross 
+abstract: scaling generative ai models is bottlenecked by the scarcity of high-quality training data. the ease of synthesizing from a generative model suggests using (unverified) synthetic data to augment a limited corpus of real data for the purpose ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.03597" target="_blank">Neon: Negative Extrapolation From Self-Training Improves Image Generation</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,705 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.03597v3 Announce Type: replace-cross 
+Abstract: Scaling generative AI models is bottlenecked by the scarcity of high-quality training data. The ease of synthesizing from a generative model suggests using (unverified) synthetic data to augment a limited corpus of real data for the purpose ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/33e0430dd142ffa89caf9dedbdf9de18.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="artificial intelligence for simplified patient-centered dosimetry in radiopharmaceutical therapies" data-description="arxiv:2510.12714v1 announce type: cross 
+abstract: key words: artificial intelligence (ai), theranostics, dosimetry, radiopharmaceutical therapy (rpt), patient-friendly dosimetry key points - the rapid evolution of radiopharmaceutical therapy (rpt) highlights the growing need for personalized and pa..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12714" target="_blank">Artificial intelligence for simplified patient-centered dosimetry in radiopharmaceutical therapies</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">3,670 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12714v1 Announce Type: cross 
+Abstract: KEY WORDS: Artificial Intelligence (AI), Theranostics, Dosimetry, Radiopharmaceutical Therapy (RPT), Patient-friendly dosimetry KEY POINTS - The rapid evolution of radiopharmaceutical therapy (RPT) highlights the growing need for personalized and pa...</div>
+                    <div class="view-content">
+                        <a href="rss/content/37644682e83aed99cff14294cb1edb03.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="emsedit: efficient multi-step meta-learning-based model editing" data-description="arxiv:2508.04012v2 announce type: replace-cross 
+abstract: large language models (llms) power numerous ai applications, yet updating their knowledge remains costly. model editing provides a lightweight alternative through targeted parameter modifications, with meta-learning-based model editing (mlme..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2508.04012" target="_blank">EMSEdit: Efficient Multi-Step Meta-Learning-based Model Editing</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,345 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2508.04012v2 Announce Type: replace-cross 
+Abstract: Large Language Models (LLMs) power numerous AI applications, yet updating their knowledge remains costly. Model editing provides a lightweight alternative through targeted parameter modifications, with meta-learning-based model editing (MLME...</div>
+                    <div class="view-content">
+                        <a href="rss/content/39135803245fa4b1faf42e8d2bc8af0b.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="l2m-aid: autonomous cyber-physical defense by fusing semantic reasoning of large language models with multi-agent reinforcement learning (preprint)" data-description="arxiv:2510.07363v2 announce type: replace 
+abstract: the increasing integration of industrial iot (iiot) exposes critical cyber-physical systems to sophisticated, multi-stage attacks that elude traditional defenses lacking contextual awareness. this paper introduces l2m-aid, a novel framework for au..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.07363" target="_blank">L2M-AID: Autonomous Cyber-Physical Defense by Fusing Semantic Reasoning of Large Language Models with Multi-Agent Reinforcement Learning (Preprint)</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,987 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.07363v2 Announce Type: replace 
+Abstract: The increasing integration of Industrial IoT (IIoT) exposes critical cyber-physical systems to sophisticated, multi-stage attacks that elude traditional defenses lacking contextual awareness. This paper introduces L2M-AID, a novel framework for Au...</div>
+                    <div class="view-content">
+                        <a href="rss/content/3a092d389de78accef086ada9799a7a2.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="crisitext: a dataset of warning messages for llm training in emergency communication" data-description="arxiv:2510.09243v2 announce type: replace-cross 
+abstract: effectively identifying threats and mitigating their potential damage during crisis situations, such as natural disasters or violent attacks, is paramount for safeguarding endangered individuals. to tackle these challenges, ai has been used ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.09243" target="_blank">CrisiText: A dataset of warning messages for LLM training in emergency communication</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,522 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.09243v2 Announce Type: replace-cross 
+Abstract: Effectively identifying threats and mitigating their potential damage during crisis situations, such as natural disasters or violent attacks, is paramount for safeguarding endangered individuals. To tackle these challenges, AI has been used ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/3c1606691c22f3ff4b2a5b6700a22be4.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="an ai-based behavioral health safety filter and dataset for identifying mental health crises in text-based conversations" data-description="arxiv:2510.12083v1 announce type: cross 
+abstract: large language models often mishandle psychiatric emergencies, offering harmful or inappropriate advice and enabling destructive behaviors. this study evaluated the verily behavioral health safety filter (vbhsf) on two datasets: the verily mental he..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12083" target="_blank">An AI-Based Behavioral Health Safety Filter and Dataset for Identifying Mental Health Crises in Text-Based Conversations</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,996 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12083v1 Announce Type: cross 
+Abstract: Large language models often mishandle psychiatric emergencies, offering harmful or inappropriate advice and enabling destructive behaviors. This study evaluated the Verily behavioral health safety filter (VBHSF) on two datasets: the Verily Mental He...</div>
+                    <div class="view-content">
+                        <a href="rss/content/4e74187803893d0614cea8b9dade15ed.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="zero-shot large language model agents for fully automated radiotherapy treatment planning" data-description="arxiv:2510.11754v1 announce type: cross 
+abstract: radiation therapy treatment planning is an iterative, expertise-dependent process, and the growing burden of cancer cases has made reliance on manual planning increasingly unsustainable, underscoring the need for automation. in this study, we propos..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.11754" target="_blank">Zero-Shot Large Language Model Agents for Fully Automated Radiotherapy Treatment Planning</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,857 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.11754v1 Announce Type: cross 
+Abstract: Radiation therapy treatment planning is an iterative, expertise-dependent process, and the growing burden of cancer cases has made reliance on manual planning increasingly unsustainable, underscoring the need for automation. In this study, we propos...</div>
+                    <div class="view-content">
+                        <a href="rss/content/530543d74972c5e8fc19dd28ed017cbd.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="a longitudinal randomized control study of companion chatbot use: anthropomorphism and its mediating role on social impacts" data-description="arxiv:2509.19515v3 announce type: replace-cross 
+abstract: many large language model (llm) chatbots are designed and used for companionship, and people have reported forming friendships, mentorships, and romantic partnerships with them. concerns that companion chatbots may harm or replace real human..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2509.19515" target="_blank">A Longitudinal Randomized Control Study of Companion Chatbot Use: Anthropomorphism and Its Mediating Role on Social Impacts</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,747 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2509.19515v3 Announce Type: replace-cross 
+Abstract: Many Large Language Model (LLM) chatbots are designed and used for companionship, and people have reported forming friendships, mentorships, and romantic partnerships with them. Concerns that companion chatbots may harm or replace real human...</div>
+                    <div class="view-content">
+                        <a href="rss/content/56290111de9b6a3b2347779b5b70b316.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="pixels to prices: visual traits, market cycles, and the economics of nft valuation" data-description="arxiv:2509.24879v3 announce type: replace 
+abstract: pixels and market cycles both move nft prices. non-fungible tokens (nfts) are unique digital assets, often used to represent ownership of digital art, collectibles, and other media, secured on blockchain networks like ethereum. the rise of nfts ha..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2509.24879" target="_blank">Pixels to Prices: Visual Traits, Market Cycles, and the Economics of NFT Valuation</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,817 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2509.24879v3 Announce Type: replace 
+Abstract: Pixels and market cycles both move NFT prices. Non-fungible tokens (NFTs) are unique digital assets, often used to represent ownership of digital art, collectibles, and other media, secured on blockchain networks like Ethereum. The rise of NFTs ha...</div>
+                    <div class="view-content">
+                        <a href="rss/content/562b164e30f52b95f90a5b36547080c6.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="optiflids: optimized federated learning for energy-efficient intrusion detection in iot" data-description="arxiv:2510.05180v2 announce type: replace-cross 
+abstract: in critical iot environments, such as smart homes and industrial systems, effective intrusion detection systems (ids) are essential for ensuring security. however, developing robust ids solutions remains a significant challenge. traditional ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.05180" target="_blank">OptiFLIDS: Optimized Federated Learning for Energy-Efficient Intrusion Detection in IoT</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,359 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.05180v2 Announce Type: replace-cross 
+Abstract: In critical IoT environments, such as smart homes and industrial systems, effective Intrusion Detection Systems (IDS) are essential for ensuring security. However, developing robust IDS solutions remains a significant challenge. Traditional ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/586052a82cabba97296256789b04e39a.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="researstudio: a human-intervenable framework for building controllable deep-research agents" data-description="arxiv:2510.12194v1 announce type: new 
+abstract: current deep-research agents run in a ''fire-and-forget'' mode: once started, they give users no way to fix errors or add expert knowledge during execution. we present researstudio, the first open-source framework that places real-time human control a..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12194" target="_blank">ResearStudio: A Human-Intervenable Framework for Building Controllable Deep-Research Agents</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,133 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12194v1 Announce Type: new 
+Abstract: Current deep-research agents run in a ''fire-and-forget'' mode: once started, they give users no way to fix errors or add expert knowledge during execution. We present ResearStudio, the first open-source framework that places real-time human control a...</div>
+                    <div class="view-content">
+                        <a href="rss/content/61c7c2cc6af2033dbff8b0f7087f092f.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="agentbreeder: mitigating the ai safety risks of multi-agent scaffolds via self-improvement" data-description="arxiv:2502.00757v4 announce type: replace-cross 
+abstract: scaffolding large language models (llms) into multi-agent systems often improves performance on complex tasks, but the safety impact of such scaffolds has not been thoroughly explored. we introduce agentbreeder, a framework for multi-objecti..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2502.00757" target="_blank">AgentBreeder: Mitigating the AI Safety Risks of Multi-Agent Scaffolds via Self-Improvement</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">3,939 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2502.00757v4 Announce Type: replace-cross 
+Abstract: Scaffolding Large Language Models (LLMs) into multi-agent systems often improves performance on complex tasks, but the safety impact of such scaffolds has not been thoroughly explored. We introduce AgentBreeder, a framework for multi-objecti...</div>
+                    <div class="view-content">
+                        <a href="rss/content/62292ae5a742636b6c851e7db929823b.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="topolyagent: ai agents for coarse-grained topological polymer simulations" data-description="arxiv:2510.12091v1 announce type: new 
+abstract: we introduce topolyagent, a multi-agent ai framework for performing coarse-grained molecular dynamics (md) simulations of topological polymers through natural language instructions. by integrating large language models (llms) with domain-specific comp..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12091" target="_blank">ToPolyAgent: AI Agents for Coarse-Grained Topological Polymer Simulations</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,611 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12091v1 Announce Type: new 
+Abstract: We introduce ToPolyAgent, a multi-agent AI framework for performing coarse-grained molecular dynamics (MD) simulations of topological polymers through natural language instructions. By integrating large language models (LLMs) with domain-specific comp...</div>
+                    <div class="view-content">
+                        <a href="rss/content/623577ba66955035ba4bb0aaefd4a604.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="credal transformer: a principled approach for quantifying and mitigating hallucinations in large language models" data-description="arxiv:2510.12137v1 announce type: cross 
+abstract: large language models (llms) hallucinate, generating factually incorrect yet confident assertions. we argue this stems from the transformer's softmax function, which creates "artificial certainty" by collapsing ambiguous attention scores into a sing..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12137" target="_blank">Credal Transformer: A Principled Approach for Quantifying and Mitigating Hallucinations in Large Language Models</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,213 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12137v1 Announce Type: cross 
+Abstract: Large Language Models (LLMs) hallucinate, generating factually incorrect yet confident assertions. We argue this stems from the Transformer's Softmax function, which creates "Artificial Certainty" by collapsing ambiguous attention scores into a sing...</div>
+                    <div class="view-content">
+                        <a href="rss/content/676df0d4190a02b3483fb67b78428e21.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="omni-captioner: data pipeline, models, and benchmark for omni detailed perception" data-description="arxiv:2510.12720v1 announce type: new 
+abstract: fine-grained perception of multimodal information is critical for advancing human-ai interaction. with recent progress in audio-visual technologies, omni language models (olms), capable of processing audio and video signals in parallel, have emerged a..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12720" target="_blank">Omni-Captioner: Data Pipeline, Models, and Benchmark for Omni Detailed Perception</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,934 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12720v1 Announce Type: new 
+Abstract: Fine-grained perception of multimodal information is critical for advancing human-AI interaction. With recent progress in audio-visual technologies, Omni Language Models (OLMs), capable of processing audio and video signals in parallel, have emerged a...</div>
+                    <div class="view-content">
+                        <a href="rss/content/6ee10900d15cb17a77516da308fdb05c.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="the philosophical foundations of growing ai like a child" data-description="arxiv:2502.10742v2 announce type: replace 
+abstract: despite excelling in high-level reasoning, current language models lack robustness in real-world scenarios and perform poorly on fundamental problem-solving tasks that are intuitive to humans. this paper argues that both challenges stem from a cor..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2502.10742" target="_blank">The Philosophical Foundations of Growing AI Like A Child</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">3,842 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2502.10742v2 Announce Type: replace 
+Abstract: Despite excelling in high-level reasoning, current language models lack robustness in real-world scenarios and perform poorly on fundamental problem-solving tasks that are intuitive to humans. This paper argues that both challenges stem from a cor...</div>
+                    <div class="view-content">
+                        <a href="rss/content/6ffb94e2d87816b64766042475f65bd0.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="mapagent: a hierarchical agent for geospatial reasoning with dynamic map tool integration" data-description="arxiv:2509.05933v2 announce type: replace 
+abstract: agentic ai has significantly extended the capabilities of large language models (llms) by enabling complex reasoning and tool use. however, most existing frameworks are tailored to domains such as mathematics, coding, or web automation, and fall s..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2509.05933" target="_blank">MapAgent: A Hierarchical Agent for Geospatial Reasoning with Dynamic Map Tool Integration</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,608 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2509.05933v2 Announce Type: replace 
+Abstract: Agentic AI has significantly extended the capabilities of large language models (LLMs) by enabling complex reasoning and tool use. However, most existing frameworks are tailored to domains such as mathematics, coding, or web automation, and fall s...</div>
+                    <div class="view-content">
+                        <a href="rss/content/77f0cc98f2d12b7aef0b5673ae9e8d05.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="creativity or brute force? using brainteasers as a window into the problem-solving abilities of large language models" data-description="arxiv:2505.10844v3 announce type: replace 
+abstract: accuracy remains a standard metric for evaluating ai systems, but it offers limited insight into how models arrive at their solutions. in this work, we introduce a benchmark based on brainteasers written in long narrative form to probe more deeply..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2505.10844" target="_blank">Creativity or Brute Force? Using Brainteasers as a Window into the Problem-Solving Abilities of Large Language Models</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,920 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2505.10844v3 Announce Type: replace 
+Abstract: Accuracy remains a standard metric for evaluating AI systems, but it offers limited insight into how models arrive at their solutions. In this work, we introduce a benchmark based on brainteasers written in long narrative form to probe more deeply...</div>
+                    <div class="view-content">
+                        <a href="rss/content/79a980e73c236a3bcf4b41ebc898bd33.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="generative ai and firm productivity: field experiments in online retail" data-description="arxiv:2510.12049v1 announce type: new 
+abstract: we quantify the impact of generative artificial intelligence (genai) on firm productivity through a series of large-scale randomized field experiments involving millions of users and products at a leading cross-border online retail platform. over six ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12049" target="_blank">Generative AI and Firm Productivity: Field Experiments in Online Retail</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,412 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12049v1 Announce Type: new 
+Abstract: We quantify the impact of Generative Artificial Intelligence (GenAI) on firm productivity through a series of large-scale randomized field experiments involving millions of users and products at a leading cross-border online retail platform. Over six ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/7b5a66ae8485bd31f4d88960863e6565.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="evolution of meta's llama models and parameter-efficient fine-tuning of large language models: a survey" data-description="arxiv:2510.12178v1 announce type: new 
+abstract: this review surveys the rapid evolution of meta ai's llama (large language model meta ai) series - from llama 1 through llama 4 and the specialized parameter-efficient fine-tuning (peft) methods developed for these models. we first describe the llama ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12178" target="_blank">Evolution of meta's llama models and parameter-efficient fine-tuning of large language models: a survey</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,569 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12178v1 Announce Type: new 
+Abstract: This review surveys the rapid evolution of Meta AI's LLaMA (Large Language Model Meta AI) series - from LLaMA 1 through LLaMA 4 and the specialized parameter-efficient fine-tuning (PEFT) methods developed for these models. We first describe the LLaMA ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/7b63c21e376d5bbbef0b1508bef7aea6.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="are eu low-carbon structural funds efficient in reducing emissions?" data-description="arxiv:2408.01782v3 announce type: replace 
+abstract: we investigate the effectiveness of low-carbon expenditures from the european structural and investment funds in reducing greenhouse gas emissions across eu regions. using trend and cycle decomposition of per capita emissions and emissions intensi..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2408.01782" target="_blank">Are EU low-carbon structural funds efficient in reducing emissions?</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">3,745 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2408.01782v3 Announce Type: replace 
+Abstract: We investigate the effectiveness of low-carbon expenditures from the European Structural and Investment Funds in reducing greenhouse gas emissions across EU regions. Using trend and cycle decomposition of per capita emissions and emissions intensi...</div>
+                    <div class="view-content">
+                        <a href="rss/content/7b7b9f8e3145f9bfdeec51e61c0a875d.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="nonparametric identification and estimation of spatial treatment effect boundaries: evidence from 42 million pollution observations" data-description="arxiv:2510.12289v1 announce type: new 
+abstract: this paper develops a nonparametric framework for identifying and estimating spatial boundaries of treatment effects in settings with geographic spillovers. while atmospheric dispersion theory predicts exponential decay of pollution under idealized as..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12289" target="_blank">Nonparametric Identification and Estimation of Spatial Treatment Effect Boundaries: Evidence from 42 Million Pollution Observations</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,741 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12289v1 Announce Type: new 
+Abstract: This paper develops a nonparametric framework for identifying and estimating spatial boundaries of treatment effects in settings with geographic spillovers. While atmospheric dispersion theory predicts exponential decay of pollution under idealized as...</div>
+                    <div class="view-content">
+                        <a href="rss/content/7bdbf19b93d0d277d07f0c3400bfaeeb.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="o-forge: an llm + computer algebra framework for asymptotic analysis" data-description="arxiv:2510.12350v1 announce type: new 
+abstract: large language models have recently demonstrated advanced capabilities in solving imo and putnam problems; yet their role in research mathematics has remained fairly limited. the key difficulty is verification: suggested proofs may look plausible, but..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12350" target="_blank">O-Forge: An LLM + Computer Algebra Framework for Asymptotic Analysis</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,289 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12350v1 Announce Type: new 
+Abstract: Large language models have recently demonstrated advanced capabilities in solving IMO and Putnam problems; yet their role in research mathematics has remained fairly limited. The key difficulty is verification: suggested proofs may look plausible, but...</div>
+                    <div class="view-content">
+                        <a href="rss/content/7c2a7e4b6b9a5d241a32a110b57df0a5.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="pricinglogic: evaluating llms reasoning on complex tourism pricing tasks" data-description="arxiv:2510.12409v1 announce type: new 
+abstract: we present pricinglogic, the first benchmark that probes whether large language models(llms) can reliably automate tourism-related prices when multiple, overlapping fare rules apply. travel agencies are eager to offload this error-prone task onto ai s..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12409" target="_blank">PricingLogic: Evaluating LLMs Reasoning on Complex Tourism Pricing Tasks</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">3,896 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12409v1 Announce Type: new 
+Abstract: We present PricingLogic, the first benchmark that probes whether Large Language Models(LLMs) can reliably automate tourism-related prices when multiple, overlapping fare rules apply. Travel agencies are eager to offload this error-prone task onto AI s...</div>
+                    <div class="view-content">
+                        <a href="rss/content/7f09b78b7164cc730809f79d13e494f3.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="who is a better matchmaker? human vs. algorithmic judge assignment in a high-stakes startup competition" data-description="arxiv:2510.12692v1 announce type: cross 
+abstract: there is growing interest in applying artificial intelligence (ai) to automate and support complex decision-making tasks. however, it remains unclear how algorithms compare to human judgment in contexts requiring semantic understanding and domain ex..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12692" target="_blank">Who is a Better Matchmaker? Human vs. Algorithmic Judge Assignment in a High-Stakes Startup Competition</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,908 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12692v1 Announce Type: cross 
+Abstract: There is growing interest in applying artificial intelligence (AI) to automate and support complex decision-making tasks. However, it remains unclear how algorithms compare to human judgment in contexts requiring semantic understanding and domain ex...</div>
+                    <div class="view-content">
+                        <a href="rss/content/80fba5d5f581f643f7a16c1c67844847.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="the adoption paradox: a comparative analysis of veterinary ai adoption in china and the north america" data-description="arxiv:2510.11758v1 announce type: cross 
+abstract: this study compares the perception, adoption, and application of artificial intelligence (ai) among veterinary professionals in china and north america (na), testing the hypothesis that adoption patterns are shaped by regional market and demographic..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.11758" target="_blank">The Adoption Paradox: A Comparative Analysis of Veterinary AI Adoption in China and the North America</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,563 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.11758v1 Announce Type: cross 
+Abstract: This study compares the perception, adoption, and application of artificial intelligence (AI) among veterinary professionals in China and North America (NA), testing the hypothesis that adoption patterns are shaped by regional market and demographic...</div>
+                    <div class="view-content">
+                        <a href="rss/content/8179e6526f49e50fb284580db54f31c3.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="physics-informed autonomous llm agents for explainable power electronics modulation design" data-description="arxiv:2411.14214v2 announce type: replace 
+abstract: llm-based autonomous agents have recently shown strong capabilities in solving complex industrial design tasks. however, in domains aiming for carbon neutrality and high-performance renewable energy systems, current ai-assisted design automation m..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2411.14214" target="_blank">Physics-Informed Autonomous LLM Agents for Explainable Power Electronics Modulation Design</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,558 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2411.14214v2 Announce Type: replace 
+Abstract: LLM-based autonomous agents have recently shown strong capabilities in solving complex industrial design tasks. However, in domains aiming for carbon neutrality and high-performance renewable energy systems, current AI-assisted design automation m...</div>
+                    <div class="view-content">
+                        <a href="rss/content/8295a2cb505158e7d13d6e6fa3840309.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="cgbench: benchmarking language model scientific reasoning for clinical genetics research" data-description="arxiv:2510.11985v1 announce type: new 
+abstract: variant and gene interpretation are fundamental to personalized medicine and translational biomedicine. however, traditional approaches are manual and labor-intensive. generative language models (lms) can facilitate this process, accelerating the tran..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.11985" target="_blank">CGBench: Benchmarking Language Model Scientific Reasoning for Clinical Genetics Research</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,531 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.11985v1 Announce Type: new 
+Abstract: Variant and gene interpretation are fundamental to personalized medicine and translational biomedicine. However, traditional approaches are manual and labor-intensive. Generative language models (LMs) can facilitate this process, accelerating the tran...</div>
+                    <div class="view-content">
+                        <a href="rss/content/881dbbc4eb6609af05c4c5eaf47d62c1.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="game theory analysis of third-party regulation in organic supply chains" data-description="arxiv:2510.12420v1 announce type: new 
+abstract: as people become more conscious of their health and the environment, the demand for organic food is expected to increase. however, distinguishing organic products from conventionally produced ones can be hard, creating a problem where producers may ha..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12420" target="_blank">Game Theory Analysis of Third-Party Regulation in Organic Supply Chains</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">3,776 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12420v1 Announce Type: new 
+Abstract: As people become more conscious of their health and the environment, the demand for organic food is expected to increase. However, distinguishing organic products from conventionally produced ones can be hard, creating a problem where producers may ha...</div>
+                    <div class="view-content">
+                        <a href="rss/content/89bc27975d377d922737475d5713a2f1.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="combining euclidean and hyperbolic representations for node-level anomaly detection" data-description="arxiv:2510.11827v1 announce type: cross 
+abstract: node-level anomaly detection (nad) is challenging due to diverse structural patterns and feature distributions. as such, nad is a critical task with several applications which range from fraud detection, cybersecurity, to recommendation systems. we ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.11827" target="_blank">Combining Euclidean and Hyperbolic Representations for Node-level Anomaly Detection</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,062 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.11827v1 Announce Type: cross 
+Abstract: Node-level anomaly detection (NAD) is challenging due to diverse structural patterns and feature distributions. As such, NAD is a critical task with several applications which range from fraud detection, cybersecurity, to recommendation systems. We ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/8db43d80756e40bec114fd30ddfb44f8.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="a survey of vibe coding with large language models" data-description="arxiv:2510.12399v1 announce type: new 
+abstract: the advancement of large language models (llms) has catalyzed a paradigm shift from code generation assistance to autonomous coding agents, enabling a novel development methodology termed "vibe coding" where developers validate ai-generated implementa..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12399" target="_blank">A Survey of Vibe Coding with Large Language Models</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,712 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12399v1 Announce Type: new 
+Abstract: The advancement of large language models (LLMs) has catalyzed a paradigm shift from code generation assistance to autonomous coding agents, enabling a novel development methodology termed "Vibe Coding" where developers validate AI-generated implementa...</div>
+                    <div class="view-content">
+                        <a href="rss/content/8e23673059b5849d2e9205e46fa5ba79.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="evaluating the quality of randomness and entropy in tasks supported by large language models" data-description="arxiv:2510.12080v1 announce type: new 
+abstract: the rapid advancement of large language model (llm) technology has led to diverse applications, many of which inherently require randomness, such as stochastic decision-making, gaming, scheduling, ai agents, and cryptography-related tasks. however, th..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12080" target="_blank">Evaluating the Quality of Randomness and Entropy in Tasks Supported by Large Language Models</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,262 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12080v1 Announce Type: new 
+Abstract: The rapid advancement of large language model (LLM) technology has led to diverse applications, many of which inherently require randomness, such as stochastic decision-making, gaming, scheduling, AI agents, and cryptography-related tasks. However, th...</div>
+                    <div class="view-content">
+                        <a href="rss/content/98bba8ca90172de45b797c2bac9f6ee1.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="evaluating and mitigating llm-as-a-judge bias in communication systems" data-description="arxiv:2510.12462v1 announce type: new 
+abstract: large language models (llms) are increasingly being used to autonomously evaluate the quality of content in communication systems, e.g., to assess responses in telecom customer support chatbots. however, the impartiality of these ai "judges" is not gu..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12462" target="_blank">Evaluating and Mitigating LLM-as-a-judge Bias in Communication Systems</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,224 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12462v1 Announce Type: new 
+Abstract: Large Language Models (LLMs) are increasingly being used to autonomously evaluate the quality of content in communication systems, e.g., to assess responses in telecom customer support chatbots. However, the impartiality of these AI "judges" is not gu...</div>
+                    <div class="view-content">
+                        <a href="rss/content/9b7d7850a1aa90da1a5048eef98f28c8.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="perceived fairness in networks" data-description="arxiv:2510.12028v1 announce type: new 
+abstract: the usual definitions of algorithmic fairness focus on population-level statistics, such as demographic parity or equal opportunity. however, in many social or economic contexts, fairness is not perceived globally, but locally, through an individual's..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12028" target="_blank">Perceived Fairness in Networks</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">3,723 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12028v1 Announce Type: new 
+Abstract: The usual definitions of algorithmic fairness focus on population-level statistics, such as demographic parity or equal opportunity. However, in many social or economic contexts, fairness is not perceived globally, but locally, through an individual's...</div>
+                    <div class="view-content">
+                        <a href="rss/content/9c121b671523f2ac6efbfdd132eb0c10.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="costar-a: a prompting framework for enhancing large language model performance on point-of-view questions" data-description="arxiv:2510.12637v1 announce type: new 
+abstract: large language models (llms) are highly sensitive to prompt design, and making optimized prompting techniques is crucial for generating consistent, high-quality outputs. in this study, we introduce costar-a, a novel prompt engineering framework that e..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12637" target="_blank">COSTAR-A: A prompting framework for enhancing Large Language Model performance on Point-of-View questions</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,330 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12637v1 Announce Type: new 
+Abstract: Large Language Models (LLMs) are highly sensitive to prompt design, and making optimized prompting techniques is crucial for generating consistent, high-quality outputs. In this study, we introduce COSTAR-A, a novel prompt engineering framework that e...</div>
+                    <div class="view-content">
+                        <a href="rss/content/9f18d845a1bb73ce7b15e17f717cd659.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="hybrid explanation-guided learning for transformer-based chest x-ray diagnosis" data-description="arxiv:2510.12704v1 announce type: cross 
+abstract: transformer-based deep learning models have demonstrated exceptional performance in medical imaging by leveraging attention mechanisms for feature representation and interpretability. however, these models are prone to learning spurious correlations..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12704" target="_blank">Hybrid Explanation-Guided Learning for Transformer-Based Chest X-Ray Diagnosis</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,093 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12704v1 Announce Type: cross 
+Abstract: Transformer-based deep learning models have demonstrated exceptional performance in medical imaging by leveraging attention mechanisms for feature representation and interpretability. However, these models are prone to learning spurious correlations...</div>
+                    <div class="view-content">
+                        <a href="rss/content/a2145b3e470ec020c2471fceb05f66bb.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="optimally deep networks -- adapting model depth to datasets for superior efficiency" data-description="arxiv:2510.10764v2 announce type: replace-cross 
+abstract: deep neural networks (dnns) have provided brilliant performance across various tasks. however, this success often comes at the cost of unnecessarily large model sizes, high computational demands, and substantial memory footprints. typically,..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.10764" target="_blank">Optimally Deep Networks -- Adapting Model Depth to Datasets for Superior Efficiency</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,662 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.10764v2 Announce Type: replace-cross 
+Abstract: Deep neural networks (DNNs) have provided brilliant performance across various tasks. However, this success often comes at the cost of unnecessarily large model sizes, high computational demands, and substantial memory footprints. Typically,...</div>
+                    <div class="view-content">
+                        <a href="rss/content/a811ee91efe66f74e5d058e2fa4f4302.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="evaluation of real-time preprocessing methods in ai-based ecg signal analysis" data-description="arxiv:2510.12541v1 announce type: cross 
+abstract: the increasing popularity of portable ecg systems and the growing demand for privacy-compliant, energy-efficient real-time analysis require new approaches to signal processing at the point of data acquisition. in this context, the edge domain is acq..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12541" target="_blank">Evaluation of Real-Time Preprocessing Methods in AI-Based ECG Signal Analysis</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,025 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12541v1 Announce Type: cross 
+Abstract: The increasing popularity of portable ECG systems and the growing demand for privacy-compliant, energy-efficient real-time analysis require new approaches to signal processing at the point of data acquisition. In this context, the edge domain is acq...</div>
+                    <div class="view-content">
+                        <a href="rss/content/a8ed169ce2e78fbf7884bec26bd09867.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="aixel: a unified, adaptive and extensible system for ai-powered data analysis" data-description="arxiv:2510.12642v1 announce type: cross 
+abstract: a growing trend in modern data analysis is the integration of data management with learning, guided by accuracy, latency, and cost requirements. in practice, applications draw data of different formats from many sources. in the meanwhile, the object..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12642" target="_blank">Aixel: A Unified, Adaptive and Extensible System for AI-powered Data Analysis</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,428 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12642v1 Announce Type: cross 
+Abstract: A growing trend in modern data analysis is the integration of data management with learning, guided by accuracy, latency, and cost requirements. In practice, applications draw data of different formats from many sources. In the meanwhile, the object...</div>
+                    <div class="view-content">
+                        <a href="rss/content/aceb103d14bcbdeeedbaeb6a250efda7.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="tensor logic: the language of ai" data-description="arxiv:2510.12269v1 announce type: new 
+abstract: progress in ai is hindered by the lack of a programming language with all the requisite features. libraries like pytorch and tensorflow provide automatic differentiation and efficient gpu implementation, but are additions to python, which was never in..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12269" target="_blank">Tensor Logic: The Language of AI</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,169 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12269v1 Announce Type: new 
+Abstract: Progress in AI is hindered by the lack of a programming language with all the requisite features. Libraries like PyTorch and TensorFlow provide automatic differentiation and efficient GPU implementation, but are additions to Python, which was never in...</div>
+                    <div class="view-content">
+                        <a href="rss/content/b199270de8012d3d68d9a86a9a1330f6.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="generative ai for requirements engineering: a systematic literature review" data-description="arxiv:2409.06741v3 announce type: replace-cross 
+abstract: introduction: requirements engineering faces challenges due to the handling of increasingly complex software systems. these challenges can be addressed using generative ai. given that genai based re has not been systematically analyzed in de..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2409.06741" target="_blank">Generative AI for Requirements Engineering: A Systematic Literature Review</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,873 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2409.06741v3 Announce Type: replace-cross 
+Abstract: Introduction: Requirements engineering faces challenges due to the handling of increasingly complex software systems. These challenges can be addressed using generative AI. Given that GenAI based RE has not been systematically analyzed in de...</div>
+                    <div class="view-content">
+                        <a href="rss/content/b3db6a83ba3e8a425aeeec99c8873ae5.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="defenderbench: a toolkit for evaluating language agents in cybersecurity environments" data-description="arxiv:2506.00739v4 announce type: replace 
+abstract: large language model (llm) agents have shown impressive capabilities in human language comprehension and reasoning, yet their potential in cybersecurity remains underexplored. we introduce defenderbench, a practical, open-source toolkit for evalua..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2506.00739" target="_blank">DefenderBench: A Toolkit for Evaluating Language Agents in Cybersecurity Environments</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,401 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2506.00739v4 Announce Type: replace 
+Abstract: Large language model (LLM) agents have shown impressive capabilities in human language comprehension and reasoning, yet their potential in cybersecurity remains underexplored. We introduce DefenderBench, a practical, open-source toolkit for evalua...</div>
+                    <div class="view-content">
+                        <a href="rss/content/b59d03ffff8846b40c93f2944739175b.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="the algorithmic regulator" data-description="arxiv:2510.10300v2 announce type: replace-cross 
+abstract: the regulator theorem states that, under certain conditions, any optimal controller must embody a model of the system it regulates, grounding the idea that controllers embed, explicitly or implicitly, internal models of the controlled. this ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.10300" target="_blank">The Algorithmic Regulator</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,656 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.10300v2 Announce Type: replace-cross 
+Abstract: The regulator theorem states that, under certain conditions, any optimal controller must embody a model of the system it regulates, grounding the idea that controllers embed, explicitly or implicitly, internal models of the controlled. This ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/be3574531c2d7e9d3915d09f8e79fd6e.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="ai agents for the dhumbal card game: a comparative study" data-description="arxiv:2510.11736v1 announce type: new 
+abstract: this study evaluates artificial intelligence (ai) agents for dhumbal, a culturally significant multiplayer card game with imperfect information, through a systematic comparison of rule-based, search-based, and learning-based strategies. we formalize d..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.11736" target="_blank">AI Agents for the Dhumbal Card Game: A Comparative Study</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,298 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.11736v1 Announce Type: new 
+Abstract: This study evaluates Artificial Intelligence (AI) agents for Dhumbal, a culturally significant multiplayer card game with imperfect information, through a systematic comparison of rule-based, search-based, and learning-based strategies. We formalize D...</div>
+                    <div class="view-content">
+                        <a href="rss/content/be7b1c6f3cc51cd9398068755f551152.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="large language models in operations research: methods, applications, and challenges" data-description="arxiv:2509.18180v3 announce type: replace 
+abstract: operations research (or) is a core methodology that supports complex system decision-making, with broad applications in transportation, supply chain management, and production scheduling. however, traditional approaches that rely on expert-driven ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2509.18180" target="_blank">Large Language Models in Operations Research: Methods, Applications, and Challenges</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,519 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2509.18180v3 Announce Type: replace 
+Abstract: Operations research (OR) is a core methodology that supports complex system decision-making, with broad applications in transportation, supply chain management, and production scheduling. However, traditional approaches that rely on expert-driven ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/bed92eb5b54957d8a9eb90a0a34d6e9b.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="from rational answers to emotional resonance: the role of controllable emotion generation in language models" data-description="arxiv:2502.04075v2 announce type: replace 
+abstract: purpose: emotion is a fundamental component of human communication, shaping understanding, trust, and engagement across domains such as education, healthcare, and mental health. while large language models (llms) exhibit strong reasoning and knowl..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2502.04075" target="_blank">From Rational Answers to Emotional Resonance: The Role of Controllable Emotion Generation in Language Models</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,723 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2502.04075v2 Announce Type: replace 
+Abstract: Purpose: Emotion is a fundamental component of human communication, shaping understanding, trust, and engagement across domains such as education, healthcare, and mental health. While large language models (LLMs) exhibit strong reasoning and knowl...</div>
+                    <div class="view-content">
+                        <a href="rss/content/c3b714081edada857a5160fd9f5480dd.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="tokenization disparities as infrastructure bias: how subword systems create inequities in llm access and efficiency" data-description="arxiv:2510.12389v1 announce type: cross 
+abstract: tokenization disparities pose a significant barrier to achieving equitable access to artificial intelligence across linguistically diverse populations. this study conducts a large-scale cross-linguistic evaluation of tokenization efficiency in over ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12389" target="_blank">Tokenization Disparities as Infrastructure Bias: How Subword Systems Create Inequities in LLM Access and Efficiency</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,722 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12389v1 Announce Type: cross 
+Abstract: Tokenization disparities pose a significant barrier to achieving equitable access to artificial intelligence across linguistically diverse populations. This study conducts a large-scale cross-linguistic evaluation of tokenization efficiency in over ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/c7876d713bb1ffd1a530b072aac90177.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="towards robust artificial intelligence: self-supervised learning approach for out-of-distribution detection" data-description="arxiv:2510.12713v1 announce type: new 
+abstract: robustness in ai systems refers to their ability to maintain reliable and accurate performance under various conditions, including out-of-distribution (ood) samples, adversarial attacks, and environmental changes. this is crucial in safety-critical sy..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12713" target="_blank">Towards Robust Artificial Intelligence: Self-Supervised Learning Approach for Out-of-Distribution Detection</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">3,978 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12713v1 Announce Type: new 
+Abstract: Robustness in AI systems refers to their ability to maintain reliable and accurate performance under various conditions, including out-of-distribution (OOD) samples, adversarial attacks, and environmental changes. This is crucial in safety-critical sy...</div>
+                    <div class="view-content">
+                        <a href="rss/content/cf4823dcd5b3cbfbe7be9d57fe804fd8.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="llms4all: a systematic review of large language models across academic disciplines" data-description="arxiv:2509.19580v4 announce type: replace 
+abstract: cutting-edge artificial intelligence (ai) techniques keep reshaping our view of the world. for example, large language models (llms) based applications such as chatgpt have shown the capability of generating human-like conversation on extensive to..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2509.19580" target="_blank">LLMs4All: A Systematic Review of Large Language Models Across Academic Disciplines</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">5,139 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2509.19580v4 Announce Type: replace 
+Abstract: Cutting-edge Artificial Intelligence (AI) techniques keep reshaping our view of the world. For example, Large Language Models (LLMs) based applications such as ChatGPT have shown the capability of generating human-like conversation on extensive to...</div>
+                    <div class="view-content">
+                        <a href="rss/content/d14906d54a250c6099d2f8d50705bc74.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="agentbuilder: exploring scaffolds for prototyping user experiences of interface agents" data-description="arxiv:2510.04452v2 announce type: replace-cross 
+abstract: interface agents powered by generative ai models (referred to as "agents") can automate actions based on user commands. an important aspect of developing agents is their user experience (i.e., agent experience). there is a growing need to pr..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.04452" target="_blank">AgentBuilder: Exploring Scaffolds for Prototyping User Experiences of Interface Agents</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,005 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.04452v2 Announce Type: replace-cross 
+Abstract: Interface agents powered by generative AI models (referred to as "agents") can automate actions based on user commands. An important aspect of developing agents is their user experience (i.e., agent experience). There is a growing need to pr...</div>
+                    <div class="view-content">
+                        <a href="rss/content/d3b56cfe81f4c02389741148fe7bdbef.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="egobrain: synergizing minds and eyes for human action understanding" data-description="arxiv:2506.01353v2 announce type: replace 
+abstract: the integration of brain-computer interfaces (bcis), in particular electroencephalography (eeg), with artificial intelligence (ai) has shown tremendous promise in decoding human cognition and behavior from neural signals. in particular, the rise o..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2506.01353" target="_blank">EgoBrain: Synergizing Minds and Eyes For Human Action Understanding</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,221 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2506.01353v2 Announce Type: replace 
+Abstract: The integration of brain-computer interfaces (BCIs), in particular electroencephalography (EEG), with artificial intelligence (AI) has shown tremendous promise in decoding human cognition and behavior from neural signals. In particular, the rise o...</div>
+                    <div class="view-content">
+                        <a href="rss/content/d4141da5b4450a36d72b3fca5adaedbf.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="(r)evolution of programming: vibe coding as a post-coding paradigm" data-description="arxiv:2510.12364v1 announce type: cross 
+abstract: recent advancements in generative artificial intelligence (genai), particularly large language models, have introduced new possibilities for software development practices. in our paper we investigate the emerging vibe coding (vc) paradigm that emph..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12364" target="_blank">(R)evolution of Programming: Vibe Coding as a Post-Coding Paradigm</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,375 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12364v1 Announce Type: cross 
+Abstract: Recent advancements in generative artificial intelligence (GenAI), particularly large language models, have introduced new possibilities for software development practices. In our paper we investigate the emerging Vibe Coding (VC) paradigm that emph...</div>
+                    <div class="view-content">
+                        <a href="rss/content/d4604a492844e76f7a6bfd06ba40f90f.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="strategic tradeoffs between humans and ai in multi-agent bargaining" data-description="arxiv:2509.09071v3 announce type: replace 
+abstract: as large language models (llms) are increasingly embedded in collaborative human activities such as business negotiations and group coordination, it becomes critical to evaluate both the performance gains they can achieve and how they interact in ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2509.09071" target="_blank">Strategic Tradeoffs Between Humans and AI in Multi-Agent Bargaining</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,760 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2509.09071v3 Announce Type: replace 
+Abstract: As large language models (LLMs) are increasingly embedded in collaborative human activities such as business negotiations and group coordination, it becomes critical to evaluate both the performance gains they can achieve and how they interact in ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/d710d2a005913be67688831b1f074c8d.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="holistic agent leaderboard: the missing infrastructure for ai agent evaluation" data-description="arxiv:2510.11977v1 announce type: new 
+abstract: ai agents have been developed for complex real-world tasks from coding to customer service. but ai agent evaluations suffer from many challenges that undermine our understanding of how well agents really work. we introduce the holistic agent leaderboa..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.11977" target="_blank">Holistic Agent Leaderboard: The Missing Infrastructure for AI Agent Evaluation</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,662 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.11977v1 Announce Type: new 
+Abstract: AI agents have been developed for complex real-world tasks from coding to customer service. But AI agent evaluations suffer from many challenges that undermine our understanding of how well agents really work. We introduce the Holistic Agent Leaderboa...</div>
+                    <div class="view-content">
+                        <a href="rss/content/da52f2adde464d4d0a73c1f3ae830eae.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="ctiarena: benchmarking llm knowledge and reasoning across heterogeneous cyber threat intelligence" data-description="arxiv:2510.11974v1 announce type: cross 
+abstract: cyber threat intelligence (cti) is central to modern cybersecurity, providing critical insights for detecting and mitigating evolving threats. with the natural language understanding and reasoning capabilities of large language models (llms), there ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.11974" target="_blank">CTIArena: Benchmarking LLM Knowledge and Reasoning Across Heterogeneous Cyber Threat Intelligence</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,442 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.11974v1 Announce Type: cross 
+Abstract: Cyber threat intelligence (CTI) is central to modern cybersecurity, providing critical insights for detecting and mitigating evolving threats. With the natural language understanding and reasoning capabilities of large language models (LLMs), there ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/e0c5eae9d942b5f1818287f64fb734a6.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="causaltrace: a neurosymbolic causal analysis agent for smart manufacturing" data-description="arxiv:2510.12033v1 announce type: new 
+abstract: modern manufacturing environments demand not only accurate predictions but also interpretable insights to process anomalies, root causes, and potential interventions. existing ai systems often function as isolated black boxes, lacking the seamless int..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12033" target="_blank">CausalTrace: A Neurosymbolic Causal Analysis Agent for Smart Manufacturing</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,564 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12033v1 Announce Type: new 
+Abstract: Modern manufacturing environments demand not only accurate predictions but also interpretable insights to process anomalies, root causes, and potential interventions. Existing AI systems often function as isolated black boxes, lacking the seamless int...</div>
+                    <div class="view-content">
+                        <a href="rss/content/e0cc80b2b70ea6deb8f7c5b539e34848.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="ai agents as universal task solvers" data-description="arxiv:2510.12066v1 announce type: new 
+abstract: ai reasoning agents are already able to solve a variety of tasks by deploying tools, simulating outcomes of multiple hypotheses and reflecting on them. in doing so, they perform computation, although not in the classical sense -- there is no program b..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12066" target="_blank">AI Agents as Universal Task Solvers</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,641 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12066v1 Announce Type: new 
+Abstract: AI reasoning agents are already able to solve a variety of tasks by deploying tools, simulating outcomes of multiple hypotheses and reflecting on them. In doing so, they perform computation, although not in the classical sense -- there is no program b...</div>
+                    <div class="view-content">
+                        <a href="rss/content/e24bd271e6153058fa05a6b57ab28d1e.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="responsible ai technical report" data-description="arxiv:2509.20057v3 announce type: replace-cross 
+abstract: kt developed a responsible ai (rai) assessment methodology and risk mitigation technologies to ensure the safety and reliability of ai services. by analyzing the basic act on ai implementation and global ai governance trends, we established ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2509.20057" target="_blank">Responsible AI Technical Report</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,018 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2509.20057v3 Announce Type: replace-cross 
+Abstract: KT developed a Responsible AI (RAI) assessment methodology and risk mitigation technologies to ensure the safety and reliability of AI services. By analyzing the Basic Act on AI implementation and global AI governance trends, we established ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/e48de58b64f21b27c980073df4e399ef.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="litevpnet: a lightweight network for video encoding control in quality-critical applications" data-description="arxiv:2510.12379v1 announce type: cross 
+abstract: in the last decade, video workflows in the cinema production ecosystem have presented new use cases for video streaming technology. these new workflows, e.g. in on-set virtual production, present the challenge of requiring precise quality control an..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12379" target="_blank">LiteVPNet: A Lightweight Network for Video Encoding Control in Quality-Critical Applications</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,288 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12379v1 Announce Type: cross 
+Abstract: In the last decade, video workflows in the cinema production ecosystem have presented new use cases for video streaming technology. These new workflows, e.g. in On-set Virtual Production, present the challenge of requiring precise quality control an...</div>
+                    <div class="view-content">
+                        <a href="rss/content/ec7c75abb21d53f190e16aa92d78d3da.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="metamind: modeling human social thoughts with metacognitive multi-agent systems" data-description="arxiv:2505.18943v3 announce type: replace 
+abstract: human social interactions depend on the ability to infer others' unspoken intentions, emotions, and beliefs-a cognitive skill grounded in the psychological concept of theory of mind (tom). while large language models (llms) excel in semantic under..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2505.18943" target="_blank">MetaMind: Modeling Human Social Thoughts with Metacognitive Multi-Agent Systems</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,537 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2505.18943v3 Announce Type: replace 
+Abstract: Human social interactions depend on the ability to infer others' unspoken intentions, emotions, and beliefs-a cognitive skill grounded in the psychological concept of Theory of Mind (ToM). While large language models (LLMs) excel in semantic under...</div>
+                    <div class="view-content">
+                        <a href="rss/content/f19178389dcafc03e59fd824b3b4bbce.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="artificial intelligence for optimal learning: a comparative approach towards ai-enhanced learning environments" data-description="arxiv:2510.11755v1 announce type: cross 
+abstract: in the rapidly evolving educational landscape, the integration of technology has shifted from an enhancement to a cornerstone of educational strategy worldwide. this transition is propelled by advancements in digital technology, especially the emerg..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.11755" target="_blank">Artificial Intelligence for Optimal Learning: A Comparative Approach towards AI-Enhanced Learning Environments</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,550 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.11755v1 Announce Type: cross 
+Abstract: In the rapidly evolving educational landscape, the integration of technology has shifted from an enhancement to a cornerstone of educational strategy worldwide. This transition is propelled by advancements in digital technology, especially the emerg...</div>
+                    <div class="view-content">
+                        <a href="rss/content/f5960a8304e763c38b4400d1778ed386.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="the value of storage in electricity distribution: the role of storage" data-description="arxiv:2510.12435v1 announce type: cross 
+abstract: electricity distribution companies deploy battery storage to defer grid upgrades by reducing peak demand. in deregulated jurisdictions, such storage often sits idle because regulatory constraints bar participation in electricity markets. here, we de..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12435" target="_blank">The value of storage in electricity distribution: The role of storage</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">3,817 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12435v1 Announce Type: cross 
+Abstract: Electricity distribution companies deploy battery storage to defer grid upgrades by reducing peak demand. In deregulated jurisdictions, such storage often sits idle because regulatory constraints bar participation in electricity markets. Here, we de...</div>
+                    <div class="view-content">
+                        <a href="rss/content/f74a3ee008558bfb6ac4dfd579001a05.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="styledecipher: robust and explainable detection of llm-generated texts with stylistic analysis" data-description="arxiv:2510.12608v1 announce type: cross 
+abstract: with the increasing integration of large language models (llms) into open-domain writing, detecting machine-generated text has become a critical task for ensuring content authenticity and trust. existing approaches rely on statistical discrepancies ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12608" target="_blank">StyleDecipher: Robust and Explainable Detection of LLM-Generated Texts with Stylistic Analysis</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,687 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12608v1 Announce Type: cross 
+Abstract: With the increasing integration of large language models (LLMs) into open-domain writing, detecting machine-generated text has become a critical task for ensuring content authenticity and trust. Existing approaches rely on statistical discrepancies ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/fa6ac913006cbce79c93ab8d01a3ec69.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="exploring the frontier of vision-language models: a survey of current methodologies and future directions" data-description="arxiv:2404.07214v4 announce type: replace-cross 
+abstract: the advent of large language models (llms) has significantly reshaped the trajectory of the ai revolution. nevertheless, these llms exhibit a notable limitation, as they are primarily adept at processing textual information. to address this ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2404.07214" target="_blank">Exploring the Frontier of Vision-Language Models: A Survey of Current Methodologies and Future Directions</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,810 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2404.07214v4 Announce Type: replace-cross 
+Abstract: The advent of Large Language Models (LLMs) has significantly reshaped the trajectory of the AI revolution. Nevertheless, these LLMs exhibit a notable limitation, as they are primarily adept at processing textual information. To address this ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/fbd6177a8229f9e34fcb1a07aa9d50a1.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="open and sustainable ai: challenges, opportunities and the road ahead in the life sciences (october 2025 -- version 2)" data-description="arxiv:2505.16619v2 announce type: replace 
+abstract: artificial intelligence (ai) has recently seen transformative breakthroughs in the life sciences, expanding possibilities for researchers to interpret biological information at an unprecedented capacity, with novel applications and advances being ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2505.16619" target="_blank">Open and Sustainable AI: challenges, opportunities and the road ahead in the life sciences (October 2025 -- Version 2)</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">8,517 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2505.16619v2 Announce Type: replace 
+Abstract: Artificial intelligence (AI) has recently seen transformative breakthroughs in the life sciences, expanding possibilities for researchers to interpret biological information at an unprecedented capacity, with novel applications and advances being ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/fc66627af9e3dff3825f05917706fbb6.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="artificial intelligence virtual cells: from measurements to decisions across modality, scale, dynamics, and evaluation" data-description="arxiv:2510.12498v1 announce type: new 
+abstract: artificial intelligence virtual cells (aivcs) aim to learn executable, decision-relevant models of cell state from multimodal, multiscale measurements. recent studies have introduced single-cell and spatial foundation models, improved cross-modality a..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://arxiv.org/abs/2510.12498" target="_blank">Artificial Intelligence Virtual Cells: From Measurements to Decisions across Modality, Scale, Dynamics, and Evaluation</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 15, 2025 at 12:00 AM</span>
+                        <span class="article-length">4,438 chars</span>
+                    </div>
+                    
+                    <div class="article-description">arXiv:2510.12498v1 Announce Type: new 
+Abstract: Artificial Intelligence Virtual Cells (AIVCs) aim to learn executable, decision-relevant models of cell state from multimodal, multiscale measurements. Recent studies have introduced single-cell and spatial foundation models, improved cross-modality a...</div>
+                    <div class="view-content">
+                        <a href="rss/content/fdfd1c412c428173504c2afe5f272c7e.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="openai will allow verified adults to use chatgpt to generate erotic content" data-description="new version will allow users to customize ai assistant’s personality in what firm calls ‘treat adults users like adults’ policyopenai announced plans on tuesday to relax restrictions on its chatgpt chatbot, including allowing erotic content for verified adult users as part of what the company calls ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/technology/2025/oct/14/openai-chatgpt-adult-erotic-content" target="_blank">OpenAI will allow verified adults to use ChatGPT to generate erotic content</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 14, 2025 at 09:50 PM</span>
+                        <span class="article-length">2,680 chars</span>
+                    </div>
+                    
+                    <div class="article-description">New version will allow users to customize AI assistant’s personality in what firm calls ‘treat adults users like adults’ policyOpenAI announced plans on Tuesday to relax restrictions on its ChatGPT chatbot, including allowing erotic content for verified adult users as part of what the company calls ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/dafc24746b90752f5750b2d7b008b6a7.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="the guardian view on the rising risk from flooding: uninsurable buildings should focus minds on climate adaptation | editorial" data-description="the bleak future faced by one small town offers a cautionary tale about the threat from global heatingthe bleak prospect facing the market town of tenbury wells in worcestershire, due to rising flood risks, is first and foremost a problem for locals. after seven floods in four years, and with plans ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/commentisfree/2025/oct/14/the-guardian-view-on-the-rising-risk-from-flooding-uninsurable-buildings-should-focus-minds-on-climate-adaptation" target="_blank">The Guardian view on the rising risk from flooding: uninsurable buildings should focus minds on climate adaptation | Editorial</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 14, 2025 at 05:58 PM</span>
+                        <span class="article-length">4,260 chars</span>
+                    </div>
+                    
+                    <div class="article-description">The bleak future faced by one small town offers a cautionary tale about the threat from global heatingThe bleak prospect facing the market town of Tenbury Wells in Worcestershire, due to rising flood risks, is first and foremost a problem for locals. After seven floods in four years, and with plans ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/d7b2b058af685d5850e5c0383182bd4e.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="jp morgan boss says more ‘cockroaches’ will emerge after private credit sector failures" data-description="jamie dimon expects further weak links in ‘shadow banking’ sector to be revealed after collapse of two us firmsthe boss of jp morgan, jamie dimon, has warned over further losses linked to the private credit sector, saying more “cockroaches” could emerge after the collapse of the sub-prime auto lende..." data-continents="Global Americas" data-topics="insurance" data-keywords="underwriting Bloomberg">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/business/2025/oct/14/jp-morgan-jamie-dimon-losses-private-credit-sector" target="_blank">JP Morgan boss says more ‘cockroaches’ will emerge after private credit sector failures</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 14, 2025 at 04:44 PM</span>
+                        <span class="article-length">3,936 chars</span>
+                    </div>
+                    <div class="article-tags"><span class="tag tag-continent">Global Americas</span><span class="tag tag-topic">insurance</span><span class="tag tag-keywords">underwriting Bloomberg</span></div>
+                    <div class="article-description">Jamie Dimon expects further weak links in ‘shadow banking’ sector to be revealed after collapse of two US firmsThe boss of JP Morgan, Jamie Dimon, has warned over further losses linked to the private credit sector, saying more “cockroaches” could emerge after the collapse of the sub-prime auto lende...</div>
+                    <div class="view-content">
+                        <a href="rss/content/fa48225f9d79d0c3e302c8832f6fdc17.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="us shares risk ‘sharp correction’ but markets seem complacent, imf warns" data-description="government bond markets also under increasing pressure, says global financial stability reportworld economy resilient amid trump tariffs but outlook looks ‘dim’, says imfuk faces highest inflation in g7 this year and next, imf warnsus stock markets which have rallied during the ai boom are at risk o..." data-continents="Global Asia Europe Americas" data-topics="ai" data-keywords="AI">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/business/2025/oct/14/us-shares-correction-markets-imf-bonds" target="_blank">US shares risk ‘sharp correction’ but markets seem complacent, IMF warns</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 14, 2025 at 02:15 PM</span>
+                        <span class="article-length">4,686 chars</span>
+                    </div>
+                    <div class="article-tags"><span class="tag tag-continent">Global Asia Europe Americas</span><span class="tag tag-topic">ai</span><span class="tag tag-keywords">AI</span></div>
+                    <div class="article-description">Government bond markets also under increasing pressure, says Global Financial Stability ReportWorld economy resilient amid Trump tariffs but outlook looks ‘dim’, says IMFUK faces highest inflation in G7 this year and next, IMF warnsUS stock markets which have rallied during the AI boom are at risk o...</div>
+                    <div class="view-content">
+                        <a href="rss/content/d5722250cf0bbe8dc89f538279c46ec0.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="the nine best electric blankets and heated throws, tried and tested to keep you toasty for less" data-description="if you’re aiming to heat the human, not the home – or just love snuggling under something cosy on your sofa – these are our best buys• the best heated clothes airers to save time and money when drying your laundryaside from hugging a fluffy hot-water bottle, sipping the christmas whisky and ramping ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/thefilter/2024/dec/27/best-electric-blankets-heated-throws" target="_blank">The nine best electric blankets and heated throws, tried and tested to keep you toasty for less</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 14, 2025 at 02:00 PM</span>
+                        <span class="article-length">21,153 chars</span>
+                    </div>
+                    
+                    <div class="article-description">If you’re aiming to heat the human, not the home – or just love snuggling under something cosy on your sofa – these are our best buys• The best heated clothes airers to save time and money when drying your laundryAside from hugging a fluffy hot-water bottle, sipping the Christmas whisky and ramping ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/f1cbe0262eb946537760eb2692c83dde.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="the gospel according to peter thiel: why the tech svengali is obsessed with the antichrist" data-description="the influential billionaire investor has been giving secret lectures warning about armageddon. here’s why it mattershello, and welcome to techscape. for the past week, my brain has been marinating in billionaire peter thiel’s byzantine musings about the antichrist and armageddon. at this point, i’m ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/technology/2025/oct/13/peter-thiel-the-antichrist-and-why-the-world-should-listen" target="_blank">The gospel according to Peter Thiel: why the tech svengali is obsessed with the antichrist</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 14, 2025 at 01:24 PM</span>
+                        <span class="article-length">11,439 chars</span>
+                    </div>
+                    
+                    <div class="article-description">The influential billionaire investor has been giving secret lectures warning about Armageddon. Here’s why it mattersHello, and welcome to TechScape. For the past week, my brain has been marinating in billionaire Peter Thiel’s byzantine musings about the antichrist and Armageddon. At this point, I’m ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/d2f724cb3732351fabc21a419805cfd4.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="china says it will ‘fight to end’ after us said it was trying to hurt world economy" data-description="commerce ministry says us is ‘threatening to intimidate’ with plans for new trump tariffs on exportsbusiness live – latest updateschina has hit back at accusations from the us that it is trying to hurt the world economy, as the trade war between the world’s two biggest economies appeared to re-escal..." data-continents="Global Asia Americas" data-topics="energy geopolitics" data-keywords="supply chain war">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/us-news/2025/oct/14/china-us-world-economy-trump-tariffs" target="_blank">China says it will ‘fight to end’ after US said it was trying to hurt world economy</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 14, 2025 at 11:22 AM</span>
+                        <span class="article-length">3,574 chars</span>
+                    </div>
+                    <div class="article-tags"><span class="tag tag-continent">Global Asia Americas</span><span class="tag tag-topic">energy geopolitics</span><span class="tag tag-keywords">supply chain war</span></div>
+                    <div class="article-description">Commerce ministry says US is ‘threatening to intimidate’ with plans for new Trump tariffs on exportsBusiness live – latest updatesChina has hit back at accusations from the US that it is trying to hurt the world economy, as the trade war between the world’s two biggest economies appeared to re-escal...</div>
+                    <div class="view-content">
+                        <a href="rss/content/1206b8f6aa0188b05b5d3b14ed8baca9.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="equity threatens mass direct action over use of actors’ images in ai content" data-description="union says growing numbers of its members have made complaints about infringements of copyright in ai materialthe performing arts union equity has threatened mass direct action over tech and entertainment companies’ use of its members’ likenesses, images and voices in ai content without permission.t..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/technology/2025/oct/13/equity-threatens-mass-direct-action-over-use-of-actors-images-in-ai-content" target="_blank">Equity threatens mass direct action over use of actors’ images in AI content</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 13, 2025 at 03:21 PM</span>
+                        <span class="article-length">6,093 chars</span>
+                    </div>
+                    
+                    <div class="article-description">Union says growing numbers of its members have made complaints about infringements of copyright in AI materialThe performing arts union Equity has threatened mass direct action over tech and entertainment companies’ use of its members’ likenesses, images and voices in AI content without permission.T...</div>
+                    <div class="view-content">
+                        <a href="rss/content/9f3047c155a30c3954e63806ee78b215.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="battlefield 6 review – operatic, ear-shattering all-encompassing warfare" data-description="electronic arts; pc, ps5, xboxin contrast to the blast-em-ups this franchise drops players into a vast and vividly realised military offensive and the latest instalment is a brilliant return to formbarely a minute into your first round of the large-scale multiplayer mode, conquest, you will know you..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/games/2025/oct/13/battlefield-6-review-operatic-ear-shattering-all-encompassing-warfare" target="_blank">Battlefield 6 review – operatic, ear-shattering all-encompassing warfare</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 13, 2025 at 09:00 AM</span>
+                        <span class="article-length">4,832 chars</span>
+                    </div>
+                    
+                    <div class="article-description">Electronic Arts; PC, PS5, XboxIn contrast to the blast-em-ups this franchise drops players into a vast and vividly realised military offensive and the latest instalment is a brilliant return to formBarely a minute into your first round of the large-scale multiplayer mode, Conquest, you will know you...</div>
+                    <div class="view-content">
+                        <a href="rss/content/916b8d0ecab0226675755005a13a4992.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="trump officials cancel major solar project in latest hit to renewable energy" data-description="esmeralda 7 in nevada would have produced enough energy to power 2m homesthe trump administration has killed a huge proposed solar power project in nevada that would have been one of the largest in the world, indicating that the white house plans to attack not only wind power but all renewable energ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/us-news/2025/oct/10/trump-officials-drop-major-solar-power-project-in-another-renewable-energy-attack" target="_blank">Trump officials cancel major solar project in latest hit to renewable energy</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 10, 2025 at 07:25 PM</span>
+                        <span class="article-length">4,625 chars</span>
+                    </div>
+                    
+                    <div class="article-description">Esmeralda 7 in Nevada would have produced enough energy to power 2m homesThe Trump administration has killed a huge proposed solar power project in Nevada that would have been one of the largest in the world, indicating that the White House plans to attack not only wind power but all renewable energ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/4fdc7606759520030bc4588d8153d239.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="it’s sam altman: the man who stole the rights from copyright. if he’s the future, can we go backwards? | marina hyde" data-description="his ai video generator sora 2 has been reviled for pinching the work of others. one giant leap for sam: for everyone else, not so muchtake a look at sam altman. i mean, actually do it. go to google images, where you can find countless photos of the openai boss smiling in a kind of wan genius way, th..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/commentisfree/2025/oct/10/sam-altman-copyright-ai-sora-2-video-generator" target="_blank">It’s Sam Altman: the man who stole the rights from copyright. If he’s the future, can we go backwards? | Marina Hyde</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 10, 2025 at 02:55 PM</span>
+                        <span class="article-length">7,097 chars</span>
+                    </div>
+                    
+                    <div class="article-description">His AI video generator Sora 2 has been reviled for pinching the work of others. One giant leap for Sam: for everyone else, not so muchTake a look at Sam Altman. I mean, actually do it. Go to Google images, where you can find countless photos of the OpenAI boss smiling in a kind of wan genius way, th...</div>
+                    <div class="view-content">
+                        <a href="rss/content/e81391eefb0f7f25d148464749828252.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="history shows war against immigrants will backfire on all americans" data-description="deportations are likely to cause employers to let go of us workers, and reduce the labor forcethe government shutdown may have prevented the publication of september’s job report, but we can be reasonably confident that when the numbers are known, they will further underscore the trump administratio..." data-continents="Global Asia Americas" data-topics="geopolitics" data-keywords="war">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/business/2025/oct/10/war-against-immigrants-american-workforce" target="_blank">History shows war against immigrants will backfire on all Americans</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 10, 2025 at 01:00 PM</span>
+                        <span class="article-length">7,827 chars</span>
+                    </div>
+                    <div class="article-tags"><span class="tag tag-continent">Global Asia Americas</span><span class="tag tag-topic">geopolitics</span><span class="tag tag-keywords">war</span></div>
+                    <div class="article-description">Deportations are likely to cause employers to let go of US workers, and reduce the labor forceThe government shutdown may have prevented the publication of September’s job report, but we can be reasonably confident that when the numbers are known, they will further underscore the Trump administratio...</div>
+                    <div class="view-content">
+                        <a href="rss/content/9273b7c0583e075af49420db8dbccfef.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="us farmers caught in trump-china trade war – who’ll buy the soybeans?" data-description="tariffs have caused a chinese exit from the soybean market – and midwestern farmers are waiting on a solutionat the purfeerst farm in southern minnesota, the soybean harvest just wrapped up for the season. the silver grain bins are full of about 100,000 bushels of soybeans, which grab about $10 a pi..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/us-news/2025/oct/10/trump-china-trade-war-soybeans" target="_blank">US farmers caught in Trump-China trade war – who’ll buy the soybeans?</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 10, 2025 at 12:00 PM</span>
+                        <span class="article-length">8,164 chars</span>
+                    </div>
+                    
+                    <div class="article-description">Tariffs have caused a Chinese exit from the soybean market – and midwestern farmers are waiting on a solutionAt the Purfeerst farm in southern Minnesota, the soybean harvest just wrapped up for the season. The silver grain bins are full of about 100,000 bushels of soybeans, which grab about $10 a pi...</div>
+                    <div class="view-content">
+                        <a href="rss/content/a480dddd8e7bedf83316ca51654dcf30.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="on navigating crises inside the situation room" data-description="u.s. department of state officials are the foremost representatives of u.s. interests around the world, helping to manage relationships with foreign governments, international organizations, and the people of other countries. former u.s. secretary of state hillary rodham clinton and dean of columbia..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://cfrontherecord.podbean.com/e/on-navigating-crises-inside-the-situation-room/" target="_blank">On Navigating Crises Inside the Situation Room</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 10, 2025 at 06:00 AM</span>
+                        <span class="article-length">2,353 chars</span>
+                    </div>
+                    
+                    <div class="article-description">U.S. Department of State officials are the foremost representatives of U.S. interests around the world, helping to manage relationships with foreign governments, international organizations, and the people of other countries. Former U.S. Secretary of State Hillary Rodham Clinton and Dean of Columbia...</div>
+                    <div class="view-content">
+                        <a href="rss/content/f22b9251e9dc6983b06bc3e9c6f72787.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="more than 40 trump administration picks tied directly to oil, gas and coal, analysis shows" data-description="report looks at white house nominees and appointees and agencies dictating energy, environment and climate policydonald trump has placed dozens of people with ties to the fossil fuel sector in his administration, including more than 40 who have directly worked for oil, gas or coal companies, accordi..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/us-news/2025/oct/08/trump-administration-fossil-fuels-climate" target="_blank">More than 40 Trump administration picks tied directly to oil, gas and coal, analysis shows</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 09, 2025 at 02:37 PM</span>
+                        <span class="article-length">9,128 chars</span>
+                    </div>
+                    
+                    <div class="article-description">Report looks at White House nominees and appointees and agencies dictating energy, environment and climate policyDonald Trump has placed dozens of people with ties to the fossil fuel sector in his administration, including more than 40 who have directly worked for oil, gas or coal companies, accordi...</div>
+                    <div class="view-content">
+                        <a href="rss/content/03dc9f7d246675811ed521c8ae6f17ac.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="governments are spending billions on their own ‘sovereign’ ai technologies – is it a big waste of money?" data-description="many us-built ai systems fall short but competing against tech giants neither easy nor cheapin singapore, a government-funded artificial intelligence model can converse in 11 languages, from bahasa indonesia to lao. in malaysia, ilmuchat, built by a local construction conglomerate, boasts that it “k..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/technology/2025/oct/09/governments-spending-billions-sovereign-ai-technology" target="_blank">Governments are spending billions on their own ‘sovereign’ AI technologies – is it a big waste of money?</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 09, 2025 at 12:32 AM</span>
+                        <span class="article-length">7,708 chars</span>
+                    </div>
+                    
+                    <div class="article-description">Many US-built AI systems fall short but competing against tech giants neither easy nor cheapIn Singapore, a government-funded artificial intelligence model can converse in 11 languages, from Bahasa Indonesia to Lao. In Malaysia, ILMUchat, built by a local construction conglomerate, boasts that it “k...</div>
+                    <div class="view-content">
+                        <a href="rss/content/ac21dd848e7571cafc24bfabda167e9b.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="the hidden cost of ultra-processed foods on the environment: ‘the whole industry should pay’" data-description="industrially made foods involve several ingredients and processes to put together, making it difficult to examine their true costif you look at a package of m&ms, one of the most popular candies in the us, you’ll see some familiar ingredients: sugar, skimmed milk powder, cocoa butter. but you’ll see..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/environment/2025/oct/08/ultra-processed-foods-environment-impact" target="_blank">The hidden cost of ultra-processed foods on the environment: ‘The whole industry should pay’</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 08, 2025 at 12:00 PM</span>
+                        <span class="article-length">10,160 chars</span>
+                    </div>
+                    
+                    <div class="article-description">Industrially made foods involve several ingredients and processes to put together, making it difficult to examine their true costIf you look at a package of M&Ms, one of the most popular candies in the US, you’ll see some familiar ingredients: sugar, skimmed milk powder, cocoa butter. But you’ll see...</div>
+                    <div class="view-content">
+                        <a href="rss/content/ca746617e0aee501ff535fba681d4946.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="‘it’s sellafield or nothing’: what life is like growing up in the shadow of europe’s oldest nuclear site" data-description="young people in whitehaven on england’s north-west coast rely on the power plant for everything from jobs to civic investment. but for those who see their future elsewhere, options can be limitedshare your experiences of living in a coastal townphotographs by polly bradenit is a rainy thursday in wh..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/environment/2025/oct/07/whitehaven-sellafield-europe-oldest-nuclear-site" target="_blank">‘It’s Sellafield or nothing’: what life is like growing up in the shadow of Europe’s oldest nuclear site</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">October 07, 2025 at 04:00 AM</span>
+                        <span class="article-length">11,111 chars</span>
+                    </div>
+                    
+                    <div class="article-description">Young people in Whitehaven on England’s north-west coast rely on the power plant for everything from jobs to civic investment. But for those who see their future elsewhere, options can be limitedShare your experiences of living in a coastal townPhotographs by Polly BradenIt is a rainy Thursday in Wh...</div>
+                    <div class="view-content">
+                        <a href="rss/content/2f8cc9839ac9a5c571d99ce327c289be.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="meat is a leading emissions source – but few outlets report on it, analysis finds" data-description="sentient media reveals less than 4% of climate news stories mention animal agriculture as source of carbon emissionsfood and agriculture contribute one-third of global greenhouse gas emissions – second only to the burning of fossil fuels. and yet the vast majority of media coverage of the climate cr..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/environment/2025/sep/27/meat-gas-emissions-reporting" target="_blank">Meat is a leading emissions source – but few outlets report on it, analysis finds</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">September 27, 2025 at 11:00 AM</span>
+                        <span class="article-length">9,301 chars</span>
+                    </div>
+                    
+                    <div class="article-description">Sentient Media reveals less than 4% of climate news stories mention animal agriculture as source of carbon emissionsFood and agriculture contribute one-third of global greenhouse gas emissions – second only to the burning of fossil fuels. And yet the vast majority of media coverage of the climate cr...</div>
+                    <div class="view-content">
+                        <a href="rss/content/4734e94c32072230c8fd6ed83410813c.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="un high commissioner volker türk on human rights" data-description="from sudan to the war in gaza, 2025 has seen the continuation of major humanitarian crises across the globe. volker türk, un high commissioner for human rights, examines a range of these crises, while also exploring issues such as financing, reform, and declining multilateral consensus. 
+ 
+this conv..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://cfrontherecord.podbean.com/e/un-high-commissioner-volker-turk-on-human-rights/" target="_blank">UN High Commissioner Volker Türk On Human Rights</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">September 26, 2025 at 06:21 PM</span>
+                        <span class="article-length">1,904 chars</span>
+                    </div>
+                    
+                    <div class="article-description">From Sudan to the war in Gaza, 2025 has seen the continuation of major humanitarian crises across the globe. Volker Türk, UN High Commissioner for Human Rights, examines a range of these crises, while also exploring issues such as financing, reform, and declining multilateral consensus. 
+ 
+This conv...</div>
+                    <div class="view-content">
+                        <a href="rss/content/5c3768919e3d7e5690af85301fce97fd.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="from south park v trump to ai slopaganda: deepfakes are now part of the news cycle, for better and for worse | anna broinowski" data-description="deepfakes come with risks that demand urgent regulation. but it is vital their potential as a creative and satirical tool isn’t stifledsalman rushdie believes ai will not be a threat to authors until chatgpt can write “a funny book”. his faith in human over synthetic creativity may hold some truth i..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/technology/2025/sep/26/deepfakes-ai-slop-now-part-of-news-cycle-south-park-v-trump" target="_blank">From South Park v Trump to AI slopaganda: deepfakes are now part of the news cycle, for better and for worse | Anna Broinowski</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">September 25, 2025 at 03:00 PM</span>
+                        <span class="article-length">7,100 chars</span>
+                    </div>
+                    
+                    <div class="article-description">Deepfakes come with risks that demand urgent regulation. But it is vital their potential as a creative and satirical tool isn’t stifledSalman Rushdie believes AI will not be a threat to authors until ChatGPT can write “a funny book”. His faith in human over synthetic creativity may hold some truth i...</div>
+                    <div class="view-content">
+                        <a href="rss/content/5cdb13260f4a22acc8566b82057d157d.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="canadian pm mark carney on nato, trade, and the middle east" data-description="the u.s.-canadian relationship boasts a history of cooperation, peaceful borders, and strong trade ties. however, the partnership has come under strain during the second trump administration, in part due to sweeping tariffs that have called into question canada’s economic ties to washington. against..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://cfrontherecord.podbean.com/e/canadian-pm-mark-carney-on-nato-trade-and-the-middle-east/" target="_blank">Canadian PM Mark Carney On NATO, Trade, and the Middle East</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">September 22, 2025 at 07:01 PM</span>
+                        <span class="article-length">2,226 chars</span>
+                    </div>
+                    
+                    <div class="article-description">The U.S.-Canadian relationship boasts a history of cooperation, peaceful borders, and strong trade ties. However, the partnership has come under strain during the second Trump administration, in part due to sweeping tariffs that have called into question Canada’s economic ties to Washington. Against...</div>
+                    <div class="view-content">
+                        <a href="rss/content/d262cc2ac5d151774bc35b594b2204d9.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="on gaza’s humanitarian crisis" data-description="former un undersecretary-general sigrid kaag discusses the state of humanitarian assistance in gaza and the role of the international community in supporting relief efforts.
+ 
+background reading:
+
+malnutrition has reached alarming levels in gaza, with famine declared in the territory’s most populate..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://cfrontherecord.podbean.com/e/on-gaza-s-humanitarian-crisis/" target="_blank">On Gaza’s Humanitarian Crisis</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">September 12, 2025 at 06:00 AM</span>
+                        <span class="article-length">1,879 chars</span>
+                    </div>
+                    
+                    <div class="article-description">Former UN Undersecretary-General Sigrid Kaag discusses the state of humanitarian assistance in Gaza and the role of the international community in supporting relief efforts.
+ 
+Background Reading:
+
+Malnutrition has reached alarming levels in Gaza, with famine declared in the territory’s most populate...</div>
+                    <div class="view-content">
+                        <a href="rss/content/c8a5c1a11ad73c8a39f396a7c692b55b.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="is the ai bubble about to burst – and send the stock market into freefall? | phillip inman" data-description="shares in us tech stocks are falling but it would probably be unwise for fund managers to pull out there are growing fears of an imminent stock market crash – one that will transform from a dip to a dive when euphoric headlines about the wonders of artificial intelligence begin to wane.shares in us ..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/technology/2025/aug/23/is-the-ai-bubble-about-to-burst-and-send-the-stock-market-into-freefall" target="_blank">Is the AI bubble about to burst – and send the stock market into freefall? | Phillip Inman</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">August 23, 2025 at 03:00 PM</span>
+                        <span class="article-length">5,106 chars</span>
+                    </div>
+                    
+                    <div class="article-description">Shares in US tech stocks are falling but it would probably be unwise for fund managers to pull out There are growing fears of an imminent stock market crash – one that will transform from a dip to a dive when euphoric headlines about the wonders of artificial intelligence begin to wane.Shares in US ...</div>
+                    <div class="view-content">
+                        <a href="rss/content/543f63296dbe8d5e7a708fecaf5274d3.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="canadians protest imports of us toxic waste amid trump tariff war" data-description="move to expand landfill for us hazardous waste stirs disputes between leaders in quebec and montreal suburbthe proposed expansion of a quebec landfill that accepts hazardous waste from the united states has ignited a turf war between the quebec provincial government and local leaders, who say they o..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/us-news/2025/mar/06/canadians-toxic-waste-trump-tariffs" target="_blank">Canadians protest imports of US toxic waste amid Trump tariff war</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">March 06, 2025 at 04:00 PM</span>
+                        <span class="article-length">7,001 chars</span>
+                    </div>
+                    
+                    <div class="article-description">Move to expand landfill for US hazardous waste stirs disputes between leaders in Quebec and Montreal suburbThe proposed expansion of a Quebec landfill that accepts hazardous waste from the United States has ignited a turf war between the Quebec provincial government and local leaders, who say they o...</div>
+                    <div class="view-content">
+                        <a href="rss/content/020bf4e0544b5d00b3c935e920f86dc7.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+                <div class="article" data-source="RSS Feed" data-title="lawmaker seeks ban of toxic fuel at portland racetrack after guardian story" data-description="guardian investigation had revealed gas emissions could be linked to cognitive impairment in children living nearbyrevealed: a toxic metal is in a us city’s air – and may be harming children’s brainsan oregon legislator has moved to ban the use of leaded fuel at a racetrack in portland following com..." data-continents="" data-topics="" data-keywords="">
+                    <h3 class="article-title">
+                        <a href="https://www.theguardian.com/us-news/2025/mar/05/oregon-bill-ban-leaded-fuel-portland-racetrack" target="_blank">Lawmaker seeks ban of toxic fuel at Portland racetrack after Guardian story</a>
+                    </h3>
+                    <div class="article-meta">
+                        <span class="article-source">RSS Feed</span>
+                        <span class="article-date">March 05, 2025 at 04:00 PM</span>
+                        <span class="article-length">3,978 chars</span>
+                    </div>
+                    
+                    <div class="article-description">Guardian investigation had revealed gas emissions could be linked to cognitive impairment in children living nearbyRevealed: a toxic metal is in a US city’s air – and may be harming children’s brainsAn Oregon legislator has moved to ban the use of leaded fuel at a racetrack in Portland following com...</div>
+                    <div class="view-content">
+                        <a href="rss/content/a8c1c44f650b2e70dd405284040b0396.html" target="_blank">📖 View Full Content</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Filter functionality
+        const sourceFilter = document.getElementById('sourceFilter');
+        const continentFilter = document.getElementById('continentFilter');
+        const topicFilter = document.getElementById('topicFilter');
+        const keywordFilter = document.getElementById('keywordFilter');
+        const searchInput = document.getElementById('searchInput');
+        const articlesList = document.getElementById('articlesList');
+        const articles = document.querySelectorAll('.article');
+        
+        function filterArticles() {
+            const selectedSource = sourceFilter.value.toLowerCase();
+            const selectedContinent = continentFilter.value;
+            const selectedTopic = topicFilter.value;
+            const selectedKeyword = keywordFilter.value.toLowerCase();
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            articles.forEach(article => {
+                const source = article.dataset.source.toLowerCase();
+                const title = article.dataset.title;
+                const description = article.dataset.description;
+                const continents = article.dataset.continents || '';
+                const topics = article.dataset.topics || '';
+                const keywords = article.dataset.keywords || '';
+                
+                const sourceMatch = !selectedSource || source.includes(selectedSource);
+                const continentMatch = !selectedContinent || continents.includes(selectedContinent);
+                const topicMatch = !selectedTopic || topics.includes(selectedTopic);
+                const keywordMatch = !selectedKeyword || keywords.toLowerCase().includes(selectedKeyword);
+                const searchMatch = !searchTerm || title.includes(searchTerm) || description.includes(searchTerm);
+                
+                if (sourceMatch && continentMatch && topicMatch && keywordMatch && searchMatch) {
+                    article.style.display = 'block';
+                } else {
+                    article.style.display = 'none';
+                }
+            });
+        }
+        
+        sourceFilter.addEventListener('change', filterArticles);
+        continentFilter.addEventListener('change', filterArticles);
+        topicFilter.addEventListener('change', filterArticles);
+        keywordFilter.addEventListener('change', filterArticles);
+        searchInput.addEventListener('input', filterArticles);
+        
+        // Initialize
+        filterArticles();
+    </script>
+</body>
+</html>

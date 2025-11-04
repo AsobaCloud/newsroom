@@ -1000,6 +1000,7 @@ def generate_date_html_index():
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Collection - {today}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://asoba.co/includes/common.css">
     <style>
         body {{
@@ -1314,11 +1315,15 @@ def generate_date_html_index():
             # Extract article ID from metadata file path or generate from URL
             article_id = hashlib.md5(article['url'].encode()).hexdigest()
             
-            # Determine content file path
-            if 'feed_url' in article:
+            # Determine content file path based on actual metadata file location
+            metadata_path = article.get('_metadata_path', '')
+            if '/rss/metadata/' in metadata_path:
                 content_path = f"rss/content/{article_id}.html"
-            else:
+            elif '/direct/metadata/' in metadata_path:
                 content_path = f"direct/content/{article_id}.html"
+            else:
+                # Legislation articles or other sources saved directly to metadata/ and content/
+                content_path = f"content/{article_id}.html"
             
             # Format publication date
             pub_date = article.get('pub_date', article.get('date', 'Unknown'))
@@ -1378,7 +1383,7 @@ def generate_date_html_index():
                     {'<div class="article-tags">' + tags_html + '</div>' if tags_html else ''}
                     {'<div class="article-description">' + description + '</div>' if description else ''}
                     <div class="view-content">
-                        <a href="{content_path}" target="_blank">?? View Full Content</a>
+                        <a href="{content_path}" target="_blank"><i class="fas fa-file-alt"></i> View Full Content</a>
                     </div>
                 </div>"""
         
@@ -1907,7 +1912,7 @@ def generate_master_html_index():
                     <div class="date-description">
                         Collection of energy, AI, and blockchain news from {formatted_date}
                     </div>
-                    <a href="news/{date_str}/index.html" class="view-button">View Collection ?</a>
+                    <a href="news/{date_str}/index.html" class="view-button">View Collection <i class="fas fa-arrow-right"></i></a>
                 </div>"""
         
         html_content += """

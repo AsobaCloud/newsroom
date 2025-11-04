@@ -1,0 +1,108 @@
+<div class="news-header">
+    <h1>📚 News Archive</h1>
+    <p>Complete collection of all news articles</p>
+</div>
+
+<div class="stats">
+    <div class="stat-item">
+        <span class="stat-number">{{ total_articles }}</span>
+        <span class="stat-label">Total Articles</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-number">{{ total_days }}</span>
+        <span class="stat-label">Days Covered</span>
+    </div>
+    <div class="stat-item">
+        <span class="stat-number">{{ unique_sources }}</span>
+        <span class="stat-label">Sources</span>
+    </div>
+</div>
+
+<div class="search-section">
+    <div class="filter-group">
+        <label for="date-filter">Filter by Date:</label>
+        <select id="date-filter">
+            <option value="">All Dates</option>
+            {% for date in dates %}
+            <option value="{{ date }}">{{ date }}</option>
+            {% endfor %}
+        </select>
+        
+        <label for="source-filter">Filter by Source:</label>
+        <select id="source-filter">
+            <option value="">All Sources</option>
+            {% for source in sources %}
+            <option value="{{ source }}">{{ source }}</option>
+            {% endfor %}
+        </select>
+        
+        <label for="search">Search:</label>
+        <input type="text" id="search" placeholder="Search articles...">
+    </div>
+</div>
+
+<div class="articles-list">
+    {% for article in articles %}
+    <div class="article" data-date="{{ article.date }}" data-source="{{ article.source }}">
+        <h3 class="article-title">
+            <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
+        </h3>
+        <div class="article-meta">
+            <span class="article-source">{{ article.source }}</span>
+            <span class="article-date">{{ article.date }}</span>
+            <span class="article-length">{{ article.length }} words</span>
+            {% if article.continent %}
+            <span class="tag-continent">{{ article.continent }}</span>
+            {% endif %}
+            {% for keyword in article.keywords[:3] %}
+            <span class="tag-keywords">{{ keyword }}</span>
+            {% endfor %}
+        </div>
+        <p class="article-description">{{ article.description }}</p>
+        <div class="view-content">
+            <a href="{{ article.url }}" target="_blank">Read full article →</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="back-link">
+    <a href="{{ today }}/index.html">← Back to Today's News</a>
+</div>
+
+<script>
+// Archive filtering functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const dateFilter = document.getElementById('date-filter');
+    const sourceFilter = document.getElementById('source-filter');
+    const searchInput = document.getElementById('search');
+    const articles = document.querySelectorAll('.article');
+    
+    function filterArticles() {
+        const dateValue = dateFilter.value;
+        const sourceValue = sourceFilter.value.toLowerCase();
+        const searchValue = searchInput.value.toLowerCase();
+        
+        articles.forEach(article => {
+            const date = article.dataset.date;
+            const source = article.dataset.source.toLowerCase();
+            const title = article.querySelector('.article-title').textContent.toLowerCase();
+            const description = article.querySelector('.article-description').textContent.toLowerCase();
+            
+            const matchesDate = !dateValue || date === dateValue;
+            const matchesSource = !sourceValue || source.includes(sourceValue);
+            const matchesSearch = !searchValue || title.includes(searchValue) || description.includes(searchValue);
+            
+            if (matchesDate && matchesSource && matchesSearch) {
+                article.style.display = 'block';
+            } else {
+                article.style.display = 'none';
+            }
+        });
+    }
+    
+    dateFilter.addEventListener('change', filterArticles);
+    sourceFilter.addEventListener('change', filterArticles);
+    searchInput.addEventListener('input', filterArticles);
+});
+</script>

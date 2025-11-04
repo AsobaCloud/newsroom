@@ -29,9 +29,23 @@ if __name__ == "__main__":
     os.environ['FRESH_MODE'] = 'true'
     
     # Import and run the main news scraper
-    from news_scraper import main as news_main
-    news_main()
+    try:
+        from news_scraper import main as news_main
+        print("Starting news_scraper...")
+        news_main()
+        print("news_scraper completed")
+    except Exception as e:
+        print(f"Error in news_scraper: {e}")
+        import traceback
+        traceback.print_exc()
     
     # Import and run the legislation scraper
-    from legislation_scraper import process_legislation_feeds
-    process_legislation_feeds()
+    try:
+        from legislation_scraper import process_legislation_feeds
+        print("Starting legislation_scraper...")
+        process_legislation_feeds()
+        print("legislation_scraper completed")
+    except Exception as e:
+        print(f"Error in legislation_scraper: {e}")
+        import traceback
+        traceback.print_exc()

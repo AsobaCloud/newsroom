@@ -53,17 +53,21 @@ newsroom/
 
 ```
 s3://news-collection-website/
-├── index.html                    # Master index
+├── index.html                    # Master index (all dates)
 └── news/
     └── YYYY-MM-DD/
-        ├── index.html           # Date-specific index
+        ├── index.html           # Date-specific index (all articles for that date)
+        ├── metadata/            # All article metadata (news + legislation)
+        ├── content/             # All article content (news + legislation)
         ├── rss/
-        │   ├── metadata/        # Article metadata
-        │   └── content/         # Full article content
+        │   ├── metadata/        # RSS article metadata (legacy)
+        │   └── content/         # RSS article content (legacy)
         └── direct/
-            ├── metadata/        # Direct scrape metadata
-            └── content/         # Direct scrape content
+            ├── metadata/        # Direct scrape metadata (legacy)
+            └── content/         # Direct scrape content (legacy)
 ```
+
+**Note**: Both news and legislation articles are stored in the same `metadata/` and `content/` folders at the date level. The HTML index generation scans all metadata folders to include all articles.
 
 ## Usage Examples
 
@@ -122,13 +126,27 @@ Both scrapers use shared utilities:
 - ✅ Topic categories
 - ✅ Legislation tag only if from legislation feed domain AND matches keywords
 
+## Lambda Deployment
+
+The newsroom system runs as an AWS Lambda function that is triggered by:
+- **Manual Update**: Click "Update" button in the UI (calls API Gateway endpoint)
+- **Scheduled**: Daily at 11PM Central Time via EventBridge
+
+When triggered, both scrapers run in sequence:
+1. `news_scraper.py` - Collects keyword-filtered news articles
+2. `legislation_scraper.py` - Collects unfiltered legislative articles
+
+Both scrapers share the same S3 bucket and save articles to the same date-organized folders, allowing them to appear together on the daily index pages.
+
 ## Recent Improvements
 
 - **Enhanced Keyword Matching**: Fixed false positives by implementing word boundary regex
 - **Quality Control**: Reduced collection from 700+ low-quality articles to ~50 high-quality articles
 - **Better Filtering**: Eliminated irrelevant content like "Celebrity Traitors" matching "AI"
-- **Legislation Scraper**: New separate scraper for unfiltered legislative content
+- **Legislation Scraper**: New separate scraper for legislative content (bypasses keyword filtering, respects date filtering)
 - **Shared Storage**: Extracted common S3 operations to reusable utilities
+- **Date Filtering**: Legislation scraper now filters by past 24 hours (same timeframe as news scraper)
+- **Error Handling**: Improved logging and error handling in Lambda wrapper
 
 ## License
 
