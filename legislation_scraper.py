@@ -470,6 +470,22 @@ def process_single_legislation_feed(feed_url: str):
 
 def process_legislation_feeds():
     """Process all legislation RSS feeds"""
+    if FRESH_MODE:
+        logger.info("?? FRESH MODE: Bypassing idempotency - reprocessing all legislation feeds")
+        if os.path.exists(PROGRESS_FILE):
+            try:
+                os.remove(PROGRESS_FILE)
+                logger.info("??? Cleared legislation progress file for fresh collection")
+            except OSError as e:
+                logger.warning(f"Could not remove legislation progress file: {e}")
+        progress_tracker.progress = {
+            "rss_feeds": {"feeds_completed": []},
+            "total_articles": 0,
+            "last_updated": None
+        }
+    else:
+        logger.info("?? IDEMPOTENT MODE: Skipping already processed legislation feeds")
+
     logger.info("=== LEGISLATION SCRAPER: Starting ===")
     
     # Filter out already completed feeds

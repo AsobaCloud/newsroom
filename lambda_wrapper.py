@@ -43,6 +43,9 @@ if __name__ == "__main__":
     try:
         from legislation_scraper import process_legislation_feeds
         print("Starting legislation_scraper...")
+        os.environ['FRESH_MODE'] = 'true'
+        import legislation_scraper
+        legislation_scraper.FRESH_MODE = True
         process_legislation_feeds()
         print("legislation_scraper completed")
     except Exception as e:
