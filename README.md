@@ -138,6 +138,8 @@ When triggered, both scrapers run in sequence:
 
 Both scrapers share the same S3 bucket and save articles to the same date-organized folders, allowing them to appear together on the daily index pages.
 
+`lambda_wrapper.py` forces `FRESH_MODE=true` before invoking each scraper, clearing their progress trackers so every Lambda run reprocesses that day’s feeds end-to-end. When running locally you can mirror this behaviour by passing `--fresh` (or setting `FRESH_MODE=true`) if you need to bypass idempotency manually.
+
 ## Recent Improvements
 
 - **Enhanced Keyword Matching**: Fixed false positives by implementing word boundary regex
