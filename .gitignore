@@ -1,2 +1,30 @@
 lambda_package/
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Test results
+tests/results/
+*.json
+
+# Distribution files
+dist/
+*.zip
+
+# Development/test files
+dev/
+
+# OS files
+.DS_Store
+*.Zone.Identifier
+
+# Progress files
+*_progress.json
+*_progress_backup.json
+
+# Python virtual environment
+venv/
+env/
+ENV/
