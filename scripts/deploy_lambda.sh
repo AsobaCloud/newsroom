@@ -6,6 +6,7 @@ set -e
 FUNCTION_NAME="news-scraper"
 ROLE_NAME="news-scraper-role"
 POLICY_NAME="news-scraper-policy"
+AWS_REGION="us-east-1"
 
 echo "🚀 Deploying news scraper as Lambda function..."
 
@@ -74,6 +75,7 @@ cp lambda/lambda_wrapper.py lambda_package/
 cp news_scraper.py lambda_package/
 cp news_storage.py lambda_package/
 cp legislation_scraper.py lambda_package/
+cp polymarket_scraper.py lambda_package/
 cp article_tagger.py lambda_package/
 
 # Install dependencies
@@ -87,6 +89,7 @@ cd ..
 # Deploy Lambda function
 echo "🚀 Deploying Lambda function..."
 aws lambda create-function \
+    --region $AWS_REGION \
     --function-name $FUNCTION_NAME \
     --runtime python3.9 \
     --role arn:aws:iam::${ACCOUNT_ID}:role/$ROLE_NAME \
@@ -96,37 +99,46 @@ aws lambda create-function \
     --memory-size 512 \
     --description "Daily news scraper for newsroom website" 2>/dev/null || \
 aws lambda update-function-code \
+    --region $AWS_REGION \
     --function-name $FUNCTION_NAME \
     --zip-file fileb://news-scraper.zip
 
+# Wait for function to be ready before updating configuration
+echo "⏳ Waiting for function to be ready..."
+aws lambda wait function-updated --region $AWS_REGION --function-name $FUNCTION_NAME 2>/dev/null || true
+
 # Update function configuration if it already exists
 aws lambda update-function-configuration \
+    --region $AWS_REGION \
     --function-name $FUNCTION_NAME \
     --timeout 900 \
     --memory-size 512
 
 echo "✅ Lambda function deployed successfully!"
 
-# Create EventBridge rule for daily execution at 11PM Central
+# Create EventBridge rule for daily execution at 11PM Central (5AM UTC)
 echo "⏰ Setting up daily schedule..."
 aws events put-rule \
+    --region $AWS_REGION \
     --name "news-scraper-daily" \
-    --schedule-expression "cron(0 23 * * ? *)" \
-    --description "Trigger news scraper daily at 11PM Central" \
+    --schedule-expression "cron(0 5 * * ? *)" \
+    --description "Trigger news scraper daily at 11PM Central (5AM UTC)" \
     --state ENABLED
 
 # Add Lambda permission for EventBridge
 aws lambda add-permission \
+    --region $AWS_REGION \
     --function-name $FUNCTION_NAME \
     --statement-id "allow-eventbridge" \
     --action "lambda:InvokeFunction" \
     --principal events.amazonaws.com \
-    --source-arn "arn:aws:events:us-east-1:${ACCOUNT_ID}:rule/news-scraper-daily"
+    --source-arn "arn:aws:events:${AWS_REGION}:${ACCOUNT_ID}:rule/news-scraper-daily" 2>/dev/null || true
 
 # Add Lambda target to EventBridge rule
 aws events put-targets \
+    --region $AWS_REGION \
     --rule "news-scraper-daily" \
-    --targets "Id"="1","Arn"="arn:aws:lambda:us-east-1:${ACCOUNT_ID}:function:$FUNCTION_NAME"
+    --targets "Id"="1","Arn"="arn:aws:lambda:${AWS_REGION}:${ACCOUNT_ID}:function:$FUNCTION_NAME"
 
 echo "✅ Daily schedule configured for 11PM Central Time!"
 echo "📊 Function ARN: arn:aws:lambda:us-east-1:${ACCOUNT_ID}:function:$FUNCTION_NAME"

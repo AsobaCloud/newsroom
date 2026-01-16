@@ -52,3 +52,14 @@ if __name__ == "__main__":
         print(f"Error in legislation_scraper: {e}")
         import traceback
         traceback.print_exc()
+
+    # Import and run the Polymarket scraper
+    try:
+        from polymarket_scraper import process_polymarket_feeds
+        print("Starting polymarket_scraper...")
+        process_polymarket_feeds()
+        print("polymarket_scraper completed")
+    except Exception as e:
+        print(f"Error in polymarket_scraper: {e}")
+        import traceback
+        traceback.print_exc()
