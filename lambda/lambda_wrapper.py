@@ -63,3 +63,14 @@ if __name__ == "__main__":
         print(f"Error in polymarket_scraper: {e}")
         import traceback
         traceback.print_exc()
+
+    # Import and run the Economy/Politics scraper
+    try:
+        from economy_politics_scraper import process_economy_politics_feeds
+        print("Starting economy_politics_scraper...")
+        process_economy_politics_feeds()
+        print("economy_politics_scraper completed")
+    except Exception as e:
+        print(f"Error in economy_politics_scraper: {e}")
+        import traceback
+        traceback.print_exc()

@@ -6,7 +6,7 @@ to help with newsletter curation and article organization.
 """
 
 import re
-from typing import List, Dict, Set
+from typing import List, Dict
 
 # Geographic mapping: cities, countries, regions -> continents
 GEOGRAPHIC_MAPPING = {
@@ -65,6 +65,14 @@ GEOGRAPHIC_MAPPING = {
     "kenya": "Africa", "morocco": "Africa", "ethiopia": "Africa",
     "cairo": "Africa", "lagos": "Africa", "johannesburg": "Africa",
     "nairobi": "Africa", "casablanca": "Africa", "addis ababa": "Africa",
+    "zimbabwe": "Africa", "harare": "Africa", "bulawayo": "Africa",
+    "mutare": "Africa", "gweru": "Africa", "masvingo": "Africa",
+    "ghana": "Africa", "accra": "Africa", "kumasi": "Africa",
+    "mauritius": "Africa", "port louis": "Africa",
+    "democratic republic of congo": "Africa", "drc": "Africa",
+    "kinshasa": "Africa", "lubumbashi": "Africa", "goma": "Africa",
+    "abuja": "Africa", "dar es salaam": "Africa", "kampala": "Africa",
+    "uganda": "Africa", "tanzania": "Africa",
     "north africa": "Africa", "sub-saharan africa": "Africa",
     "west africa": "Africa", "east africa": "Africa", "southern africa": "Africa",
     
@@ -109,22 +117,58 @@ CORE_TOPICS = {
     ]
 }
 
+def detect_countries(article_content: str) -> List[str]:
+    """
+    Extract country/city mentions from article content.
+
+    Args:
+        article_content: The full text content of the article
+
+    Returns:
+        List of matched countries/cities (e.g., ["United States", "Japan"])
+    """
+    if not article_content:
+        return []
+
+    content_lower = article_content.lower()
+    matched_locations = set()
+
+    # Check for geographic mentions using flexible matching
+    for location, continent in GEOGRAPHIC_MAPPING.items():
+        # Skip generic global terms
+        if continent == "Global":
+            continue
+
+        # Use word boundary matching for short terms, flexible for longer terms
+        if len(location) <= 3:
+            # Short terms like "us" need word boundaries to avoid false positives
+            pattern = r'\b' + re.escape(location) + r'\b'
+        else:
+            # Longer terms can use flexible matching
+            pattern = re.escape(location)
+
+        if re.search(pattern, content_lower):
+            # Normalize the location name (title case)
+            matched_locations.add(location.title())
+
+    return sorted(list(matched_locations))
+
 def detect_continents(article_content: str) -> List[str]:
     """
     Extract continent mentions from article content.
-    
+
     Args:
         article_content: The full text content of the article
-        
+
     Returns:
         List of continent tags (e.g., ["Asia", "Europe"] or ["Global"])
     """
     if not article_content:
         return ["Unclear"]
-    
+
     content_lower = article_content.lower()
     continents = set()
-    
+
     # Check for geographic mentions using flexible matching
     import re
     for location, continent in GEOGRAPHIC_MAPPING.items():
@@ -135,10 +179,10 @@ def detect_continents(article_content: str) -> List[str]:
         else:
             # Longer terms can use flexible matching
             pattern = re.escape(location)
-        
+
         if re.search(pattern, content_lower):
             continents.add(continent)
-    
+
     # Handle special cases
     if len(continents) > 1:
         # Multiple continents mentioned - return all continents
@@ -201,23 +245,25 @@ def get_core_topic_categories(matched_keywords: List[str]) -> List[str]:
 def tag_article(article_content: str, keywords_list: List[str]) -> Dict[str, List[str]]:
     """
     Main function to tag an article with all relevant tags.
-    
+
     Args:
         article_content: The full text content of the article
         keywords_list: List of keywords to check against
-        
+
     Returns:
         Dictionary with tagging results:
         {
             'continents': List[str],
+            'countries': List[str],
             'matched_keywords': List[str],
             'core_topics': List[str]
         }
     """
     matched_keywords = get_matched_keywords(article_content, keywords_list)
-    
+
     return {
         'continents': detect_continents(article_content),
+        'countries': detect_countries(article_content),
         'matched_keywords': matched_keywords,
         'core_topics': get_core_topic_categories(matched_keywords)
     }
