@@ -241,6 +241,14 @@ FEEDS_BY_COUNTRY = {
         "https://www.heritage.org/rss/all",
         "https://www.census.gov/economic-indicators/indicator.xml",
         "https://fredblog.stlouisfed.org/feed/",
+        "https://feeds.npr.org/1001/rss.xml",           # NPR News
+        "https://feeds.npr.org/1006/rss.xml",           # NPR Business
+        "https://www.pbs.org/newshour/feeds/rss/headlines",  # PBS NewsHour
+        "https://feeds.propublica.org/propublica/main",  # ProPublica
+        "https://www.cnbc.com/id/10001147/device/rss/rss.html",  # CNBC Top News
+        "https://www.cnbc.com/id/10000664/device/rss/rss.html",  # CNBC Economy
+        "https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml",  # NYT Politics
+        "https://api.axios.com/feed/",                   # Axios
     ],
     "Eurozone": [
         "https://socialeurope.eu/feed",
@@ -352,7 +360,7 @@ def extract_full_article_content(url: str) -> Optional[str]:
     """Extract full article content from URL"""
     try:
         headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
         }
 
         response = requests.get(url, headers=headers, timeout=30)
@@ -409,7 +417,7 @@ def process_single_economy_politics_feed(feed_url: str, target_country: str):
 
     try:
         headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
         }
         response = requests.get(feed_url, headers=headers, timeout=10)
         response.raise_for_status()
@@ -465,8 +473,12 @@ def process_single_economy_politics_feed(feed_url: str, target_country: str):
                 # Extract full article content
                 full_content = extract_full_article_content(link)
                 if not full_content:
-                    logger.warning(f"Could not extract content from: {link}")
-                    continue
+                    if description and len(description) > 50:
+                        full_content = description
+                        logger.info(f"Using RSS description as fallback for: {link}")
+                    else:
+                        logger.warning(f"Could not extract content from: {link}")
+                        continue
 
                 # Keyword filtering - article must match at least one keyword
                 combined_text = title + ' ' + description + ' ' + full_content

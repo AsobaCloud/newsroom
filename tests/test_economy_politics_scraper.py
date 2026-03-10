@@ -90,11 +90,11 @@ class TestFeedOrganization(unittest.TestCase):
                                 f"Invalid feed URL for {country}: {feed}")
 
     def test_total_feed_count(self):
-        """Should have approximately 83 feeds total"""
+        """Should have approximately 91 feeds total (after USA feed expansion)"""
         from economy_politics_scraper import FEEDS_BY_COUNTRY
         total = sum(len(feeds) for feeds in FEEDS_BY_COUNTRY.values())
-        self.assertGreaterEqual(total, 70, "Too few feeds")
-        self.assertLessEqual(total, 100, "Too many feeds")
+        self.assertGreaterEqual(total, 80, "Too few feeds")
+        self.assertLessEqual(total, 110, "Too many feeds")
 
     def test_get_all_feeds_with_country(self):
         """get_all_feeds_with_country returns (url, country) tuples"""
@@ -214,6 +214,86 @@ class TestSpecialTags(unittest.TestCase):
             if isinstance(tags, dict):
                 self.assertIn('economy_politics', tags.get('special_tags', []))
                 self.assertEqual(tags.get('target_country'), 'Zimbabwe')
+
+
+class TestDescriptionFallback(unittest.TestCase):
+    """Test RSS description fallback when article extraction fails"""
+
+    @patch('economy_politics_scraper.save_article')
+    @patch('economy_politics_scraper.extract_full_article_content')
+    @patch('economy_politics_scraper.requests.get')
+    def test_fallback_to_description_when_extraction_fails(self, mock_get, mock_extract, mock_save):
+        """When article extraction returns None but RSS description exists, article should still be saved"""
+        rss_xml = """<?xml version="1.0" encoding="UTF-8"?>
+        <rss version="2.0">
+        <channel>
+        <item>
+            <title>US inflation hits new high amid economic concerns</title>
+            <link>http://example.com/blocked-article</link>
+            <pubDate>Mon, 09 Mar 2026 12:00:00 GMT</pubDate>
+            <description>Consumer prices rose sharply as inflation concerns mount across the United States, with the Federal Reserve considering further interest rate adjustments to combat rising costs.</description>
+        </item>
+        </channel>
+        </rss>"""
+
+        rss_response = MagicMock()
+        rss_response.status_code = 200
+        rss_response.content = rss_xml.encode()
+        rss_response.raise_for_status = MagicMock()
+
+        mock_get.return_value = rss_response
+        mock_extract.return_value = None  # Simulate 403 / extraction failure
+        mock_save.return_value = "article-fallback-123"
+
+        from economy_politics_scraper import process_single_economy_politics_feed
+        with patch('economy_politics_scraper.url_already_processed', return_value=False), \
+             patch('economy_politics_scraper.is_recent_article', return_value=True), \
+             patch('economy_politics_scraper.add_processed_url'), \
+             patch('economy_politics_scraper.progress_tracker') as mock_tracker:
+            mock_tracker.is_feed_complete.return_value = False
+            count = process_single_economy_politics_feed("http://example.com/feed.xml", "USA")
+
+        self.assertEqual(count, 1)
+        self.assertTrue(mock_save.called, "save_article should be called with description fallback")
+        call_kwargs = mock_save.call_args[1]
+        self.assertIn('inflation', call_kwargs['full_content'].lower())
+
+    @patch('economy_politics_scraper.save_article')
+    @patch('economy_politics_scraper.extract_full_article_content')
+    @patch('economy_politics_scraper.requests.get')
+    def test_no_fallback_for_short_description(self, mock_get, mock_extract, mock_save):
+        """When description is too short (<=50 chars), article should be skipped"""
+        rss_xml = """<?xml version="1.0" encoding="UTF-8"?>
+        <rss version="2.0">
+        <channel>
+        <item>
+            <title>US inflation hits new high</title>
+            <link>http://example.com/blocked-article2</link>
+            <pubDate>Mon, 09 Mar 2026 12:00:00 GMT</pubDate>
+            <description>Short desc</description>
+        </item>
+        </channel>
+        </rss>"""
+
+        rss_response = MagicMock()
+        rss_response.status_code = 200
+        rss_response.content = rss_xml.encode()
+        rss_response.raise_for_status = MagicMock()
+
+        mock_get.return_value = rss_response
+        mock_extract.return_value = None
+        mock_save.return_value = None
+
+        from economy_politics_scraper import process_single_economy_politics_feed
+        with patch('economy_politics_scraper.url_already_processed', return_value=False), \
+             patch('economy_politics_scraper.is_recent_article', return_value=True), \
+             patch('economy_politics_scraper.add_processed_url'), \
+             patch('economy_politics_scraper.progress_tracker') as mock_tracker:
+            mock_tracker.is_feed_complete.return_value = False
+            count = process_single_economy_politics_feed("http://example.com/feed.xml", "USA")
+
+        self.assertEqual(count, 0)
+        self.assertFalse(mock_save.called, "save_article should NOT be called for short descriptions")
 
 
 if __name__ == '__main__':
