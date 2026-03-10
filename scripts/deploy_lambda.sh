@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Deploy news scraper as AWS Lambda function
-set -e
+set -euo pipefail
 
 FUNCTION_NAME="news-scraper"
 ROLE_NAME="news-scraper-role"
@@ -61,7 +61,7 @@ ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
 # Attach custom policy to role
 aws iam attach-role-policy \
     --role-name $ROLE_NAME \
-    --policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/$POLICY_NAME
+    --policy-arn "arn:aws:iam::${ACCOUNT_ID}:policy/${POLICY_NAME}"
 
 # Wait for role to be ready
 echo "⏳ Waiting for IAM role to be ready..."
@@ -76,6 +76,7 @@ cp news_scraper.py lambda_package/
 cp news_storage.py lambda_package/
 cp legislation_scraper.py lambda_package/
 cp polymarket_scraper.py lambda_package/
+cp economy_politics_scraper.py lambda_package/
 cp article_tagger.py lambda_package/
 
 # Install dependencies
@@ -92,7 +93,7 @@ aws lambda create-function \
     --region $AWS_REGION \
     --function-name $FUNCTION_NAME \
     --runtime python3.9 \
-    --role arn:aws:iam::${ACCOUNT_ID}:role/$ROLE_NAME \
+    --role "arn:aws:iam::${ACCOUNT_ID}:role/${ROLE_NAME}" \
     --handler lambda_news_scraper.lambda_handler \
     --zip-file fileb://news-scraper.zip \
     --timeout 900 \
@@ -138,7 +139,7 @@ aws lambda add-permission \
 aws events put-targets \
     --region $AWS_REGION \
     --rule "news-scraper-daily" \
-    --targets "Id"="1","Arn"="arn:aws:lambda:${AWS_REGION}:${ACCOUNT_ID}:function:$FUNCTION_NAME"
+    --targets "Id=1,Arn=arn:aws:lambda:${AWS_REGION}:${ACCOUNT_ID}:function:${FUNCTION_NAME}"
 
 echo "✅ Daily schedule configured for 11PM Central Time!"
 echo "📊 Function ARN: arn:aws:lambda:us-east-1:${ACCOUNT_ID}:function:$FUNCTION_NAME"

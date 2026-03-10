@@ -296,5 +296,17 @@ class TestDescriptionFallback(unittest.TestCase):
         self.assertFalse(mock_save.called, "save_article should NOT be called for short descriptions")
 
 
+class TestDeployScriptCoverage(unittest.TestCase):
+    """Ensure deploy script includes all files imported by lambda_wrapper.py"""
+
+    def test_deploy_script_includes_economy_politics_scraper(self):
+        """deploy_lambda.sh must copy economy_politics_scraper.py into the Lambda package"""
+        deploy_script_path = os.path.join(os.path.dirname(__file__), '..', 'scripts', 'deploy_lambda.sh')
+        with open(deploy_script_path, 'r') as f:
+            deploy_content = f.read()
+        self.assertIn('economy_politics_scraper.py', deploy_content,
+                      "deploy_lambda.sh must include economy_politics_scraper.py in the Lambda package")
+
+
 if __name__ == '__main__':
     unittest.main()
