@@ -80,7 +80,11 @@ cp economy_politics_scraper.py lambda_package/
 cp article_tagger.py lambda_package/
 
 # Install dependencies
-pip3 install -r requirements.txt -t lambda_package/
+pip3 install -r requirements.txt -t lambda_package/ \
+    --platform manylinux2014_x86_64 \
+    --only-binary=:all: \
+    --python-version 3.9 \
+    --implementation cp
 
 # Create zip file
 cd lambda_package
