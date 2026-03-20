@@ -59,6 +59,20 @@ GEOGRAPHIC_MAPPING = {
     "south asia": "Asia", "southeast asia": "Asia", "middle east": "Asia",
     "asean": "Asia", "gulf states": "Asia", "persian gulf": "Asia",
     "south china sea": "Asia", "east asia": "Asia", "central asia": "Asia",
+    # MENA — Asian geography
+    "iran": "Asia", "tehran": "Asia",
+    "iraq": "Asia", "baghdad": "Asia",
+    "saudi arabia": "Asia", "riyadh": "Asia", "jeddah": "Asia",
+    "syria": "Asia",
+    "yemen": "Asia", "sanaa": "Asia", "aden": "Asia",
+    "lebanon": "Asia", "amman": "Asia",
+    "jordan": "Asia",
+    "qatar": "Asia",
+    "bahrain": "Asia", "manama": "Asia",
+    "oman": "Asia", "muscat": "Asia",
+    "kuwait": "Asia",
+    "afghanistan": "Asia", "kabul": "Asia",
+    "pakistan": "Asia", "karachi": "Asia", "islamabad": "Asia", "lahore": "Asia",
     
     # Africa
     "egypt": "Africa", "nigeria": "Africa", "south africa": "Africa",
@@ -75,6 +89,10 @@ GEOGRAPHIC_MAPPING = {
     "uganda": "Africa", "tanzania": "Africa",
     "north africa": "Africa", "sub-saharan africa": "Africa",
     "west africa": "Africa", "east africa": "Africa", "southern africa": "Africa",
+    # North Africa (MENA countries with African geography)
+    "libya": "Africa", "tripoli": "Africa", "benghazi": "Africa",
+    "tunisia": "Africa", "tunis": "Africa",
+    "algeria": "Africa", "algiers": "Africa",
     
     # Oceania
     "australia": "Oceania", "new zealand": "Oceania",
@@ -117,6 +135,115 @@ CORE_TOPICS = {
     ]
 }
 
+# Maps every location key in GEOGRAPHIC_MAPPING to a canonical country name.
+# Entries here override the raw location title-casing so that city mentions
+# resolve to the parent country (e.g. "tehran" -> "Iran").
+CITY_TO_COUNTRY = {
+    # Americas — cities to country
+    "new york": "United States", "washington dc": "United States",
+    "washington d.c.": "United States", "los angeles": "United States",
+    "san francisco": "United States", "chicago": "United States",
+    "houston": "United States", "austin": "United States",
+    "portland": "United States", "palo alto": "United States",
+    "mountain view": "United States", "seattle": "United States",
+    "boston": "United States",
+    "toronto": "Canada", "calgary": "Canada",
+    "mexico city": "Mexico",
+    "são paulo": "Brazil", "sao paulo": "Brazil",
+    "buenos aires": "Argentina",
+    "panama city": "Panama",
+    "san jose": "Costa Rica",
+    # Europe — cities to country
+    "london": "United Kingdom",
+    "paris": "France",
+    "berlin": "Germany", "munich": "Germany",
+    "brussels": "Belgium",
+    "amsterdam": "Netherlands",
+    "madrid": "Spain", "barcelona": "Spain",
+    "rome": "Italy",
+    "moscow": "Russia",
+    "warsaw": "Poland",
+    "istanbul": "Turkey",
+    "kyiv": "Ukraine", "kiev": "Ukraine",
+    "copenhagen": "Denmark",
+    "aberdeen": "United Kingdom",
+    "stavanger": "Norway",
+    # Asia — cities to country
+    "tokyo": "Japan",
+    "beijing": "China", "shanghai": "China", "shenzhen": "China",
+    "hong kong": "China",
+    "seoul": "South Korea",
+    "mumbai": "India", "delhi": "India", "bangalore": "India",
+    "bangkok": "Thailand",
+    "jakarta": "Indonesia",
+    "manila": "Philippines",
+    "dubai": "UAE",
+    "tel aviv": "Israel", "jerusalem": "Israel",
+    "baku": "Azerbaijan",
+    "gaza": "Palestine", "gaza city": "Palestine", "ramallah": "Palestine",
+    # MENA (Asian) — cities to country
+    "tehran": "Iran",
+    "baghdad": "Iraq",
+    "riyadh": "Saudi Arabia", "jeddah": "Saudi Arabia",
+    "damascus": "Syria",
+    "sanaa": "Yemen", "aden": "Yemen",
+    "beirut": "Lebanon",
+    "amman": "Jordan",
+    "doha": "Qatar",
+    "manama": "Bahrain",
+    "muscat": "Oman",
+    "kuwait city": "Kuwait",
+    "kabul": "Afghanistan",
+    "karachi": "Pakistan", "islamabad": "Pakistan", "lahore": "Pakistan",
+    # Africa — cities to country
+    "cairo": "Egypt",
+    "lagos": "Nigeria", "abuja": "Nigeria",
+    "johannesburg": "South Africa",
+    "nairobi": "Kenya",
+    "casablanca": "Morocco",
+    "addis ababa": "Ethiopia",
+    "harare": "Zimbabwe", "bulawayo": "Zimbabwe",
+    "mutare": "Zimbabwe", "gweru": "Zimbabwe", "masvingo": "Zimbabwe",
+    "accra": "Ghana", "kumasi": "Ghana",
+    "port louis": "Mauritius",
+    "kinshasa": "Democratic Republic Of Congo",
+    "lubumbashi": "Democratic Republic Of Congo",
+    "goma": "Democratic Republic Of Congo",
+    "dar es salaam": "Tanzania",
+    "kampala": "Uganda",
+    # North Africa — cities to country
+    "tripoli": "Libya", "benghazi": "Libya",
+    "tunis": "Tunisia",
+    "algiers": "Algeria",
+    # Oceania — cities to country
+    "sydney": "Australia", "melbourne": "Australia",
+    "auckland": "New Zealand", "wellington": "New Zealand",
+}
+
+# Countries that appear directly as keys in GEOGRAPHIC_MAPPING (not just cities).
+# Used so detect_countries() returns the canonical title-cased country name.
+_COUNTRY_KEYS = {
+    "united states", "usa", "canada", "mexico", "brazil", "argentina", "chile",
+    "colombia", "peru", "venezuela", "ecuador", "bolivia", "paraguay", "uruguay",
+    "guyana", "suriname", "french guiana", "cuba", "jamaica", "haiti",
+    "dominican republic", "puerto rico", "guatemala", "honduras", "el salvador",
+    "nicaragua", "costa rica", "panama",
+    "united kingdom", "france", "germany", "italy", "spain", "poland", "russia",
+    "ukraine", "turkey", "netherlands", "belgium", "denmark", "sweden", "norway",
+    "finland", "switzerland", "austria", "czech republic", "hungary", "romania",
+    "bulgaria", "greece", "portugal", "ireland", "european union",
+    "china", "japan", "india", "south korea", "singapore", "thailand", "indonesia",
+    "philippines", "uae", "israel", "palestine", "azerbaijan",
+    "iran", "iraq", "saudi arabia", "syria", "yemen", "lebanon", "jordan",
+    "qatar", "bahrain", "oman", "kuwait", "afghanistan", "pakistan",
+    "egypt", "nigeria", "south africa", "kenya", "morocco", "ethiopia",
+    "zimbabwe", "ghana", "mauritius", "democratic republic of congo",
+    "uganda", "tanzania",
+    "libya", "tunisia", "algeria",
+    "australia", "new zealand",
+}
+
+
 def detect_countries(article_content: str) -> List[str]:
     """
     Extract country/city mentions from article content.
@@ -131,7 +258,7 @@ def detect_countries(article_content: str) -> List[str]:
         return []
 
     content_lower = article_content.lower()
-    matched_locations = set()
+    matched_countries = set()
 
     # Check for geographic mentions using flexible matching
     for location, continent in GEOGRAPHIC_MAPPING.items():
@@ -148,10 +275,15 @@ def detect_countries(article_content: str) -> List[str]:
             pattern = re.escape(location)
 
         if re.search(pattern, content_lower):
-            # Normalize the location name (title case)
-            matched_locations.add(location.title())
+            # Resolve city mentions to their parent country when possible
+            if location in CITY_TO_COUNTRY:
+                matched_countries.add(CITY_TO_COUNTRY[location])
+            elif location in _COUNTRY_KEYS:
+                matched_countries.add(location.title())
+            else:
+                matched_countries.add(location.title())
 
-    return sorted(list(matched_locations))
+    return sorted(list(matched_countries))
 
 def detect_continents(article_content: str) -> List[str]:
     """
