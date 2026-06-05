@@ -14,16 +14,18 @@ import boto3
 import logging
 import requests
 import hashlib
-import sys
 import argparse
-from datetime import datetime, date
-from typing import Dict, List, Optional
-from urllib.parse import urljoin, urlparse, quote
+from datetime import datetime
+from typing import Optional
+from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor
 
 # Import the article tagging module
 from article_tagger import tag_article
+
+# Import DynamoDB client for metadata storage
+from newsroom_dynamodb import insert_article
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("news_scraper")
@@ -341,57 +343,8 @@ progress_tracker = ProgressTracker()
 # -------------------------------------------------------------------------
 # IDEMPOTENT S3 OPERATIONS
 # -------------------------------------------------------------------------
-def get_s3_manifest():
-    """Get manifest of all files already in S3 bucket/prefix"""
-    manifest = set()
-    article_urls = set()  # Track URLs we've already processed
-    
-    try:
-        paginator = s3_client.get_paginator('list_objects_v2')
-        page_iterator = paginator.paginate(
-            Bucket=S3_BUCKET_NAME,
-            Prefix=S3_FOLDER_NEWS + "/"
-        )
-        
-        for page in page_iterator:
-            if 'Contents' in page:
-                for obj in page['Contents']:
-                    manifest.add(obj['Key'])
-                    
-                    # Extract URLs from metadata files for URL-based deduplication
-                    if obj['Key'].endswith('.json') and '/metadata/' in obj['Key']:
-                        try:
-                            response = s3_client.get_object(Bucket=S3_BUCKET_NAME, Key=obj['Key'])
-                            metadata = json.loads(response['Body'].read().decode('utf-8'))
-                            if 'url' in metadata:
-                                article_urls.add(metadata['url'])
-                        except Exception as e:
-                            logger.debug(f"Could not extract URL from {obj['Key']}: {e}")
-        
-        logger.info(f"S3 manifest loaded: {len(manifest)} existing files, {len(article_urls)} unique article URLs")
-        return manifest, article_urls
-    except Exception as e:
-        logger.error(f"Error loading S3 manifest: {str(e)}")
-        return set(), set()
-
-# Global manifest for idempotency
-S3_MANIFEST, S3_PROCESSED_URLS = get_s3_manifest()
-
-def exists_in_s3(key: str) -> bool:
-    """Check if file exists in S3 using manifest"""
-    if FRESH_MODE:
-        return False
-    return key in S3_MANIFEST
-
-def url_already_processed(url: str) -> bool:
-    """Check if URL was already processed (idempotency across runs)"""
-    if FRESH_MODE:
-        return False
-    return url in S3_PROCESSED_URLS
-
-def add_processed_url(url: str):
-    """Add URL to processed set"""
-    S3_PROCESSED_URLS.add(url)
+# DynamoDB handles idempotency, so S3 manifest functions removed
+# URL deduplication is handled by DynamoDB insert_article()
 
 def sanitize_filename(key: str) -> str:
     parts = key.split("/")
@@ -405,11 +358,6 @@ def sanitize_filename(key: str) -> str:
 def upload_to_s3_if_not_exists(file_content: bytes, s3_key: str, content_type: str = "text/html"):
     s3_key = sanitize_filename(s3_key)
     
-    # Check manifest first (faster than HEAD request)
-    if exists_in_s3(s3_key):
-        logger.debug(f"Skipping (exists in manifest): {s3_key}")
-        return False
-    
     try:
         logger.info(f"Uploading to S3: {s3_key}")
         s3_client.put_object(
@@ -418,8 +366,6 @@ def upload_to_s3_if_not_exists(file_content: bytes, s3_key: str, content_type: s
             Body=file_content,
             ContentType=content_type
         )
-        # Add to manifest
-        S3_MANIFEST.add(s3_key)
         logger.info(f"? Uploaded: {s3_key}")
         return True
     except Exception as e:
@@ -585,7 +531,7 @@ def process_single_rss_feed(feed_url):
             items = soup.find_all('item')
             if not items:
                 items = soup.find_all('entry')  # Atom feeds
-        except:
+        except Exception:
             pass
         
         # Method 2: lxml parser fallback
@@ -595,7 +541,7 @@ def process_single_rss_feed(feed_url):
                 items = soup.find_all('item')
                 if not items:
                     items = soup.find_all('entry')  # Atom feeds
-            except:
+            except Exception:
                 pass
         
         # Method 3: HTML parser fallback
@@ -605,7 +551,7 @@ def process_single_rss_feed(feed_url):
                 items = soup.find_all('item')
                 if not items:
                     items = soup.find_all('entry')  # Atom feeds
-            except:
+            except Exception:
                 pass
         
         # Process items from whichever parser succeeded
@@ -643,11 +589,6 @@ def process_single_rss_feed(feed_url):
                 if not link:
                     continue
                 
-                # Check for URL-based deduplication first (fastest check)
-                if url_already_processed(link):
-                    logger.debug(f"URL already processed: {link}")
-                    continue
-                
                 # Check if 2025 article - for debugging let's see what we're filtering
                 if not is_2025_article(pub_date):
                     logger.debug(f"Filtering out non-2025 article: {title[:50]}... (date: {pub_date})")
@@ -662,14 +603,7 @@ def process_single_rss_feed(feed_url):
                 # Generate unique ID
                 article_id = hashlib.md5(link.encode()).hexdigest()
                 
-                # Check if already processed by file existence (backup check)
-                metadata_key = f"{S3_FOLDER_NEWS}/rss/metadata/{article_id}.json"
-                content_key = f"{S3_FOLDER_NEWS}/rss/content/{article_id}.html"
-                
-                if exists_in_s3(metadata_key) and exists_in_s3(content_key):
-                    logger.debug(f"Already processed by file check: {article_id}")
-                    add_processed_url(link)  # Update our URL cache
-                    continue
+                # DynamoDB handles idempotency, no need for file existence check
                 
                 # Extract full article content
                 full_content = extract_full_article_content(link)
@@ -701,28 +635,26 @@ def process_single_rss_feed(feed_url):
                 
                 # Create metadata with tagging information
                 metadata = {
-                    'title': title,
                     'url': link,
+                    'title': title,
+                    'source': 'RSS Feed',
                     'pub_date': pub_date,
                     'description': description,
-                    'source': 'RSS Feed',
                     'feed_url': feed_url,
                     'content_length': len(full_content),
                     'collection_date': datetime.now().isoformat(),
                     'tags': {**tags, 'special_tags': special_tags}
                 }
                 
-                # Save metadata
-                if upload_to_s3_if_not_exists(
-                    json.dumps(metadata, indent=2).encode("utf-8"),
-                    metadata_key,
-                    "application/json"
-                ):
-                    # Save full content
+                # Save metadata to DynamoDB (handles idempotency)
+                inserted = insert_article(metadata)
+                
+                if inserted:
+                    # Save full content to S3 (simplified path)
+                    content_key = f"news/content/rss/{article_id}.html"
                     if upload_to_s3_if_not_exists(full_content.encode('utf-8'), content_key):
                         feed_count += 1
                         progress_tracker.increment_articles()
-                        add_processed_url(link)  # Track URL for future idempotency
                         logger.info(f"? Saved article: {title[:50]}...")
                 
                 time.sleep(0.5)  # Rate limiting
@@ -809,22 +741,10 @@ def scrape_website_articles(base_url: str, max_articles: int = 50):
         
         for article_url in list(article_links)[:max_articles]:
             try:
-                # Check for URL-based deduplication first (fastest check)
-                if url_already_processed(article_url):
-                    logger.debug(f"URL already processed: {article_url}")
-                    continue
-                
                 # Generate unique ID
                 article_id = hashlib.md5(article_url.encode()).hexdigest()
                 
-                # Check if already processed by file existence (backup check)
-                metadata_key = f"{S3_FOLDER_NEWS}/direct/metadata/{article_id}.json"
-                content_key = f"{S3_FOLDER_NEWS}/direct/content/{article_id}.html"
-                
-                if exists_in_s3(metadata_key) and exists_in_s3(content_key):
-                    logger.debug(f"Already processed by file check: {article_id}")
-                    add_processed_url(article_url)  # Update our URL cache
-                    continue
+                # DynamoDB handles idempotency, no need for file existence check
                 
                 # Get article page
                 article_response = requests.get(article_url, headers=headers, timeout=30)
@@ -875,27 +795,25 @@ def scrape_website_articles(base_url: str, max_articles: int = 50):
                 
                 # Create metadata with tagging information
                 metadata = {
-                    'title': title,
                     'url': article_url,
-                    'date': article_date or 'Unknown',
+                    'title': title,
                     'source': 'Direct Scraping',
+                    'pub_date': article_date or 'Unknown',
                     'base_url': base_url,
                     'content_length': len(full_content),
                     'collection_date': datetime.now().isoformat(),
                     'tags': tags
                 }
                 
-                # Save metadata
-                if upload_to_s3_if_not_exists(
-                    json.dumps(metadata, indent=2).encode("utf-8"),
-                    metadata_key,
-                    "application/json"
-                ):
-                    # Save full content
+                # Save metadata to DynamoDB (handles idempotency)
+                inserted = insert_article(metadata)
+                
+                if inserted:
+                    # Save full content to S3 (simplified path)
+                    content_key = f"news/content/direct/{article_id}.html"
                     if upload_to_s3_if_not_exists(full_content.encode('utf-8'), content_key):
                         articles_found += 1
                         progress_tracker.increment_articles()
-                        add_processed_url(article_url)  # Track URL for future idempotency
                         logger.info(f"? Scraped article: {title[:50]}...")
                 
                 time.sleep(1)  # Rate limiting
@@ -932,41 +850,37 @@ def generate_date_html_index():
     logger.info("?? Generating date HTML index...")
     
     try:
-        # Get all metadata files from today's folder
-        metadata_files = []
+        # Fetch articles from DynamoDB for today's date
+        from newsroom_dynamodb import fetch_articles_by_date_range
         
-        # Get all metadata files from today's folder (including RSS, direct, and legislation)
-        try:
-            paginator = s3_client.get_paginator('list_objects_v2')
-            # Scan all subfolders under today's folder for metadata files
-            page_iterator = paginator.paginate(
-                Bucket=S3_BUCKET_NAME,
-                Prefix=f"{S3_FOLDER_NEWS}/"
-            )
-            
-            for page in page_iterator:
-                if 'Contents' in page:
-                    for obj in page['Contents']:
-                        # Match any metadata file in any subfolder (rss/metadata/, direct/metadata/, metadata/, etc.)
-                        if obj['Key'].endswith('.json') and '/metadata/' in obj['Key']:
-                            metadata_files.append(obj['Key'])
-        except Exception as e:
-            logger.debug(f"Error listing metadata files: {e}")
+        articles = fetch_articles_by_date_range(
+            date_from=today,
+            date_to=today,
+            limit=10000
+        )
         
-        if not metadata_files:
-            logger.warning("No metadata files found to generate HTML index")
+        # Convert DynamoDB format to expected format
+        articles = [
+            {
+                'title': a.get('headline', ''),
+                'url': a.get('url', ''),
+                'pub_date': a.get('date', ''),
+                'source': a.get('source', 'Unknown'),
+                'content_length': 0,  # Not stored in DynamoDB
+                'tags': {
+                    'core_topics': a.get('topic_tags', []),
+                    'special_tags': [],
+                    'matched_keywords': [],
+                    'continents': a.get('geography_tags', []),
+                    'countries': a.get('country_tags', []),
+                }
+            }
+            for a in articles
+        ]
+        
+        if not articles:
+            logger.warning("No articles found to generate HTML index")
             return False
-        
-        # Load all metadata
-        articles = []
-        for metadata_file in metadata_files:
-            try:
-                response = s3_client.get_object(Bucket=S3_BUCKET_NAME, Key=metadata_file)
-                metadata = json.loads(response['Body'].read().decode('utf-8'))
-                articles.append(metadata)
-            except Exception as e:
-                logger.debug(f"Error loading metadata file {metadata_file}: {e}")
-                continue
         
         # Sort articles by publication date (newest first)
         def sort_key(article):
@@ -988,7 +902,7 @@ def generate_date_html_index():
                     return parsed_date
                 else:
                     return datetime.min
-            except:
+            except (ValueError, TypeError):
                 return datetime.min
         
         articles.sort(key=sort_key, reverse=True)
@@ -1332,7 +1246,7 @@ def generate_date_html_index():
                     from dateutil import parser
                     parsed_date = parser.parse(pub_date)
                     formatted_date = parsed_date.strftime('%B %d, %Y at %I:%M %p')
-                except:
+                except (ValueError, TypeError):
                     formatted_date = pub_date
             else:
                 formatted_date = 'Unknown'
@@ -1462,8 +1376,6 @@ def generate_date_html_index():
                 Body=html_content.encode('utf-8'),
                 ContentType="text/html"
             )
-            # Add to manifest
-            S3_MANIFEST.add(html_key)
             logger.info(f"? Uploaded: {html_key}")
             success = True
         except Exception as e:
@@ -1482,135 +1394,25 @@ def generate_date_html_index():
         return False
 
 def generate_master_html_index():
-    """Add today's card to the master HTML index file"""
-    logger.info("?? Adding today's card to master HTML index...")
+    """Generate master HTML index with all date folders"""
+    logger.info("?? Generating master HTML index...")
     
     try:
-        # Load the existing archive index page
-        try:
-            response = s3_client.get_object(Bucket=S3_BUCKET_NAME, Key="index.html")
-            html_content = response['Body'].read().decode('utf-8')
-        except:
-            # If no existing file, load from local template
-            with open('index.html', 'r') as f:
-                html_content = f.read()
-        
-        # Get today's stats
-        article_count = 0
-        sources = set()
-        
-        # Count articles from today's folder (including RSS, direct, and legislation)
-        try:
-            paginator = s3_client.get_paginator('list_objects_v2')
-            # Count all metadata files from today's folder
-            page_iterator = paginator.paginate(
-                Bucket=S3_BUCKET_NAME,
-                Prefix=f"news/{today}/"
-            )
-            for page in page_iterator:
-                if 'Contents' in page:
-                    for obj in page['Contents']:
-                        # Match any metadata file in any subfolder
-                        if obj['Key'].endswith('.json') and '/metadata/' in obj['Key']:
-                            try:
-                                response = s3_client.get_object(Bucket=S3_BUCKET_NAME, Key=obj['Key'])
-                                metadata = json.loads(response['Body'].read().decode('utf-8'))
-                                article_count += 1
-                                if 'source' in metadata:
-                                    sources.add(metadata['source'])
-                            except Exception as e:
-                                logger.debug(f"Error loading metadata: {e}")
-        except Exception as e:
-            logger.debug(f"Error counting articles for {today}: {e}")
-        
-        # Create today's card HTML using the same structure as blog.html content cards
-        today_card = f"""
-            <article class="content-card" data-type="news" onclick="window.location.href='news/{today}/index.html'">
-                <div class="card-image" style="background: linear-gradient(135deg, var(--primary-blue) 0%, #9D93D6 100%);">
-                    <span class="content-type-badge" style="background: var(--primary-blue); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 500;">News</span>
-                </div>
-                <div class="card-content">
-                    <h3 class="card-title">Daily News Collection - {today}</h3>
-                    <p class="card-excerpt">Complete collection of {article_count} articles from {len(sources)} sources covering energy, AI, and blockchain topics.</p>
-                    <div class="card-meta">
-                        <span class="card-date">{today}</span>
-                        <span class="card-read-time">{article_count} articles</span>
-                    </div>
-                </div>
-            </article>
-        """
-        
-        # Use BeautifulSoup to properly handle HTML manipulation
-        from bs4 import BeautifulSoup
-        soup = BeautifulSoup(html_content, 'html.parser')
-        
-        # Find the content grid
-        content_grid = soup.find('main', class_='content-grid')
-        if content_grid:
-            # Find and remove any existing cards for today
-            existing_cards = content_grid.find_all('article', {'data-type': 'news'})
-            for card in existing_cards:
-                title = card.find('h3', class_='card-title')
-                if title and f'Daily News Collection - {today}' in title.get_text():
-                    logger.info(f"Removing existing card for {today}")
-                    card.decompose()
-            
-            # Parse the new card and add it
-            new_card_soup = BeautifulSoup(today_card, 'html.parser')
-            new_card = new_card_soup.find('article')
-            if new_card:
-                # Insert at the beginning of content-grid
-                content_grid.insert(0, new_card)
-                logger.info(f"Added new card for {today}")
-        
-        # Convert back to HTML string
-        html_content = str(soup)
-        
-        # Upload the updated HTML file to S3
-        try:
-            logger.info(f"Uploading to S3: index.html")
-            s3_client.put_object(
-                Bucket=S3_BUCKET_NAME,
-                Key="index.html",
-                Body=html_content.encode('utf-8'),
-                ContentType="text/html"
-            )
-            # Add to manifest
-            S3_MANIFEST.add("index.html")
-            logger.info(f"? Uploaded: index.html")
-            success = True
-        except Exception as e:
-            logger.error(f"Failed to upload index.html: {e}")
-            success = False
-        
-        if success:
-            logger.info(f"? Updated master HTML index: s3://{S3_BUCKET_NAME}/index.html")
-            return True
-        else:
-            logger.error("Failed to upload master HTML index to S3")
-            return False
-            
-    except Exception as e:
-        logger.error(f"Error updating master HTML index: {str(e)}")
-        return False
-        
+        # List date folders from S3
+        date_folders = []
         try:
             paginator = s3_client.get_paginator('list_objects_v2')
             page_iterator = paginator.paginate(
                 Bucket=S3_BUCKET_NAME,
-                Prefix="news/"
+                Prefix="news/",
+                Delimiter="/"
             )
             
             for page in page_iterator:
-                if 'Contents' in page:
-                    for obj in page['Contents']:
-                        if obj['Key'].endswith('/index.html') and 'news/' in obj['Key']:
-                            # Extract date from path like "news/2025-10-09/index.html"
-                            path_parts = obj['Key'].split('/')
-                            if len(path_parts) >= 3:
-                                date_folder = path_parts[1]  # e.g., "2025-10-09"
-                                if date_folder not in date_folders:
-                                    date_folders.append(date_folder)
+                for prefix in page.get("CommonPrefixes", []):
+                    folder = prefix.get("Prefix", "").replace("news/", "").rstrip("/")
+                    if len(folder) == 10 and folder[4] == "-" and folder[7] == "-":
+                        date_folders.append(folder)
         except Exception as e:
             logger.debug(f"Error listing date folders: {e}")
         
@@ -1621,74 +1423,28 @@ def generate_master_html_index():
             logger.warning("No date folders found to generate master index")
             return False
         
-        # Get statistics for each date
+        # Get statistics for each date from DynamoDB
+        from newsroom_dynamodb import fetch_articles_by_date_range
         date_stats = []
         for date_folder in date_folders:
             try:
-                # Count articles in this date folder
-                article_count = 0
-                total_length = 0
-                sources = set()
-                
-                # Count RSS articles
-                try:
-                    page_iterator = paginator.paginate(
-                        Bucket=S3_BUCKET_NAME,
-                        Prefix=f"news/{date_folder}/rss/metadata/"
-                    )
-                    
-                    for page in page_iterator:
-                        if 'Contents' in page:
-                            for obj in page['Contents']:
-                                if obj['Key'].endswith('.json'):
-                                    article_count += 1
-                                    # Load metadata to get stats
-                                    try:
-                                        response = s3_client.get_object(Bucket=S3_BUCKET_NAME, Key=obj['Key'])
-                                        metadata = json.loads(response['Body'].read().decode('utf-8'))
-                                        total_length += metadata.get('content_length', 0)
-                                        sources.add(metadata.get('source', 'Unknown'))
-                                    except:
-                                        pass
-                except:
-                    pass
-                
-                # Count direct scraping articles
-                try:
-                    page_iterator = paginator.paginate(
-                        Bucket=S3_BUCKET_NAME,
-                        Prefix=f"news/{date_folder}/direct/metadata/"
-                    )
-                    
-                    for page in page_iterator:
-                        if 'Contents' in page:
-                            for obj in page['Contents']:
-                                if obj['Key'].endswith('.json'):
-                                    article_count += 1
-                                    # Load metadata to get stats
-                                    try:
-                                        response = s3_client.get_object(Bucket=S3_BUCKET_NAME, Key=obj['Key'])
-                                        metadata = json.loads(response['Body'].read().decode('utf-8'))
-                                        total_length += metadata.get('content_length', 0)
-                                        sources.add(metadata.get('source', 'Unknown'))
-                                    except:
-                                        pass
-                except:
-                    pass
-                
+                articles = fetch_articles_by_date_range(
+                    date_from=date_folder,
+                    date_to=date_folder,
+                    limit=10000
+                )
+                article_count = len(articles)
+                sources = set(a.get('source', 'Unknown') for a in articles)
                 date_stats.append({
                     'date': date_folder,
                     'article_count': article_count,
-                    'total_length': total_length,
                     'source_count': len(sources)
                 })
-                
             except Exception as e:
                 logger.debug(f"Error getting stats for {date_folder}: {e}")
                 date_stats.append({
                     'date': date_folder,
                     'article_count': 0,
-                    'total_length': 0,
                     'source_count': 0
                 })
         
@@ -1898,7 +1654,7 @@ def generate_master_html_index():
                 from dateutil import parser
                 parsed_date = parser.parse(date_str)
                 formatted_date = parsed_date.strftime('%B %d, %Y')
-            except:
+            except (ValueError, TypeError):
                 formatted_date = date_str
             
             html_content += f"""
@@ -1954,16 +1710,14 @@ def generate_master_html_index():
         
         # Upload master HTML file to S3 root (force update for HTML files)
         try:
-            logger.info(f"Uploading to S3: index.html")
+            logger.info("Uploading to S3: index.html")
             s3_client.put_object(
                 Bucket=S3_BUCKET_NAME,
                 Key="index.html",
                 Body=html_content.encode('utf-8'),
                 ContentType="text/html"
             )
-            # Add to manifest
-            S3_MANIFEST.add("index.html")
-            logger.info(f"? Uploaded: index.html")
+            logger.info("? Uploaded: index.html")
             success = True
         except Exception as e:
             logger.error(f"Failed to upload index.html: {e}")
@@ -2026,13 +1780,13 @@ def main():
         
     except KeyboardInterrupt:
         logger.info("\n?? Collection interrupted by user")
-        logger.info(f"Progress saved. Resume by running the script again.")
+        logger.info("Progress saved. Resume by running the script again.")
     except Exception as e:
         logger.error(f"\n? Fatal error: {str(e)}")
         raise
     finally:
         elapsed = time.time() - start_time
-        logger.info(f"\n?? News collection session complete!")
+        logger.info("\n?? News collection session complete!")
         logger.info(f"?? Total time: {elapsed/60:.1f} minutes")
         logger.info(f"?? Total articles collected: {progress_tracker.progress['total_articles']}")
         logger.info(f"?? Location: s3://{S3_BUCKET_NAME}/{S3_FOLDER_NEWS}/")
